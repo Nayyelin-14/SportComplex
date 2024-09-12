@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/userSlice";
-
+import { message } from "antd";
 const Menu = [
   {
     id: 1,
@@ -38,6 +38,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     dispatch(setUser(null));
     navigate("/");
+    message.success("Your account has logged out");
   };
 
   // console.log(user);
