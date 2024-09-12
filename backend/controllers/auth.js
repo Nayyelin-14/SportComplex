@@ -15,12 +15,22 @@ exports.registerNewUser = async (req, res) => {
   }
 
   const { username, email, password } = req.body;
-  console.log(username, email, password);
+  // console.log(username, email, password);
+
+  const emailPattern = /^[0-9]{10}@lamduan\.mfu\.ac\.th$/;
   try {
     const created_User = await Users.findOne({ email: email });
     if (created_User) {
       throw new Error("User has already existed");
     }
+
+    if (!emailPattern.test(email)) {
+      return res.status(400).json({
+        isSuccess: false,
+        message: "Invalid email format. Must be in the form of MFU email",
+      });
+    }
+    // The test() method in JavaScript is used with regular expressions to check if a pattern exists within a given string. It returns a Boolean value: true if the pattern is found and false if it is not.
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     //     salt: Adding a salt to the hashing process ensures that even if two users have the same password, their hashed passwords will be different due to the unique salts.
@@ -37,7 +47,7 @@ exports.registerNewUser = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       isSuccess: false,
-      message: error.messsage,
+      message: error.message,
     });
   }
 };
