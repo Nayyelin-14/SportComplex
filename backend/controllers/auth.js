@@ -14,6 +14,7 @@ exports.registerNewUser = async (req, res) => {
   }
 
   const { username, email, password } = req.body;
+  console.log(username, email, password);
   try {
     const created_User = await Users.findOne({ email: email });
     if (created_User) {
@@ -27,7 +28,7 @@ exports.registerNewUser = async (req, res) => {
       username: username,
       password: hashedPassword,
     });
-    return res.status(400).json({
+    return res.status(200).json({
       isSuccess: true,
       message: "New account has created successfully",
       newUser: create_NewUser,
@@ -69,8 +70,8 @@ exports.loginAccount = async (req, res) => {
       process.env.JWT_KEY,
       { expiresIn: "1d" }
     );
-    return res.status(400).json({
-      isSuccess: false,
+    return res.status(201).json({
+      isSuccess: true,
       message: "Successfully logged In",
       token: jwt_token,
     });

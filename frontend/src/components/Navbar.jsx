@@ -1,7 +1,9 @@
 import React from "react";
 import Logo from "../assets/mfulogo.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../store/userSlice";
 
 const Menu = [
   {
@@ -28,7 +30,17 @@ const Menu = [
 
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const LogoutHandler = () => {
+    localStorage.removeItem("token");
+    dispatch(setUser(null));
+    navigate("/");
+  };
+
+  // console.log(user);
   return (
     <>
       <div className="shadow-md bg-primary text-white duration-200">
@@ -66,11 +78,21 @@ const Navbar = () => {
                   </li>
                 ))}
                 <li>
-                  <Link to={"/login"}>
-                    <button className="inline-block py-4 px-4 hover:text-yellow-500">
-                      Log in
+                  {user === null && (
+                    <Link to={"/login"}>
+                      <button className="inline-block py-4 px-4 hover:text-yellow-500">
+                        Log in
+                      </button>
+                    </Link>
+                  )}
+                  {user && (
+                    <button
+                      className="inline-block py-4 px-4 hover:text-yellow-500"
+                      onClick={LogoutHandler}
+                    >
+                      Logout
                     </button>
-                  </Link>
+                  )}
                 </li>
               </ul>
             </div>
