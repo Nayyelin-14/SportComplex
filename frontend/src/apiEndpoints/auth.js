@@ -2,7 +2,9 @@ import { instance } from "../axiosAPI/axios";
 
 export const registerNewUser = async (payload) => {
   try {
-    const response = await instance.post("/register", payload);
+    const response = await instance.post("/register", payload, {
+      validateStatus: () => true,
+    });
     // console.log(response);
     return response.data;
   } catch (error) {

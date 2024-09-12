@@ -20,6 +20,7 @@ router.post(
       .withMessage("Password must have at least 4 characters"),
     body("email")
       .trim()
+      .normalizeEmail()
       .notEmpty()
       .withMessage("Enter email")
       .isEmail()

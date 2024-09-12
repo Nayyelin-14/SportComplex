@@ -23,16 +23,17 @@ const AuthForm = ({ isLoginPage }) => {
           dispatch(setUser(response.token));
           navigate("/");
         } else {
-          throw new Error("Login failed");
+          throw new Error(response.message);
         }
       } else {
         response = await registerNewUser(values);
+        console.log(response);
+
         if (response.isSuccess) {
           message.success(response.message);
-          // console.log(response);
           navigate("/login");
         } else {
-          throw new Error("Registeration failed");
+          throw new Error(response.message);
         }
       }
     } catch (error) {

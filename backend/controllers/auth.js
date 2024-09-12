@@ -6,6 +6,7 @@ const Users = require("../models/users");
 //create new user when register success
 exports.registerNewUser = async (req, res) => {
   const errors = validationResult(req);
+  // console.log(errors.array()[0]);
   if (!errors.isEmpty()) {
     return res.status(400).json({
       isSuccess: false,

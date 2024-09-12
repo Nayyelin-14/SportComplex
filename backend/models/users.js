@@ -11,6 +11,13 @@ const usersSchema = new Schema(
       required: true,
       type: String,
       trim: true,
+      validate: {
+        validator: function (v) {
+          // Strict regex for email validation
+          return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v);
+        },
+        message: (props) => `${props.value} is not a valid email format!`,
+      },
     },
     password: {
       required: true,
