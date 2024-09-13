@@ -45,7 +45,7 @@ const Navbar = () => {
   return (
     <>
       <div className="shadow-md bg-primary text-white duration-200">
-        <div className="container py-3 sm:py-5">
+        <div className="container py-1 sm:py-2">
           <div className="flex justify-between items-center">
             <div onClick={() => setnavmenu("Home")}>
               <Link
@@ -57,8 +57,12 @@ const Navbar = () => {
                 <br /> Sports Complex
               </Link>
             </div>
+
+            {/* /// */}
+
+            {/* /// */}
             <div className="flex justify-between items-center gap-4">
-              <ul className="hidden sm:flex items-center text-lg gap-4">
+              <ul className="hidden lg:flex items-center text-lg gap-4">
                 {Menu.map((menu) => (
                   <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
                     <Link
@@ -71,17 +75,15 @@ const Navbar = () => {
                     >
                       {menu.name}
                     </Link>
-                    {navmenu === menu.name ? (
-                      <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-                    ) : (
-                      <></>
+                    {navmenu === menu.name && (
+                      <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500 " />
                     )}
                   </li>
                 ))}
                 <li>
                   {user === null && (
                     <Link to={"/login"}>
-                      <button className="inline-block py-4 px-4 hover:text-yellow-500">
+                      <button className="inline-block py-4 px-4 hover:text-yellow-500 ">
                         Log in
                       </button>
                     </Link>

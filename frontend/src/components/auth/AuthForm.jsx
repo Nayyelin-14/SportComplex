@@ -55,6 +55,7 @@ const AuthForm = ({ isLoginPage }) => {
           >
             {!isLoginPage && (
               <Form.Item
+                className="font-semibold"
                 label="Username"
                 name="username"
                 rules={[
@@ -69,6 +70,7 @@ const AuthForm = ({ isLoginPage }) => {
               </Form.Item>
             )}
             <Form.Item
+              className="font-semibold"
               label="Email"
               name="email"
               rules={[
@@ -83,7 +85,7 @@ const AuthForm = ({ isLoginPage }) => {
               <Input placeholder="username..."></Input>
             </Form.Item>
             <Form.Item
-              className="my-1"
+              className="my-1  font-semibold"
               label="Password"
               name="password"
               rules={[
