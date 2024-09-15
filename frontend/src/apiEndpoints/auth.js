@@ -23,3 +23,13 @@ export const loginaccount = async (payload) => {
     return error.message;
   }
 };
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    const response = await instance.get("/get-current-user");
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};

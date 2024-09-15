@@ -93,3 +93,9 @@ exports.loginAccount = async (req, res) => {
     });
   }
 };
+
+exports.checkCurrentUser = async (req, res) => {
+  // const { user_ID } = req;
+  // console.log("mmsp", user_ID);
+  // console.log("currentReq", req);
+};

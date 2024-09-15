@@ -10,7 +10,7 @@ const AuthForm = ({ isLoginPage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  // console.log(user);
+  console.log(user);
 
   const onFinishHandler = async (values) => {
     try {

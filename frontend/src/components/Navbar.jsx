@@ -1,10 +1,11 @@
 import React from "react";
 import Logo from "../assets/mfulogo.png";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/userSlice";
 import { message } from "antd";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 const Menu = [
   {
     id: 1,
@@ -33,14 +34,19 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const [openmenu, setOpenmenu] = useState(false);
   const LogoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(setUser(null));
-    navigate("/");
+    navigate(" ");
     message.success("Your account has logged out");
   };
 
+  const menuhandler = () => {
+    setOpenmenu(!openmenu);
+    // console.log(openmenu);
+  };
   // console.log(user);
   return (
     <>
@@ -58,9 +64,6 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* /// */}
-
-            {/* /// */}
             <div className="flex justify-between items-center gap-4">
               <ul className="hidden lg:flex items-center text-lg gap-4">
                 {Menu.map((menu) => (
@@ -68,24 +71,28 @@ const Navbar = () => {
                     <Link
                       to={menu.link}
                       className={`inline-block py-4 px-4 ${
-                        navmenu === menu.name
+                        navmenu === menu.name && location.pathname === menu.link
                           ? "text-yellow-500"
                           : "hover:text-yellow-500"
                       }`}
                     >
                       {menu.name}
                     </Link>
-                    {navmenu === menu.name && (
-                      <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500 " />
-                    )}
+                    {navmenu === menu.name &&
+                      location.pathname === menu.link && (
+                        <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+                      )}
                   </li>
                 ))}
                 <li>
                   {user === null && (
                     <Link to={"/login"}>
                       <button className="inline-block py-4 px-4 hover:text-yellow-500 ">
-                        Log in
+                        Sign in
                       </button>
+                      {location.pathname === "/login" && (
+                        <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+                      )}
                     </Link>
                   )}
                   {user && (
@@ -99,6 +106,18 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
+
+            {/* /// */}
+
+            {openmenu ? (
+              <XMarkIcon className="h-6 w-6 text-white" onClick={menuhandler} />
+            ) : (
+              <Bars3Icon
+                className="text-white lg:hidden w-[30px] cursor-pointer"
+                onClick={menuhandler}
+              />
+            )}
+            {/* /// */}
           </div>
         </div>
       </div>

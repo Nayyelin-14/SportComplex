@@ -10,6 +10,7 @@ import Booking from "./pages/Booking/Booking";
 import NewsDetail from "./pages/NewsDetail/NewsDetail";
 import Login from "./pages/Authentication/Login";
 import Register from "./pages/Authentication/Register";
+import AuthProvider from "./providers/AuthProvider";
 
 const App = () => {
   React.useEffect(() => {
@@ -24,18 +25,21 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/news" element={<News />}>
-              <Route path="/news/:id" element={<NewsDetail />} />
-            </Route>
-            <Route path="/about" element={<About />} />
-            <Route path="/events" element={<Booking />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </Layout>
+        <AuthProvider>
+          {" "}
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/news" element={<News />}>
+                <Route path="/news/:id" element={<NewsDetail />} />
+              </Route>
+              <Route path="/about" element={<About />} />
+              <Route path="/events" element={<Booking />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </Layout>
+        </AuthProvider>
       </BrowserRouter>
     </>
   );

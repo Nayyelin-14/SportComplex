@@ -15,7 +15,7 @@ const Hero = () => {
                 data-aos="zoom-out"
                 data-aos-duration="500"
                 data-aos-once="true"
-                className="text-3xl text-black sm:text-5xl lg:text-6xl font-bold lg:mt-32"
+                className="text-3xl text-black sm:text-4xl lg:text-6xl font-bold lg:mt-32"
               >
                 Unleash Your Potential at Our Campus Sports Complex!
               </h1>
