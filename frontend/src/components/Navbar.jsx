@@ -51,7 +51,7 @@ const Navbar = () => {
   return (
     <>
       <div className="shadow-md bg-primary text-white duration-200">
-        <div className="container py-1 sm:py-2">
+        <div className="container py-1 sm:py-2 px-0">
           <div className="flex justify-between items-center">
             <div onClick={() => setnavmenu("Home")}>
               <Link
@@ -110,7 +110,10 @@ const Navbar = () => {
             {/* /// */}
 
             {openmenu ? (
-              <XMarkIcon className="h-6 w-6 text-white" onClick={menuhandler} />
+              <XMarkIcon
+                className="h-6 w-6 text-white cursor-pointer"
+                onClick={menuhandler}
+              />
             ) : (
               <Bars3Icon
                 className="text-white lg:hidden w-[30px] cursor-pointer"
@@ -121,6 +124,53 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {openmenu && (
+        <div className="absolute bg-red-600 h-fit w-fit right-0">
+          <div className="flex justify-between items-center gap-4">
+            <ul className=" lg:flex items-center text-sm gap-4">
+              {Menu.map((menu) => (
+                <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
+                  <Link
+                    to={menu.link}
+                    className={`inline-block py-1 px-4 ${
+                      navmenu === menu.name && location.pathname === menu.link
+                        ? "text-yellow-500"
+                        : "hover:text-yellow-500"
+                    }`}
+                  >
+                    {menu.name}
+                  </Link>
+                  {navmenu === menu.name && location.pathname === menu.link && (
+                    <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+                  )}
+                </li>
+              ))}
+              <li>
+                {user === null && (
+                  <div className="flex items-center justify-center">
+                    <Link to={"/login"}>
+                      <button className="inline-block py-1 px-1 hover:text-yellow-500 ">
+                        Sign in
+                      </button>
+                      {location.pathname === "/login" && (
+                        <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+                      )}
+                    </Link>
+                  </div>
+                )}
+                {user && (
+                  <button
+                    className="inline-block py-4 px-4 hover:text-yellow-500"
+                    onClick={LogoutHandler}
+                  >
+                    Logout
+                  </button>
+                )}
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
     </>
   );
 };

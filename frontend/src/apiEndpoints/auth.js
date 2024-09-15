@@ -26,8 +26,10 @@ export const loginaccount = async (payload) => {
 
 export const getCurrentUser = async (req, res) => {
   try {
-    const response = await instance.get("/get-current-user");
-    console.log(response);
+    const response = await instance.get("/get-current-user", {
+      validateStatus: () => true,
+    });
+    // console.log(response);
     return response.data;
   } catch (error) {
     return error.message;

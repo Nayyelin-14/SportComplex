@@ -20,8 +20,9 @@ const AuthForm = ({ isLoginPage }) => {
         if (response.isSuccess) {
           message.success(response.message);
           localStorage.setItem("token", response.token);
+
           dispatch(setUser(response.token));
-          navigate("/");
+          window.location.replace("/");
         } else {
           throw new Error(response.message);
         }

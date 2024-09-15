@@ -95,7 +95,25 @@ exports.loginAccount = async (req, res) => {
 };
 
 exports.checkCurrentUser = async (req, res) => {
-  // const { user_ID } = req;
-  // console.log("mmsp", user_ID);
-  // console.log("currentReq", req);
+  const { USER_ID } = req;
+  // console.log(USER_ID);
+  try {
+    const CurrentLoginUser = await Users.findById(USER_ID).select(
+      "email role status username"
+    );
+    if (!CurrentLoginUser) {
+      throw new Error("Unauthorized user found");
+    }
+
+    return res.json({
+      isSuccess: true,
+      currentUser: CurrentLoginUser,
+      message: "Authorized User",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      isSuccess: false,
+      message: error.messsage,
+    });
+  }
 };
