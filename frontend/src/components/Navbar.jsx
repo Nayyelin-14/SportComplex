@@ -5,7 +5,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/userSlice";
 import { message } from "antd";
-import { Bars3Icon, UserIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowPathIcon,
+  ArrowRightStartOnRectangleIcon,
+  Bars3Icon,
+  UserCircleIcon,
+  UserIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 const Menu = [
   {
     id: 1,
@@ -36,16 +43,30 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openmenu, setOpenmenu] = useState(false);
+  const [profileMenu, setProfileMenu] = useState(false);
   const LogoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(setUser(null));
     navigate(" ");
     message.success("Your account has logged out");
+    setProfileMenu(false);
   };
 
   const menuhandler = () => {
     setOpenmenu(!openmenu);
     // console.log(openmenu);
+  };
+  const openprofileMenu = () => {
+    setProfileMenu(!profileMenu);
+  };
+
+  const profilepage = () => {
+    navigate("/user-profile");
+    setProfileMenu(!profileMenu);
+  };
+  const bookingpage = () => {
+    navigate("/user-profile");
+    setProfileMenu(!profileMenu);
   };
   // console.log(user);
   return (
@@ -109,15 +130,16 @@ const Navbar = () => {
                 </button>
               )} */}
               {user && (
-                <Link to={"/user-profile"}>
-                  <div className="flex items-center gap-2">
-                    <UserIcon className="w-8 h-8" />
-                    <p>{user.username}</p>
-                  </div>
-                </Link>
+                <div className="flex items-center gap-2 ">
+                  <UserIcon
+                    className="w-8 h-8 cursor-pointer hover:text-gray-500"
+                    onClick={openprofileMenu}
+                  />
+                  {/* <p>{user.username}</p> */}
+                </div>
               )}
             </div>
-            {/* //// */}
+
             {openmenu ? (
               <XMarkIcon
                 className="h-6 w-6 text-white cursor-pointer"
@@ -133,6 +155,40 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* /tags for profile/ */}
+      {profileMenu && (
+        <div className="absolute right-4 bg-red-800 w-80 rounded-lg">
+          {/* / */}
+          <div
+            className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900"
+            onClick={profilepage}
+          >
+            <UserCircleIcon className="w-7 text-white" />
+            <p className="text-white font-semibold cursor-pointer">Profile</p>
+          </div>
+          {/* / */}
+          <div
+            className="p-4 flex items-center gap-5 hover:bg-red-900"
+            onClick={bookingpage}
+          >
+            <ArrowPathIcon className="w-7 text-white " />
+            <p className="text-white font-semibold cursor-pointer">Booking</p>
+          </div>
+          {/*  */}
+          <hr className="w-[90%] mx-auto" />
+          <div className="p-4 flex items-center gap-5 hover:bg-red-900">
+            <ArrowRightStartOnRectangleIcon className="w-7 text-white" />
+            <button
+              className="font-semibold  text-white"
+              onClick={LogoutHandler}
+            >
+              Log out
+            </button>
+          </div>
+        </div>
+      )}
+      {/* //// */}
       {/* sidebar */}
       {openmenu && (
         <div className="absolute bg-red-600 h-screen w-fit right-0 z-100">
