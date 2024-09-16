@@ -113,8 +113,10 @@ const Navbar = () => {
               {user === null && (
                 <Link to={"/login"}>
                   <button
-                    className={`inline-block p-2 hover:text-red-700 order-1 border-yellow-500 text-md text-black bg-white font-semibold rounded-lg cursor-pointer ${
-                      location.pathname === "/login" && "bg-red-0 text-white"
+                    className={`inline-block p-2 order-1 text-md font-semibold rounded-md px-4 cursor-pointer ${
+                      location.pathname === "/login"
+                        ? "bg-black text-white"
+                        : "text-red-900 bg-white hover:text-red-700"
                     }`}
                   >
                     Sign in
