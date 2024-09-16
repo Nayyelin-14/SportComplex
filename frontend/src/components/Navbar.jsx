@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/userSlice";
 import { message } from "antd";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, UserIcon, XMarkIcon } from "@heroicons/react/24/outline";
 const Menu = [
   {
     id: 1,
@@ -51,7 +51,7 @@ const Navbar = () => {
   return (
     <>
       <div className="shadow-md bg-primary text-white duration-200">
-        <div className="container py-1 sm:py-2 px-0">
+        <div className="py-1 sm:py-2 lg:px-10 px-4">
           <div className="flex justify-between items-center">
             <div onClick={() => setnavmenu("Home")}>
               <Link
@@ -84,31 +84,40 @@ const Navbar = () => {
                       )}
                   </li>
                 ))}
-                <li>
-                  {user === null && (
-                    <Link to={"/login"}>
-                      <button className="inline-block py-4 px-4 hover:text-yellow-500 ">
-                        Sign in
-                      </button>
-                      {location.pathname === "/login" && (
-                        <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-                      )}
-                    </Link>
-                  )}
-                  {user && (
-                    <button
-                      className="inline-block py-4 px-4 hover:text-yellow-500"
-                      onClick={LogoutHandler}
-                    >
-                      Logout
-                    </button>
-                  )}
-                </li>
               </ul>
             </div>
 
             {/* /// */}
-
+            <div className="hidden lg:flex">
+              {user === null && (
+                <Link to={"/login"}>
+                  <button
+                    className={`inline-block p-2 hover:text-red-700 order-1 border-yellow-500 text-md text-black bg-white font-semibold rounded-lg cursor-pointer ${
+                      location.pathname === "/login" && "bg-black text-white"
+                    }`}
+                  >
+                    Sign in
+                  </button>
+                </Link>
+              )}
+              {/* {user && (
+                <button
+                  className="inline-block py-4 px-4 hover:text-yellow-500"
+                  onClick={LogoutHandler}
+                >
+                  Logout
+                </button>
+              )} */}
+              {user && (
+                <Link to={"/user-profile"}>
+                  <div className="flex items-center gap-2">
+                    <UserIcon className="w-8 h-8" />
+                    <p>{user.username}</p>
+                  </div>
+                </Link>
+              )}
+            </div>
+            {/* //// */}
             {openmenu ? (
               <XMarkIcon
                 className="h-6 w-6 text-white cursor-pointer"
@@ -124,8 +133,9 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {/* sidebar */}
       {openmenu && (
-        <div className="absolute bg-red-600 h-fit w-fit right-0">
+        <div className="absolute bg-red-600 h-screen w-fit right-0 z-100">
           <div className="flex justify-between items-center gap-4">
             <ul className=" lg:flex items-center text-sm gap-4">
               {Menu.map((menu) => (

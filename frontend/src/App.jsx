@@ -11,6 +11,7 @@ import NewsDetail from "./pages/NewsDetail/NewsDetail";
 import Login from "./pages/Authentication/Login";
 import Register from "./pages/Authentication/Register";
 import AuthProvider from "./providers/AuthProvider";
+import Profile from "./pages/Users/Profile";
 
 const App = () => {
   React.useEffect(() => {
@@ -37,6 +38,7 @@ const App = () => {
               <Route path="/events" element={<Booking />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/user-profile" element={<Profile />} />
             </Routes>
           </Layout>
         </AuthProvider>
