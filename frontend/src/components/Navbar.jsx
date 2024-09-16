@@ -65,7 +65,7 @@ const Navbar = () => {
     setProfileMenu(!profileMenu);
   };
   const bookingpage = () => {
-    navigate("/user-profile");
+    navigate("/booking");
     setProfileMenu(!profileMenu);
   };
   // console.log(user);
@@ -157,7 +157,7 @@ const Navbar = () => {
       </div>
 
       {/* /tags for profile/ */}
-      {profileMenu && (
+      {user && profileMenu && (
         <div className="absolute right-4 bg-red-800 w-80 rounded-lg">
           {/* / */}
           <div
