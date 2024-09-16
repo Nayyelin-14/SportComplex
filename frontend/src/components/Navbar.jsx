@@ -114,7 +114,7 @@ const Navbar = () => {
                 <Link to={"/login"}>
                   <button
                     className={`inline-block p-2 hover:text-red-700 order-1 border-yellow-500 text-md text-black bg-white font-semibold rounded-lg cursor-pointer ${
-                      location.pathname === "/login" && "bg-black text-white"
+                      location.pathname === "/login" && "bg-red-0 text-white"
                     }`}
                   >
                     Sign in
