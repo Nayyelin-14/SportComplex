@@ -20,7 +20,11 @@ const AuthForm = ({ isLoginPage }) => {
         if (response.isSuccess) {
           message.success(response.message);
           localStorage.setItem("token", response.token);
+<<<<<<< HEAD
           console.log(response.token);
+=======
+
+>>>>>>> 659b97a56ecbd6479380799f89b02f7f3f2ad29c
           dispatch(setUser(response.token));
           window.location.replace("/");
         } else {

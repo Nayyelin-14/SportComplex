@@ -3,33 +3,31 @@ import { getCurrentUser } from "../apiEndpoints/auth";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "../store/userSlice";
 
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
 
   const currentUser = async () => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // If no token, redirect to login or home page
-        navigate("/login");
-        return;
-      }
-
+      // console.log("current token", token);
       const response = await getCurrentUser();
 
       if (response.isSuccess) {
-        console.log("provider", response);
+        // console.log("provider", response);
+        message.success(response.message);
         // Store user data in Redux store
-        console.log(token);
-        // dispatch(setUser(response.LoginUser));
+        dispatch(setUser(response.currentUser));
       } else {
         // Invalid token or user not found
         localStorage.removeItem("token");
-        // dispatch(setUser(null));
+        dispatch(setUser(null));
         navigate("/login");
-        throw new Error(response.message);
+        if (!token) {
+          throw new Error(response.message);
+        }
       }
     } catch (err) {
       message.error(err.message);
@@ -37,7 +35,9 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    currentUser(); // Fetch current user on component mount
+    if (token) {
+      currentUser();
+    } // Fetch current user on component mount
   }, []);
 
   return <section>{children}</section>;
