@@ -163,7 +163,7 @@ const Navbar = () => {
         <div className="absolute right-4 bg-red-800 w-80 rounded-lg">
           {/* / */}
           <div
-            className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900"
+            className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
             onClick={profilepage}
           >
             <UserCircleIcon className="w-7 text-white" />
@@ -171,7 +171,7 @@ const Navbar = () => {
           </div>
           {/* / */}
           <div
-            className="p-4 flex items-center gap-5 hover:bg-red-900"
+            className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
             onClick={bookingpage}
           >
             <ArrowPathIcon className="w-7 text-white " />
@@ -179,14 +179,12 @@ const Navbar = () => {
           </div>
           {/*  */}
           <hr className="w-[90%] mx-auto" />
-          <div className="p-4 flex items-center gap-5 hover:bg-red-900">
+          <div
+            className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
+            onClick={LogoutHandler}
+          >
             <ArrowRightStartOnRectangleIcon className="w-7 text-white" />
-            <button
-              className="font-semibold  text-white"
-              onClick={LogoutHandler}
-            >
-              Log out
-            </button>
+            <button className="font-semibold  text-white">Log out</button>
           </div>
         </div>
       )}
