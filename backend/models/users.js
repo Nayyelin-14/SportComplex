@@ -24,6 +24,10 @@ const usersSchema = new Schema(
       type: String,
       default: "active",
     },
+    role: {
+      type: String,
+      default: "Student",
+    },
   },
   {
     timestamps: true,

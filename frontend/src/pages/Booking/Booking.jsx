@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import BookingIndex from "../../components/sportBooking/BookingIndex";
 
 const Booking = () => {
   return (
-    <div>Booking</div>
-  )
-}
+    <div className="mb-96">
+      <BookingIndex />
+    </div>
+  );
+};
 
-export default Booking
+export default Booking;
