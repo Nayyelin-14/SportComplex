@@ -3,7 +3,7 @@ import { message, Tabs } from "antd";
 import Session from "./Session";
 import BookingFrom from "./BookingFrom";
 
-const BookingIndex = () => {
+const BookingIndex = ({ bookings }) => {
   const session_time = [
     "8:00 - 10:00",
     "10:00 - 12:00",
@@ -38,27 +38,57 @@ const BookingIndex = () => {
     {
       key: "1",
       label: "Tennis",
-      children: <Session session_time={session_time} sportType={sportType} />,
+      children: (
+        <Session
+          session_time={session_time}
+          sportType={sportType}
+          bookings={bookings}
+        />
+      ),
     },
     {
       key: "2",
       label: "Swimming Pool",
-      children: <Session session_time={session_time} sportType={sportType} />,
+      children: (
+        <Session
+          session_time={session_time}
+          sportType={sportType}
+          bookings={bookings}
+        />
+      ),
     },
     {
       key: "3",
       label: "Football",
-      children: <Session session_time={session_time} sportType={sportType} />,
+      children: (
+        <Session
+          session_time={session_time}
+          sportType={sportType}
+          bookings={bookings}
+        />
+      ),
     },
     {
       key: "4",
       label: "Badminton",
-      children: <Session session_time={session_time} sportType={sportType} />,
+      children: (
+        <Session
+          session_time={session_time}
+          sportType={sportType}
+          bookings={bookings}
+        />
+      ),
     },
     {
       key: "5",
       label: "Fitness",
-      children: <Session session_time={session_time} sportType={sportType} />,
+      children: (
+        <Session
+          session_time={session_time}
+          sportType={sportType}
+          bookings={bookings}
+        />
+      ),
     },
   ];
 

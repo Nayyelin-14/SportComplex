@@ -1,16 +1,34 @@
-import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
-import { setUser } from "../../store/userSlice";
+
 import { useDispatch, useSelector } from "react-redux";
+import { create_Booking } from "../../apiEndpoints/booking";
+import { setSportType } from "../../store/bookingSlice";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const BookingFrom = () => {
   const { selectedTime } = useSelector((state) => state.booking);
   const { SportType } = useSelector((state) => state.booking);
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const onFinishHandler = async (values) => {
+    try {
+      const response = await create_Booking(values);
+      if (response.isSuccess) {
+        console.log(response);
+        message.success(response.message);
 
-  const onFinishHandler = (values) => {
-    console.log(values);
+        // Pass the updated bookings to the next component using navigate
+        navigate("/booking");
+      }
+    } catch (error) {
+      message.error(error.message);
+      dispatch(setSportType(null));
+      dispatch(selectedTime(null));
+    }
   };
+  console.log(bookings);
 
   return (
     <section>

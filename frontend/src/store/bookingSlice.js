@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const bookingInitialState = {
   selectedTime: null,
-  SportType : null
+  SportType: null,
+  // successBooking: null,
 };
 export const BookingSlice = createSlice({
   name: "session",
@@ -14,6 +15,9 @@ export const BookingSlice = createSlice({
     setSportType: (state, action) => {
       state.SportType = action.payload;
     },
+    // setBooking: (state, action) => {
+    //   state.successBooking = action.payload;
+    // },
   },
 });
 
