@@ -16,8 +16,8 @@ const Session = ({ session_time, sportType, bookings }) => {
   };
   if (bookings && Array.isArray(bookings) && bookings.length > 0) {
     bookings.map((booking) => {
-      return booking.map((book) => {
-        console.log(book.phone);
+      return booking.filter((book) => {
+        console.log((book.sporttype = "Tennis"));
       });
     });
   } else {

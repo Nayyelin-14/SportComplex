@@ -6,12 +6,6 @@ import { getAll_Bookings } from "../../apiEndpoints/booking";
 import { message } from "antd";
 
 const Booking = () => {
-  // const { successBooking } = useSelector((state) => state.booking);
-  // const { selectedTime } = useSelector((state) => state.booking);
-  // console.log(successBooking.name);
-  // const location = useLocation();
-  // const { bookingDoc } = location.state || {};
-  // console.log(bookingDoc);
   const [bookings, setBookings] = useState([]);
   const displayBookings = async () => {
     try {

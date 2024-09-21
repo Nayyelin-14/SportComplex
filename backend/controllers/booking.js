@@ -42,14 +42,16 @@ exports.createBooking = async (req, res) => {
 exports.getAllbookings = async (req, res) => {
   try {
     const Allbookings = await Booking.find();
-    if (Allbookings.length) {
-      return res.status(200).json({
-        isSuccess: true,
-        message: "Bookings fetched",
-        Allbookings,
-      });
+
+    if (!Allbookings) {
+      throw new Error("Something went wrong");
     }
     console.log("allbookings", Allbookings);
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Bookings fetched",
+      Allbookings,
+    });
   } catch (error) {
     return res.status(422).json({
       isSuccess: false,

@@ -28,7 +28,7 @@ const BookingFrom = () => {
       dispatch(selectedTime(null));
     }
   };
-  console.log(bookings);
+  // console.log(bookings);
 
   return (
     <section>

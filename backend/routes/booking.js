@@ -33,4 +33,10 @@ router.post(
 
 router.get("/getAllbookings", authMiddleware, bookingController.getAllbookings);
 
+router.get(
+  "/getdifferentbookings",
+  authMiddleware,
+  bookingController.getdifferentBookings
+);
+
 module.exports = router;
