@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import UserReducer from "./userSlice";
 import { persistReducer } from "redux-persist";
 import loaderReducer from "./loaderSlice";
+import bookingReducer from "./bookingSlice";
 const persistConfig = {
   key: "root",
   version: 1,
@@ -12,6 +13,7 @@ const persistConfig = {
 const combined_Reducer = combineReducers({
   user: UserReducer,
   loader: loaderReducer,
+  booking: bookingReducer,
 });
 
 const persist_Reducer = persistReducer(persistConfig, combined_Reducer);

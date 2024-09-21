@@ -12,6 +12,7 @@ import Login from "./pages/Authentication/Login";
 import Register from "./pages/Authentication/Register";
 import AuthProvider from "./providers/AuthProvider";
 import Profile from "./pages/Users/Profile";
+import BookingFrom from "./components/sportBooking/BookingFrom";
 
 const App = () => {
   React.useEffect(() => {
@@ -27,7 +28,6 @@ const App = () => {
     <>
       <BrowserRouter>
         <AuthProvider>
-          {" "}
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -40,6 +40,8 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/user-profile" element={<Profile />} />
               <Route path="/booking" element={<Booking />} />
+
+              <Route path="/bookingform" element={<BookingFrom />} />
             </Routes>
           </Layout>
         </AuthProvider>

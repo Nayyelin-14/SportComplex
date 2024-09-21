@@ -50,7 +50,7 @@ const AuthForm = ({ isLoginPage }) => {
     <section>
       <div className="max-w-6xl mx-auto flex my-10">
         {/* left sidee */}
-        <div className="w-1/2">mmsp</div>
+        <div className="w-1/2">hi there</div>
         {/* right side */}
         <div className="w-1/2">
           <Form

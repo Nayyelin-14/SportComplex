@@ -16,13 +16,13 @@ const usersSchema = new Schema(
       required: true,
       type: String,
     },
-    role: {
-      default: "user",
-      type: String,
-    },
     status: {
       type: String,
       default: "active",
+    },
+    role: {
+      type: String,
+      default: "Student",
     },
   },
   {
