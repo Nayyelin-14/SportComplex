@@ -18,10 +18,10 @@ const Booking = () => {
       message.error(error.message);
     }
   };
+
   useEffect(() => {
     displayBookings();
   }, []);
-  console.log(bookings);
 
   return (
     <div className="mb-96">

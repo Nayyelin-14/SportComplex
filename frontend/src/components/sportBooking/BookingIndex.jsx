@@ -10,7 +10,7 @@ const BookingIndex = ({ bookings }) => {
     "1:00 - 3:00",
     "3:00 - 5:00",
     "5:00 - 7:00",
-    "7:00 - 9::00",
+    "7:00 - 9:00",
   ];
   const [sportType, setSportType] = useState("");
   const [activetabKey, setActivetabKey] = useState("1");
@@ -27,6 +27,7 @@ const BookingIndex = ({ bookings }) => {
   useEffect(() => {
     updatesportType(activetabKey);
   }, [activetabKey]);
+  console.log(sportType);
 
   const handleTabChange = (key) => {
     // console.log(key);

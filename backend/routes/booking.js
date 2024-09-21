@@ -33,10 +33,6 @@ router.post(
 
 router.get("/getAllbookings", authMiddleware, bookingController.getAllbookings);
 
-router.get(
-  "/getdifferentbookings",
-  authMiddleware,
-  bookingController.getdifferentBookings
-);
+router.get("/booking/:sportType", bookingController.getBookings);
 
 module.exports = router;

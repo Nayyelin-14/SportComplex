@@ -21,3 +21,13 @@ export const getAll_Bookings = async () => {
     return error.message;
   }
 };
+
+export const getdiff_Bookings = async (sportType) => {
+  try {
+    const response = await instance.get(`/booking/${sportType}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
