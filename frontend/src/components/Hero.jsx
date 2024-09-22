@@ -15,7 +15,7 @@ const Hero = () => {
                 data-aos="zoom-out"
                 data-aos-duration="500"
                 data-aos-once="true"
-                className="text-3xl text-black sm:text-4xl lg:text-6xl font-bold lg:mt-32"
+                className="text-3xl text-black sm:text-4xl lg:text-6xl font-bold lg:mt-0"
               >
                 Unleash Your Potential at Our Campus Sports Complex!
               </h1>
@@ -23,7 +23,7 @@ const Hero = () => {
                 data-aos="zoom-out"
                 data-aos-duration="500"
                 data-aos-delay="100"
-                className="text-sm text-black lg:mt-20"
+                className="text-base text-black lg:mt-0"
               >
                 Discover a vibrant hub for fitness and sports at our Campus
                 Sports Complex. With top-notch facilities including fitness
@@ -35,9 +35,7 @@ const Hero = () => {
               <div>
                 <button
                   className="bg-yellow-500 w-40 hover:scale-105 duration-200 text-white py-3 px-4 rounded-full"
-                  data-aos="zoom-out"
-                  data-aos-duration="500"
-                  data-aos-delay="100"
+                  
                 >
                   Book Now
                 </button>
