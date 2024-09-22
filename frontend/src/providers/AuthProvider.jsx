@@ -29,9 +29,8 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("token");
           dispatch(setUser(null));
           navigate("/login");
-          if (!token) {
-            throw new Error(response.message);
-          }
+
+          throw new Error("Uaunthorized");
         }
       }
     } catch (err) {
@@ -43,7 +42,11 @@ const AuthProvider = ({ children }) => {
     if (token) {
       currentUser();
     } // Fetch current user on component mount
-  }, []);
+    else {
+      navigate("/login");
+      message.error("Unauthorized");
+    }
+  }, [token]);
 
   return <section>{children}</section>;
 };

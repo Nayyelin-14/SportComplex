@@ -24,12 +24,12 @@ export const loginaccount = async (payload) => {
   }
 };
 
-export const getCurrentUser = async (req, res) => {
+export const getCurrentUser = async () => {
   try {
     const response = await instance.get("/get-current-user", {
       validateStatus: () => true,
     });
-    // console.log(response);
+    console.log(response);
     return response.data;
   } catch (error) {
     return error.message;

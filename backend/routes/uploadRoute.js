@@ -9,7 +9,7 @@ router.use(
   express.static(path.join(__dirname, "../upload/images"))
 );
 
-router.post("/upload", authMiddleware, upload.single("news"), (req, res) => {
+router.post("/upload", upload.single("news"), (req, res) => {
   console.log(`File uploaded to: ${req.file.path}`);
   res.json({
     success: 1,

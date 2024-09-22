@@ -13,6 +13,7 @@ import Register from "./pages/Authentication/Register";
 import AuthProvider from "./providers/AuthProvider";
 import Profile from "./pages/Users/Profile";
 import BookingFrom from "./components/sportBooking/BookingFrom";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   React.useEffect(() => {
@@ -27,24 +28,39 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <AuthProvider>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/news" element={<News />}>
-                <Route path="/news/:id" element={<NewsDetail />} />
-              </Route>
-              <Route path="/about" element={<About />} />
-              {/* <Route path="/events" element={<Booking />} /> */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/user-profile" element={<Profile />} />
-              <Route path="/booking" element={<Booking />} />
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/news" element={<News />}>
+              <Route path="/news/:id" element={<NewsDetail />} />
+            </Route>
+            <Route path="/about" element={<About />} />
+            {/* <Route path="/events" element={<Booking />} /> */}
 
-              <Route path="/bookingform" element={<BookingFrom />} />
-            </Routes>
-          </Layout>
-        </AuthProvider>
+            <Route
+              path="/user-profile"
+              element={
+                <AuthProvider>
+                  <Profile />
+                </AuthProvider>
+              }
+            />
+            <Route path="/booking" element={<Booking />} />
+
+            <Route
+              path="/bookingform"
+              element={
+                <AuthProvider>
+                  <BookingFrom />
+                </AuthProvider>
+              }
+            />
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
     </>
   );
