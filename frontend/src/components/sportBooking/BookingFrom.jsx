@@ -10,6 +10,7 @@ const BookingFrom = () => {
   const { selectedTime } = useSelector((state) => state.booking);
   const { SportType } = useSelector((state) => state.booking);
   const { user } = useSelector((state) => state.user);
+  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinishHandler = async (values) => {
@@ -21,6 +22,9 @@ const BookingFrom = () => {
 
         // Pass the updated bookings to the next component using navigate
         navigate("/booking");
+      } else {
+        navigate("/login");
+        throw new Error(response.message);
       }
     } catch (error) {
       message.error(error.message);
@@ -39,7 +43,7 @@ const BookingFrom = () => {
           onFinish={onFinishHandler}
           initialValues={{
             sporttype: SportType, // Preload the sporttype from Redux
-            status: user.role, // Preload the status (user role) from Redux
+            status: user ? user.role : "", // Preload the status (user role) from Redux
             studentid: "",
             name: "",
             phone: "",
@@ -84,7 +88,7 @@ const BookingFrom = () => {
           >
             <select
               className="w-[130px] h-[30px] ml-16"
-              value={user.role} // Redux value shown here
+              value={user ? user.role : ""} // Redux value shown here
             >
               <option value="student">Student</option>
               <option value="Staff">Staff</option>

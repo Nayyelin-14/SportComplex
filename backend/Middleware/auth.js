@@ -16,6 +16,7 @@ const authMiddleware = async (req, res, next) => {
     const LoginToken = jwt.verify(JWT_token, process.env.JWT_KEY);
 
     if (!LoginToken) {
+      
       throw new Error("Unauthorized Login");
     }
     req.USER_ID = LoginToken.userID;
