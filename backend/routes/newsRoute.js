@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const newsController = require('../controllers/newsController');
+const newsController = require("../controllers/newsController");
+const authMiddleware = require("../Middleware/auth");
+router.post("/addnew", authMiddleware, newsController.addNew);
 
-router.post('/addnew', newsController.addNew);
+router.post("/removenew", authMiddleware, newsController.removeNew);
 
-router.post('/removenew', newsController.removeNew);
-
-router.get('/allnews', newsController.getAllNews);
+router.get("/allnews", authMiddleware, newsController.getAllNews);
 
 module.exports = router;

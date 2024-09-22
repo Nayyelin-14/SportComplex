@@ -28,7 +28,7 @@ const Session = ({ session_time, sportType, bookings }) => {
 
       if (response.isSuccess) {
         // Check if message has been shown already
-        message.success(response.message);
+        // message.success(response.message);
 
         setInfos(response.bookings);
       }
@@ -45,17 +45,17 @@ const Session = ({ session_time, sportType, bookings }) => {
   return (
     <div className="flex  gap-3 mt-6">
       {session_time.map((time, index) => (
-        <div key={index} className="p-3  w-[210px]  bg-gray-600">
-          <div className="text-black p-2 font-semibold flex items-center justify-between">
-            <span>{time}</span>
+        <div key={index} className="p-3  w-[210px] rounded-lg bg-red-800">
+          <div className=" flex items-center justify-between">
+            <span className="text-black p-2 font-semibold">{time}</span>
             <button
-              className="border border-black p-1 "
+              className=" cursor-pointer hover:border-b hover:border-blue-700 "
               onClick={() => setSession(time)}
             >
               Book
             </button>
           </div>
-          <hr />
+          <hr className="my-3" />
           {/* Display the bookings for each session */}
           <div className="ml-4">
             {/* infos htl ka time twy htl mhr session_time nk tuu pee book htr tr twy ko pya */}
