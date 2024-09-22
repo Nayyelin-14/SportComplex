@@ -63,11 +63,11 @@ exports.getAllbookings = async (req, res) => {
 // Get all bookings for each sport type and session
 exports.getBookings = async (req, res) => {
   const { sportType } = req.params;
-  console.log(sportType);
+
   try {
     // Fetch all bookings for the given sport type
     const bookings = await Booking.find({ sporttype: sportType });
-    console.log("bookings for each ", bookings);
+
     // Group bookings by session
     const sessions = [
       "8:00 - 10:00",
@@ -96,8 +96,6 @@ exports.getBookings = async (req, res) => {
         });
       }
     });
-
-    console.log(groupedBookings);
 
     res.status(200).json({
       isSuccess: true,

@@ -19,13 +19,17 @@ const Session = ({ session_time, sportType, bookings }) => {
   // const { selectedTime } = useSelector((state) => state.booking);
   // console.log(selectedTime);
   const [infos, setInfos] = useState([]);
-  console.log(sportType);
-  const fetchBookings = async () => {
+
+  const fetchBookings = async (sportType) => {
     try {
       const response = await getdiff_Bookings(sportType);
       // console.log(response.bookings);
+      // Clear any previous messages
+
       if (response.isSuccess) {
+        // Check if message has been shown already
         message.success(response.message);
+
         setInfos(response.bookings);
       }
     } catch (error) {
@@ -34,10 +38,10 @@ const Session = ({ session_time, sportType, bookings }) => {
   };
   useEffect(() => {
     if (sportType) {
-      fetchBookings();
+      fetchBookings(sportType);
     }
   }, [sportType]);
-  console.log(infos);
+
   return (
     <div className="flex  gap-3 mt-6">
       {session_time.map((time, index) => (
