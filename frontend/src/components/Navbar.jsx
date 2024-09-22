@@ -66,7 +66,7 @@ const Navbar = () => {
   // console.log(user);
   return (
     <>
-      <div className="shadow-md bg-primary text-white duration-200">
+      <div className="shadow-md bg-primary text-white duration-200 py-2">
         <div className="py-1 sm:py-2 lg:px-10 px-4">
           <div className="flex justify-between items-center">
             <div onClick={() => setnavmenu("Home")}>
@@ -155,7 +155,7 @@ const Navbar = () => {
 
       {/* /tags for profile/ */}
       {user && profileMenu && (
-        <div className="absolute right-4 bg-red-800 w-80 rounded-lg">
+        <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999]">
           {/* / */}
           <div
             className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
