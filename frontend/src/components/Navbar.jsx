@@ -29,11 +29,6 @@ const Menu = [
     name: "About",
     link: "/about",
   },
-  {
-    id: 4,
-    name: "Events",
-    link: "/events",
-  },
 ];
 
 const Navbar = () => {

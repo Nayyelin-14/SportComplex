@@ -35,7 +35,7 @@ const App = () => {
                 <Route path="/news/:id" element={<NewsDetail />} />
               </Route>
               <Route path="/about" element={<About />} />
-              <Route path="/events" element={<Booking />} />
+              {/* <Route path="/events" element={<Booking />} /> */}
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/user-profile" element={<Profile />} />
