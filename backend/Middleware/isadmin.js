@@ -8,7 +8,7 @@ const isAdminMiddleware = async (req, res, next) => {
 
     const admin_doc = await Users.findById(USER_ID).select("role");
 
-    if (!admin_doc) {
+    if (admin_doc.role !== "Admin") {
       throw new Error("Unauthorized ");
     }
     next();

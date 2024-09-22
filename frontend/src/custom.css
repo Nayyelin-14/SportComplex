@@ -1,0 +1,4 @@
+.ant-tabs-tab:hover {
+  background-color: rgb(202, 202, 217); /* Hover background color */
+  color: white; /* Text color on hover */
+}

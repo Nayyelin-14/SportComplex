@@ -14,6 +14,7 @@ import AuthProvider from "./providers/AuthProvider";
 import Profile from "./pages/Users/Profile";
 import BookingFrom from "./components/sportBooking/BookingFrom";
 import NotFound from "./components/NotFound";
+import Adminpage from "./pages/Admin/Adminpage";
 
 const App = () => {
   React.useEffect(() => {
@@ -56,6 +57,16 @@ const App = () => {
               }
             />
 
+            <Route
+              path="/admin"
+              element={
+                <AuthProvider>
+                  <Adminpage />
+                </AuthProvider>
+              }
+            />
+
+            {/* auth routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />

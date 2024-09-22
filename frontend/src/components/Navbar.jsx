@@ -56,8 +56,13 @@ const Navbar = () => {
   };
 
   const profilepage = () => {
-    navigate("/user-profile");
-    setProfileMenu(!profileMenu);
+    if (user.role === "Admin") {
+      navigate("/admin");
+      setProfileMenu(!profileMenu);
+    } else {
+      navigate("/user-profile");
+      setProfileMenu(!profileMenu);
+    }
   };
   const bookingpage = () => {
     navigate("/booking");
@@ -157,21 +162,33 @@ const Navbar = () => {
       {user && profileMenu && (
         <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999]">
           {/* / */}
-          <div
-            className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-            onClick={profilepage}
-          >
-            <UserCircleIcon className="w-7 text-white" />
-            <p className="text-white font-semibold cursor-pointer">Profile</p>
-          </div>
+          {user && user.role === "Admin" ? (
+            <div
+              className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
+              onClick={profilepage}
+            >
+              <UserCircleIcon className="w-7 text-white" />
+              <p className="text-white font-semibold cursor-pointer">Profile</p>
+            </div>
+          ) : (
+            <div
+              className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
+              onClick={profilepage}
+            >
+              <UserCircleIcon className="w-7 text-white" />
+              <p className="text-white font-semibold cursor-pointer">Profile</p>
+            </div>
+          )}
           {/* / */}
-          <div
-            className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
-            onClick={bookingpage}
-          >
-            <ArrowPathIcon className="w-7 text-white " />
-            <p className="text-white font-semibold cursor-pointer">Booking</p>
-          </div>
+          {user.role === "Student" && (
+            <div
+              className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
+              onClick={bookingpage}
+            >
+              <ArrowPathIcon className="w-7 text-white " />
+              <p className="text-white font-semibold cursor-pointer">Booking</p>
+            </div>
+          )}
           {/*  */}
           <hr className="w-[90%] mx-auto" />
           <div
