@@ -27,7 +27,6 @@ const BookingIndex = ({ bookings }) => {
   useEffect(() => {
     updatesportType(activetabKey);
   }, [activetabKey]);
-  console.log(sportType);
 
   const handleTabChange = (key) => {
     // console.log(key);
