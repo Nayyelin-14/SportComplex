@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../utils/storageConfig");
 const path = require("path");
-const authMiddleware = require("../Middleware/auth");
+
 router.use(
   "/images",
-  authMiddleware,
+
   express.static(path.join(__dirname, "../upload/images"))
 );
 
