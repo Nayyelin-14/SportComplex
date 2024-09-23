@@ -88,6 +88,7 @@ exports.loginAccount = async (req, res) => {
     if (!isPassword_Match) {
       throw new Error("Incorrect password!!!");
     }
+    console.log("login", LogIn_Account);
     //set token after email and password are ok
     const jwt_token = jwt.sign(
       { userID: LogIn_Account._id },

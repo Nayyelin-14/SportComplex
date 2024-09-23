@@ -34,6 +34,7 @@ const Menu = [
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
+  // console.log(user.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,16 +57,15 @@ const Navbar = () => {
   };
 
   const profilepage = () => {
-    if (user.role === "Admin") {
-      navigate("/admin");
-      setProfileMenu(!profileMenu);
-    } else {
-      navigate("/user-profile");
-      setProfileMenu(!profileMenu);
-    }
+    navigate("/user-profile");
+    setProfileMenu(!profileMenu);
   };
   const bookingpage = () => {
     navigate("/booking");
+    setProfileMenu(!profileMenu);
+  };
+  const Adminprofilepage = () => {
+    navigate("/admin");
     setProfileMenu(!profileMenu);
   };
   // console.log(user);
@@ -162,33 +162,40 @@ const Navbar = () => {
       {user && profileMenu && (
         <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999]">
           {/* / */}
-          {user && user.role === "Admin" ? (
+
+          {user.role === "Admin" && (
             <div
               className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-              onClick={profilepage}
-            >
-              <UserCircleIcon className="w-7 text-white" />
-              <p className="text-white font-semibold cursor-pointer">Profile</p>
-            </div>
-          ) : (
-            <div
-              className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-              onClick={profilepage}
+              onClick={Adminprofilepage}
             >
               <UserCircleIcon className="w-7 text-white" />
               <p className="text-white font-semibold cursor-pointer">Profile</p>
             </div>
           )}
-          {/* / */}
           {user.role === "Student" && (
-            <div
-              className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
-              onClick={bookingpage}
-            >
-              <ArrowPathIcon className="w-7 text-white " />
-              <p className="text-white font-semibold cursor-pointer">Booking</p>
-            </div>
+            <>
+              <div
+                className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
+                onClick={profilepage}
+              >
+                <UserCircleIcon className="w-7 text-white" />
+                <p className="text-white font-semibold cursor-pointer">
+                  Profile
+                </p>
+              </div>
+              <div
+                className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
+                onClick={bookingpage}
+              >
+                <ArrowPathIcon className="w-7 text-white " />
+                <p className="text-white font-semibold cursor-pointer">
+                  Booking
+                </p>
+              </div>
+            </>
           )}
+
+          {/* //// */}
           {/*  */}
           <hr className="w-[90%] mx-auto" />
           <div

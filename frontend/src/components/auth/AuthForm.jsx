@@ -21,7 +21,7 @@ const AuthForm = ({ isLoginPage }) => {
           message.success(response.message);
           localStorage.setItem("token", response.token);
 
-          console.log(response.token);
+          console.log(response);
           dispatch(setUser(response.token));
           window.location.replace("/");
         } else {
