@@ -34,12 +34,14 @@ const Menu = [
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
-  // console.log(user.role);
+  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
   const [openmenu, setOpenmenu] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
+  
   const LogoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(setUser(null));
@@ -157,11 +159,13 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
+      
       {/* /tags for profile/ */}
       {user && profileMenu && (
         <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999]">
           {/* / */}
+          {console.log('User object:', user)}
+          {console.log('User role:', user.role)}
 
           {user.role === "Admin" && (
             <div

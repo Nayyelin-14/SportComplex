@@ -91,7 +91,7 @@ exports.loginAccount = async (req, res) => {
     console.log("login", LogIn_Account);
     //set token after email and password are ok
     const jwt_token = jwt.sign(
-      { userID: LogIn_Account._id },
+      { userID: LogIn_Account._id, role: LogIn_Account.role },
       process.env.JWT_KEY,
       { expiresIn: "1d" }
     );
@@ -99,6 +99,7 @@ exports.loginAccount = async (req, res) => {
       isSuccess: true,
       message: "Successfully logged In",
       token: jwt_token,
+      user: {role: LogIn_Account.role},
     });
   } catch (error) {
     return res.status(400).json({
