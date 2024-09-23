@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginaccount, registerNewUser } from "../../apiEndpoints/auth";
 import { Link } from "react-router-dom";
+import {jwtDecode} from 'jwt-decode';
+
 const AuthForm = ({ isLoginPage }) => {
   const { submitting, setSubmitting } = useState();
   const dispatch = useDispatch();
@@ -22,8 +24,12 @@ const AuthForm = ({ isLoginPage }) => {
           localStorage.setItem("token", response.token);
 
           console.log(response);
-          dispatch(setUser(response.token));
+
+          const decodedUser = jwtDecode(response.token);
+          dispatch(setUser(decodedUser));  
+          // dispatch(setUser(response.token));
           window.location.replace("/");
+
         } else {
           throw new Error(response.message);
         }

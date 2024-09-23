@@ -5,7 +5,6 @@ const path = require("path");
 
 router.use(
   "/images",
-
   express.static(path.join(__dirname, "../upload/images"))
 );
 
