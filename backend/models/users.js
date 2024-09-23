@@ -22,7 +22,7 @@ const usersSchema = new Schema(
     },
     role: {
       type: String,
-      default: "Student",
+      required: true,
     },
   },
   {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, Button, message, Select } from "antd";
 import { setUser } from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,7 @@ const AuthForm = ({ isLoginPage }) => {
         }
       } else {
         response = await registerNewUser(values);
+        console.log(values);
         console.log(response);
 
         if (response.isSuccess) {
@@ -56,20 +57,42 @@ const AuthForm = ({ isLoginPage }) => {
             onFinish={onFinishHandler}
           >
             {!isLoginPage && (
-              <Form.Item
-                className="font-semibold"
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Enter username",
-                  },
-                ]}
-                hasFeedback
-              >
-                <Input placeholder="username..."></Input>
-              </Form.Item>
+              <>
+                <Form.Item
+                  layout="horizontal"
+                  className="font-semibold w-[200px]"
+                  label="Role"
+                  name="role"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Select role",
+                    },
+                  ]}
+                  hasFeedback
+                >
+                  <Select placeholder="Select a role" className="ml-4">
+                    <Select.Option value="Admin">Admin</Select.Option>
+                    <Select.Option value="Student">Student</Select.Option>
+                    <Select.Option value="Lecturer">Lecturer</Select.Option>
+                    <Select.Option value="Outsider">Outsider</Select.Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  className="font-semibold"
+                  label="Username"
+                  name="username"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Enter username",
+                    },
+                  ]}
+                  hasFeedback
+                >
+                  <Input placeholder="username..."></Input>
+                </Form.Item>
+              </>
             )}
             <Form.Item
               className="font-semibold"
