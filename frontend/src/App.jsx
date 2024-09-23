@@ -41,7 +41,9 @@ const App = () => {
             <Route
               path="/user-profile"
               element={
-                <AuthProvider>
+                <AuthProvider
+                  allowedRoles={["Student", "Staff", "Lecturer", "Outsider"]}
+                >
                   <Profile />
                 </AuthProvider>
               }
@@ -51,7 +53,9 @@ const App = () => {
             <Route
               path="/bookingform"
               element={
-                <AuthProvider>
+                <AuthProvider
+                  allowedRoles={["Student", "Staff", "Lecturer", "Outsider"]}
+                >
                   <BookingFrom />
                 </AuthProvider>
               }
@@ -60,7 +64,7 @@ const App = () => {
             <Route
               path="/admin"
               element={
-                <AuthProvider>
+                <AuthProvider allowedRoles={["Admin"]}>
                   <Adminpage />
                 </AuthProvider>
               }

@@ -11,10 +11,15 @@ import { message } from "antd";
 const Session = ({ session_time, sportType, bookings }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
   const setSession = (time) => {
-    dispatch(setSelectedTime(time));
-    dispatch(setSportType(sportType));
-    navigate("/bookingform");
+    if (user.role === "Admin") {
+      navigate("/booking");
+    } else {
+      dispatch(setSelectedTime(time));
+      dispatch(setSportType(sportType));
+      navigate("/bookingform");
+    }
   };
   // const { selectedTime } = useSelector((state) => state.booking);
   // console.log(selectedTime);
@@ -48,12 +53,14 @@ const Session = ({ session_time, sportType, bookings }) => {
         <div key={index} className="p-3  w-[210px] rounded-lg bg-red-800">
           <div className=" flex items-center justify-between">
             <span className="text-black p-2 font-semibold">{time}</span>
-            <button
-              className=" cursor-pointer hover:border-b hover:border-blue-700 "
-              onClick={() => setSession(time)}
-            >
-              Book
-            </button>
+            {user.role !== "Admin" && (
+              <button
+                className=" cursor-pointer hover:border-b hover:border-blue-700 "
+                onClick={() => setSession(time)}
+              >
+                Book
+              </button>
+            )}
           </div>
           <hr className="my-3" />
           {/* Display the bookings for each session */}

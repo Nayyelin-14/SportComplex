@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 
 const Users = require("../models/users");
 const Booking = require("../models/Booking/bookingInfo");
+
 exports.createBooking = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -11,8 +12,14 @@ exports.createBooking = async (req, res) => {
     });
   }
   try {
-    const { sporttype, session, status, studentid, name, phone } = req.body;
+    const { sporttype, session, status, studentid, name, phone, role } =
+      req.body;
 
+    const { USER_ID } = req;
+
+    console.log(USER_ID);
+    const Booking_User = await Users.findById(USER_ID).select("role");
+    console.log(Booking_User);
     const bookingDoc = await Booking.create({
       sporttype,
       session,
@@ -20,8 +27,13 @@ exports.createBooking = async (req, res) => {
       studentid,
       name,
       phone,
+      role: Booking_User.role,
       bookingUser_id: req.USER_ID,
     });
+
+    if (Booking_User.role === "Admin") {
+      throw new Error("Something went wrong!!!");
+    }
     if (!bookingDoc) {
       throw new Error("Failed to get booking");
     }

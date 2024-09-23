@@ -173,7 +173,9 @@ const Navbar = () => {
               onClick={Adminprofilepage}
             >
               <UserCircleIcon className="w-7 text-white" />
-              <p className="text-white font-semibold cursor-pointer">Profile</p>
+              <p className="text-white font-semibold cursor-pointer">
+                Dashboard
+              </p>
             </div>
           )}
           {user && user.role === "Student" && (
@@ -188,18 +190,15 @@ const Navbar = () => {
                   Profile
                 </p>
               </div>
-              <div
-                className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
-                onClick={bookingpage}
-              >
-                <ArrowPathIcon className="w-7 text-white " />
-                <p className="text-white font-semibold cursor-pointer">
-                  Booking
-                </p>
-              </div>
             </>
           )}
-
+          <div
+            className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
+            onClick={bookingpage}
+          >
+            <ArrowPathIcon className="w-7 text-white " />
+            <p className="text-white font-semibold cursor-pointer">Booking</p>
+          </div>
           {/* //// */}
           {/*  */}
           <hr className="w-[90%] mx-auto" />

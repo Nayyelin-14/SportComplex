@@ -10,7 +10,7 @@ const BookingFrom = () => {
   const { selectedTime } = useSelector((state) => state.booking);
   const { SportType } = useSelector((state) => state.booking);
   const { user } = useSelector((state) => state.user);
-  console.log(user);
+  console.log(user.status);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinishHandler = async (values) => {
@@ -19,11 +19,8 @@ const BookingFrom = () => {
       if (response.isSuccess) {
         console.log(response);
         message.success(response.message);
-
-        // Pass the updated bookings to the next component using navigate
         navigate("/booking");
       } else {
-        navigate("/login");
         throw new Error(response.message);
       }
     } catch (error) {
@@ -42,12 +39,13 @@ const BookingFrom = () => {
           layout="horizontal"
           onFinish={onFinishHandler}
           initialValues={{
-            sporttype: SportType, // Preload the sporttype from Redux
-            status: user ? user.role : "", // Preload the status (user role) from Redux
+            sporttype: SportType ? SportType : "Tennis", // Preload the sporttype from Redux
+            status: user ? user.status : "active", // Preload the status (user role) from Redux
             studentid: "",
             name: "",
             phone: "",
             session: selectedTime,
+            role: user ? user.role : "Student",
           }}
         >
           <div className="flex gap-6">
@@ -59,8 +57,8 @@ const BookingFrom = () => {
             >
               <Input
                 className="w-[130px] h-[30px] ml-9"
-                value={SportType} // Redux value shown here
-                placeholder={SportType}
+                value={SportType || "Tennis"} // Automatically fills "Tennis" if SportType is not provided
+                placeholder={SportType || "Tennis"}
                 disabled
               />
             </Form.Item>
@@ -80,22 +78,38 @@ const BookingFrom = () => {
             </Form.Item>
           </div>
 
-          <Form.Item
-            className="font-semibold my-2"
-            label="Status"
-            name="status"
-            type="string"
-          >
-            <select
-              className="w-[130px] h-[30px] ml-16"
-              value={user ? user.role : ""} // Redux value shown here
+          <div className="flex items-center gap-9">
+            <Form.Item
+              className="font-semibold my-2"
+              label="Role"
+              name="role"
+              type="string"
             >
-              <option value="student">Student</option>
-              <option value="Staff">Staff</option>
-              <option value="lecturer">Lecturer</option>
-              <option value="outsider">Outsider</option>
-            </select>
-          </Form.Item>
+              <select
+                className="w-[130px] h-[30px] ml-16"
+                value={user ? user.role : ""} // Redux value shown here
+              >
+                <option value="student">Student</option>
+                <option value="Staff">Staff</option>
+                <option value="lecturer">Lecturer</option>
+                <option value="outsider">Outsider</option>
+              </select>
+            </Form.Item>
+
+            <Form.Item
+              className="font-semibold my-5"
+              label="Status"
+              name="status"
+              type="string"
+            >
+              <Input
+                className="w-[130px] h-[30px] ml-9"
+                value={user.status} // Redux value shown here
+                placeholder={user.status}
+                disabled
+              />
+            </Form.Item>
+          </div>
 
           <Form.Item
             className="font-semibold my-5"

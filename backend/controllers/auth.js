@@ -93,13 +93,15 @@ exports.loginAccount = async (req, res) => {
     const jwt_token = jwt.sign(
       { userID: LogIn_Account._id, role: LogIn_Account.role },
       process.env.JWT_KEY,
+
       { expiresIn: "1d" }
     );
     return res.status(201).json({
       isSuccess: true,
       message: "Successfully logged In",
       token: jwt_token,
-      user: {role: LogIn_Account.role},
+      LogIn_Account,
+      user: { role: LogIn_Account.role },
     });
   } catch (error) {
     return res.status(400).json({

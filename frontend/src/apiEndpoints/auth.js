@@ -29,7 +29,7 @@ export const getCurrentUser = async () => {
     const response = await instance.get("/get-current-user", {
       validateStatus: () => true,
     });
-    console.log(response);
+    // console.log(response);
     return response.data;
   } catch (error) {
     return error.message;
