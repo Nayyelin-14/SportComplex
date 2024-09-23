@@ -41,7 +41,7 @@ const Navbar = () => {
 
   const [openmenu, setOpenmenu] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
-  
+
   const LogoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(setUser(null));
@@ -159,36 +159,46 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      
+
       {/* /tags for profile/ */}
       {user && profileMenu && (
         <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999]">
           {/* / */}
-          {console.log('User object:', user)}
-          {console.log('User role:', user.role)}
+          {console.log("User object:", user)}
+          {console.log("User role:", user.role)}
 
-          <div
-            className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-            onClick={Adminprofilepage}
-          >
-            <UserCircleIcon className="w-7 text-white" />
-            <p className="text-white font-semibold cursor-pointer">Profile</p>
-          </div>
-
-          <div
-            className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-            onClick={profilepage}
-          >
-            <UserCircleIcon className="w-7 text-white" />
-            <p className="text-white font-semibold cursor-pointer">Profile</p>
-          </div>
-          <div
-            className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
-            onClick={bookingpage}
-          >
-            <ArrowPathIcon className="w-7 text-white " />
-            <p className="text-white font-semibold cursor-pointer">Booking</p>
-          </div>
+          {user && user.role === "Admin" && (
+            <div
+              className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
+              onClick={Adminprofilepage}
+            >
+              <UserCircleIcon className="w-7 text-white" />
+              <p className="text-white font-semibold cursor-pointer">Profile</p>
+            </div>
+          )}
+          {user && user.role === "Student" && (
+            <>
+              {" "}
+              <div
+                className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
+                onClick={profilepage}
+              >
+                <UserCircleIcon className="w-7 text-white" />
+                <p className="text-white font-semibold cursor-pointer">
+                  Profile
+                </p>
+              </div>
+              <div
+                className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
+                onClick={bookingpage}
+              >
+                <ArrowPathIcon className="w-7 text-white " />
+                <p className="text-white font-semibold cursor-pointer">
+                  Booking
+                </p>
+              </div>
+            </>
+          )}
 
           {/* //// */}
           {/*  */}
