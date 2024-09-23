@@ -17,7 +17,7 @@ export const loginaccount = async (payload) => {
     const response = await instance.post("/login", payload, {
       validateStatus: () => true,
     });
-    // console.log(response);
+    console.log(response);
     return response.data;
   } catch (error) {
     return error.message;
