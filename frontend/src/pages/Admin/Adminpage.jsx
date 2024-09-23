@@ -1,15 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Bookingdashboard from "../../components/admin/Bookingdashboard";
 import UsersDashboard from "../../components/admin/UsersDashboard";
 import CreateNews from "../../components/admin/CreateNews";
-import { Tabs } from "antd";
+import { message, Tabs } from "antd";
 import "../../custom.css";
 import {
   ClipboardDocumentListIcon,
   InformationCircleIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import { getallBookings, getAllUsers } from "../../apiEndpoints/admin";
 const Adminpage = () => {
+  const [allusers, setAllusers] = useState([]);
+  const [allbookings, setAllbookings] = useState([]);
+  const fetchAllusers = async () => {
+    try {
+      const response = await getAllUsers();
+
+      if (response.isSuccess) {
+        message.success(response.message);
+        setAllusers(response.allusers_DOC);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+  const fetchallbookings = async () => {
+    try {
+      const response = await getallBookings();
+
+      if (response.isSuccess) {
+        message.success(response.message);
+        setAllbookings(response.allBookings_doc);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllusers();
+    fetchallbookings();
+  }, []);
+
   const items = [
     {
       key: "1",
@@ -19,7 +56,7 @@ const Adminpage = () => {
           <p className="">Booking dashboard</p>
         </div>
       ),
-      children: <Bookingdashboard />,
+      children: <Bookingdashboard allbookings={allbookings} />,
     },
     {
       key: "2",
@@ -29,7 +66,7 @@ const Adminpage = () => {
           <p>Manage Users</p>
         </div>
       ),
-      children: <UsersDashboard />,
+      children: <UsersDashboard allusers={allusers} />,
     },
 
     {

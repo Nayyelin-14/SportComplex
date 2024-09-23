@@ -14,22 +14,34 @@ exports.registerNewUser = async (req, res) => {
     });
   }
 
-  const { username, email, password } = req.body;
-  // console.log(username, email, password);
+  const { username, email, password, role } = req.body;
+  console.log(username, email, password, role);
 
   const emailPattern = /^[0-9]{10}@lamduan\.mfu\.ac\.th$/;
+  const adminEmailPattern = /^[0-9]{10}@lamduan\.mfu\.admin\.ac\.th$/;
   try {
     const created_User = await Users.findOne({ email: email });
     if (created_User) {
       throw new Error("User has already existed");
     }
 
-    if (!emailPattern.test(email)) {
-      return res.status(400).json({
-        isSuccess: false,
-        message: "Invalid email format. Must be in the form of MFU email",
-      });
+    if (role === "Admin") {
+      if (!adminEmailPattern.test(email)) {
+        return res.status(400).json({
+          isSuccess: false,
+          message:
+            "Invalid email format. Must be in the form of MFU admin email",
+        });
+      }
+    } else {
+      if (!emailPattern.test(email)) {
+        return res.status(400).json({
+          isSuccess: false,
+          message: "Invalid email format. Must be in the form of MFU email",
+        });
+      }
     }
+
     // The test() method in JavaScript is used with regular expressions to check if a pattern exists within a given string. It returns a Boolean value: true if the pattern is found and false if it is not.
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -38,6 +50,7 @@ exports.registerNewUser = async (req, res) => {
       email: email,
       username: username,
       password: hashedPassword,
+      role: role,
     });
     return res.status(200).json({
       isSuccess: true,
