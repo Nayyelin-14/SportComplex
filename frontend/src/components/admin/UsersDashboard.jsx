@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
+import emailjs from "emailjs-com";
+import Swal from "sweetalert2";
 import {
   delete_user,
   restrict_user,
@@ -8,22 +10,89 @@ import {
 import { message } from "antd";
 const UsersDashboard = ({ allusers, fetchAllusers }) => {
   ///
+
+  const [userEmail, setUserEmail] = useState("");
+  const [username, setUsername] = useState("");
+  ///send email
+  const sendEmail = async (userEmail, subject, messageBody, username) => {
+    const templateParams = {
+      to_email: userEmail,
+      subject: subject,
+      emailmessage: messageBody,
+      user_name: username,
+    };
+    await emailjs
+      .send(
+        "service_1kvew58", // EmailJS service ID
+        "template_18oxj1d", // EmailJS template ID
+        templateParams, // Parameters for the template
+        "vJuDUz-kuI4R9T-Op" //  public key
+      )
+      .then((response) => {
+        console.log("Email sent successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Email sending failed:", error);
+      });
+  };
+
   const restrictHandler = async (userID) => {
     try {
       const response = await restrict_user(userID);
       if (response.isSuccess) {
         message.success(response.message);
+        // console.log(response);
+        setUserEmail(response.restrict_User.email);
+        setUsername(response.restrict_User.username);
+        // console.log("restricted", userEmail);
+        const emailbody = `Your account has been restricted due to a violation of our terms. Please contact us if you believe this is a mistake. 
+          Thank you for your understanding.`;
+
+        await sendEmail(userEmail, "Account restriction", emailbody, username);
+        ///show alert after sending email
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: `The restriction notice has been sent to the ${username}'s email!`,
+          background: "#212730",
+          confirmButtonColor: "#b52a2a",
+        });
       }
       fetchAllusers();
     } catch (error) {
       return message.error(error.message);
     }
   };
+  ////
+  ////
+  //
+  // /
+  /////unrestrict
   const unrestrictHandler = async (userID) => {
     try {
       const response = await unrestrict_user(userID);
       if (response.isSuccess) {
         message.success(response.message);
+
+        setUserEmail(response.Unrestrict_User.email);
+        setUsername(response.Unrestrict_User.username);
+        // console.log("restricted", userEmail);
+        const emailbody = `We are pleased to inform you that your account has been unrestricted. You can now access your account and enjoy our services without any limitations.Thank you for your cooperation.`;
+
+        await sendEmail(
+          userEmail,
+          "Account unrestriction",
+          emailbody,
+          username
+        );
+        ///show alert after sending email
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: `The unrestriction notice has been sent to the ${username}'s email!`,
+          background: "#212730",
+          confirmButtonColor: "#b52a2a",
+        });
       }
       fetchAllusers();
     } catch (error) {
@@ -47,8 +116,22 @@ const UsersDashboard = ({ allusers, fetchAllusers }) => {
 
       if (response.isSuccess) {
         message.success(response.message);
-        fetchAllusers(); // Refresh the user list after successful deletion
+        setUserEmail(response.delete_User.email);
+        setUsername(response.delete_User.username);
+        // console.log("restricted", userEmail);
+        const emailbody = `Unfortunately , We are decided to delete your account permanantly due to some harmful reason.`;
+
+        await sendEmail(userEmail, "Account deletion", emailbody, username);
+        ///show alert after sending email
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: `The deletion notice has been sent to the ${username}'s email!`,
+          background: "#212730",
+          confirmButtonColor: "#b52a2a",
+        });
       }
+      fetchAllusers(); // Refresh the user list after successful deletion
     } catch (error) {
       message.error(error.message); // Show an error message if something goes wrong
     }

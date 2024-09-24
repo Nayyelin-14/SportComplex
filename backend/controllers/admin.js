@@ -55,6 +55,7 @@ exports.deleteUser = async (req, res) => {
     return res.status(200).json({
       isSuccess: true,
       message: "Deleted a member",
+      delete_User
     });
   } catch (error) {
     return res.status(404).json({

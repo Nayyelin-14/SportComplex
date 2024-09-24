@@ -7,13 +7,13 @@ const DateDisplay = () => {
     // Function to format and get the current date
     const getCurrentDate = () => {
       const today = new Date();
-      console.log(today);
+      // console.log(today);
       const day = today.getDate();
-      console.log(day); // Get the current day
+      // console.log(day); // Get the current day
       const month = today.getMonth() + 1; // Get the current month (Months are 0-indexed)
-      console.log(month);
+      // console.log(month);
       const year = today.getFullYear(); // Get the current year
-      console.log(year);
+      // console.log(year);
       return `${day}/${month}/${year}`; // Format the date as DD/MM/YYYY
     };
 

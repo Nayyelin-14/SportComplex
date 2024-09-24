@@ -87,33 +87,34 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {["Student", "Lecturer", "Staff", "Outsider"].includes(
-              user.role
-            ) && (
-              <div className="flex justify-between items-center gap-4">
-                <ul className="hidden lg:flex items-center text-lg gap-4">
-                  {Menu.map((menu) => (
-                    <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
-                      <Link
-                        to={menu.link}
-                        className={`inline-block py-4 px-4 ${
-                          navmenu === menu.name &&
-                          location.pathname === menu.link
-                            ? "text-yellow-500"
-                            : "hover:text-yellow-500"
-                        }`}
-                      >
-                        {menu.name}
-                      </Link>
-                      {navmenu === menu.name &&
-                        location.pathname === menu.link && (
-                          <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-                        )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {user &&
+              ["Student", "Lecturer", "Staff", "Outsider"].includes(
+                user.role
+              ) && (
+                <div className="flex justify-between items-center gap-4">
+                  <ul className="hidden lg:flex items-center text-lg gap-4">
+                    {Menu.map((menu) => (
+                      <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
+                        <Link
+                          to={menu.link}
+                          className={`inline-block py-4 px-4 ${
+                            navmenu === menu.name &&
+                            location.pathname === menu.link
+                              ? "text-yellow-500"
+                              : "hover:text-yellow-500"
+                          }`}
+                        >
+                          {menu.name}
+                        </Link>
+                        {navmenu === menu.name &&
+                          location.pathname === menu.link && (
+                            <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+                          )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
             {/* /// */}
             <div className="hidden lg:flex">
@@ -186,7 +187,6 @@ const Navbar = () => {
               user.role
             ) && (
               <>
-                {" "}
                 <div
                   className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
                   onClick={profilepage}
