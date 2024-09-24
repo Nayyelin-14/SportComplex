@@ -15,11 +15,19 @@ export const BookingSlice = createSlice({
     setSportType: (state, action) => {
       state.SportType = action.payload;
     },
-    // setBooking: (state, action) => {
-    //   state.successBooking = action.payload;
-    // },
+    resetSelectedTime: (state) => {
+      state.selectedTime = null;
+    },
+    resetSportType: (state) => {
+      state.SportType = null;
+    },
   },
 });
 
-export const { setSelectedTime, setSportType } = BookingSlice.actions;
+export const {
+  setSelectedTime,
+  setSportType,
+  resetSelectedTime,
+  resetSportType,
+} = BookingSlice.actions;
 export default BookingSlice.reducer;

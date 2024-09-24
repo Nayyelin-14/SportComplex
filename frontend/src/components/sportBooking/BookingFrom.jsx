@@ -2,7 +2,11 @@ import { Form, Input, Button, message } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
 import { create_Booking } from "../../apiEndpoints/booking";
-import { setSportType } from "../../store/bookingSlice";
+import {
+  resetSelectedTime,
+  resetSportType,
+  setSportType,
+} from "../../store/bookingSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -17,7 +21,7 @@ const BookingFrom = () => {
     try {
       const response = await create_Booking(values);
       if (response.isSuccess) {
-        console.log(response);
+        // console.log(response);
         message.success(response.message);
         navigate("/booking");
       } else {
@@ -25,8 +29,8 @@ const BookingFrom = () => {
       }
     } catch (error) {
       message.error(error.message);
-      dispatch(setSportType(null));
-      dispatch(selectedTime(null));
+      dispatch(resetSelectedTime());
+      dispatch(resetSportType());
     }
   };
   // console.log(bookings);
@@ -44,7 +48,7 @@ const BookingFrom = () => {
             studentid: "",
             name: "",
             phone: "",
-            session: selectedTime,
+            session: selectedTime ? selectedTime : "8:00 - 10:00",
             role: user ? user.role : "Student",
           }}
         >

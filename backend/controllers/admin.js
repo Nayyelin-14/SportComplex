@@ -43,3 +43,73 @@ exports.getallBookings = async (req, res) => {
     });
   }
 };
+
+exports.deleteUser = async (req, res) => {
+  const { userID } = req.params;
+  try {
+    const delete_User = await Users.findByIdAndDelete(userID);
+
+    if (!delete_User) {
+      throw new Error("User not found");
+    }
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Deleted a member",
+    });
+  } catch (error) {
+    return res.status(404).json({
+      isSuccess: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.restrictUser = async (req, res) => {
+  const { userID } = req.params;
+  try {
+    const restrict_User = await Users.findById(userID);
+
+    if (!restrict_User) {
+      throw new Error("User not found");
+    }
+
+    restrict_User.status = "restricted";
+    await restrict_User.save();
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Restricted a member",
+      restrict_User,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      isSuccess: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.UnrestrictUser = async (req, res) => {
+  const { userID } = req.params;
+  try {
+    const Unrestrict_User = await Users.findById(userID);
+
+    if (!Unrestrict_User) {
+      throw new Error("User not found");
+    }
+
+    Unrestrict_User.status = "active";
+    await Unrestrict_User.save();
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Unrestricted a member",
+      Unrestrict_User,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      isSuccess: false,
+      message: error.message,
+    });
+  }
+};

@@ -18,4 +18,25 @@ router.get(
   adminController.getallBookings
 );
 
+router.post(
+  "/admin/restrict-user/:userID",
+  authMiddleware,
+  adminMiddlware,
+  adminController.restrictUser
+);
+
+router.post(
+  "/admin/unrestrict-user/:userID",
+  authMiddleware,
+  adminMiddlware,
+  adminController.UnrestrictUser
+);
+
+router.post(
+  "/admin/delete-user/:userID",
+  authMiddleware,
+  adminMiddlware,
+  adminController.deleteUser
+);
+
 module.exports = router;

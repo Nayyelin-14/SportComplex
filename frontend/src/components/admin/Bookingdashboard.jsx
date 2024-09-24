@@ -25,9 +25,9 @@ const Bookingdashboard = ({ allbookings }) => {
               <th scope="col" className="px-6 py-3 text-center">
                 StudentID
               </th>
-              <th scope="col" className="px-6 py-3 text-center">
-                Status
-              </th>
+              {/* <th scope="col" className="px-6 py-3 text-center">
+                Action
+              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -84,7 +84,9 @@ const Bookingdashboard = ({ allbookings }) => {
                     <td className="px-6 py-4 text-center">
                       {booking.studentid}
                     </td>
-                    <td className="px-6 py-4 text-center">{booking.status}</td>
+                    {/* <td className="px-6 py-4 text-center">
+                      <button>Delete</button>
+                    </td> */}
                   </tr>
                 ))}
               </>

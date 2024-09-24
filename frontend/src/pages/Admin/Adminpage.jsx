@@ -18,7 +18,7 @@ const Adminpage = () => {
       const response = await getAllUsers();
 
       if (response.isSuccess) {
-        message.success(response.message);
+        // message.success(response.message);
         setAllusers(response.allusers_DOC);
       } else {
         throw new Error(response.message);
@@ -32,7 +32,7 @@ const Adminpage = () => {
       const response = await getallBookings();
 
       if (response.isSuccess) {
-        message.success(response.message);
+        // message.success(response.message);
         setAllbookings(response.allBookings_doc);
       } else {
         throw new Error(response.message);
@@ -66,7 +66,9 @@ const Adminpage = () => {
           <p>Manage Users</p>
         </div>
       ),
-      children: <UsersDashboard allusers={allusers} />,
+      children: (
+        <UsersDashboard allusers={allusers} fetchAllusers={fetchAllusers} />
+      ),
     },
 
     {

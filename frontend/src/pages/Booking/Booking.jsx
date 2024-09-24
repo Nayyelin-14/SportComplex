@@ -11,7 +11,7 @@ const Booking = () => {
     try {
       const response = await getAll_Bookings();
       if (response.isSuccess) {
-        message.success(response.message);
+        // message.success(response.message);
         setBookings((prev) => [...prev, response.Allbookings]);
       }
     } catch (error) {

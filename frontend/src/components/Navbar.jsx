@@ -34,7 +34,7 @@ const Menu = [
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
-  console.log(user);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -87,28 +87,33 @@ const Navbar = () => {
               </Link>
             </div>
 
-            <div className="flex justify-between items-center gap-4">
-              <ul className="hidden lg:flex items-center text-lg gap-4">
-                {Menu.map((menu) => (
-                  <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
-                    <Link
-                      to={menu.link}
-                      className={`inline-block py-4 px-4 ${
-                        navmenu === menu.name && location.pathname === menu.link
-                          ? "text-yellow-500"
-                          : "hover:text-yellow-500"
-                      }`}
-                    >
-                      {menu.name}
-                    </Link>
-                    {navmenu === menu.name &&
-                      location.pathname === menu.link && (
-                        <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-                      )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {["Student", "Lecturer", "Staff", "Outsider"].includes(
+              user.role
+            ) && (
+              <div className="flex justify-between items-center gap-4">
+                <ul className="hidden lg:flex items-center text-lg gap-4">
+                  {Menu.map((menu) => (
+                    <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
+                      <Link
+                        to={menu.link}
+                        className={`inline-block py-4 px-4 ${
+                          navmenu === menu.name &&
+                          location.pathname === menu.link
+                            ? "text-yellow-500"
+                            : "hover:text-yellow-500"
+                        }`}
+                      >
+                        {menu.name}
+                      </Link>
+                      {navmenu === menu.name &&
+                        location.pathname === menu.link && (
+                          <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+                        )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* /// */}
             <div className="hidden lg:flex">
@@ -164,8 +169,6 @@ const Navbar = () => {
       {user && profileMenu && (
         <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999]">
           {/* / */}
-          {console.log("User object:", user)}
-          {console.log("User role:", user.role)}
 
           {user && user.role === "Admin" && (
             <div
@@ -178,20 +181,23 @@ const Navbar = () => {
               </p>
             </div>
           )}
-          {user && user.role === "Student" && (
-            <>
-              {" "}
-              <div
-                className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-                onClick={profilepage}
-              >
-                <UserCircleIcon className="w-7 text-white" />
-                <p className="text-white font-semibold cursor-pointer">
-                  Profile
-                </p>
-              </div>
-            </>
-          )}
+          {user &&
+            ["Student", "Staff", "Lecturer", "Outsider"].includes(
+              user.role
+            ) && (
+              <>
+                {" "}
+                <div
+                  className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
+                  onClick={profilepage}
+                >
+                  <UserCircleIcon className="w-7 text-white" />
+                  <p className="text-white font-semibold cursor-pointer">
+                    Profile
+                  </p>
+                </div>
+              </>
+            )}
           <div
             className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
             onClick={bookingpage}

@@ -12,15 +12,15 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
   const token = localStorage.getItem("token");
   const { user } = useSelector((state) => state.user);
   const { isProcessing } = useSelector((state) => state.loader);
-  console.log(user);
+  // console.log(user);
   const currentUser = async () => {
     try {
       dispatch(setLoader(true));
-      console.log("current token", token);
+      // console.log("current token", token);
       const response = await getCurrentUser();
 
       if (response.isSuccess) {
-        console.log("provider", response);
+        // console.log("provider", response);
         message.success(response.message);
         // Store user data in Redux store
         dispatch(setUser(response.currentUser));
