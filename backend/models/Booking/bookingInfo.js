@@ -41,5 +41,7 @@ const bookingSchema = new Schema(
   }
 );
 
+// Add TTL index on the createdAt field, setting documents to expire after 1 day (86400 seconds)
+bookingSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
 const bookingModel = model("Booking", bookingSchema);
 module.exports = bookingModel;

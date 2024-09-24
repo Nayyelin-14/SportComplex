@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { getAll_Bookings } from "../../apiEndpoints/booking";
 import { message } from "antd";
+import DateDisplay from "../../components/DateDisplay";
 
 const Booking = () => {
   const [bookings, setBookings] = useState([]);
@@ -25,6 +26,9 @@ const Booking = () => {
 
   return (
     <div className="mb-96">
+      <h1>
+        <DateDisplay />
+      </h1>
       <BookingIndex bookings={bookings} />
     </div>
   );
