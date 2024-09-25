@@ -54,7 +54,7 @@ const UsersDashboard = ({ allusers, fetchAllusers }) => {
           icon: "success",
           title: "Success!",
           text: `The restriction notice has been sent to the ${username}'s email!`,
-          background: "#212730",
+          background: "#808080",
           confirmButtonColor: "#b52a2a",
         });
       }
