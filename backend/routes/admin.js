@@ -32,7 +32,7 @@ router.post(
   adminController.UnrestrictUser
 );
 
-router.post(
+router.delete(
   "/admin/delete-user/:userID",
   authMiddleware,
   adminMiddlware,

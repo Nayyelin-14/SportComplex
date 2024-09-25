@@ -46,7 +46,7 @@ export const unrestrict_user = async (userID) => {
 
 export const delete_user = async (userID) => {
   try {
-    const response = await instance.post(`/admin/delete-user/${userID}`);
+    const response = await instance.delete(`/admin/delete-user/${userID}`);
     // console.log(response);
     return response.data;
   } catch (error) {
