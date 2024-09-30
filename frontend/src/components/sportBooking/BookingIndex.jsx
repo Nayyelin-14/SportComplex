@@ -24,6 +24,26 @@ const BookingIndex = ({ bookings }) => {
     setSportType(selectedItem.label);
     setActivetabKey(key);
   };
+
+  const [infos, setInfos] = useState([]);
+
+  const fetchBookings = async (sportType) => {
+    try {
+      const response = await getdiff_Bookings(sportType);
+      // console.log(response.bookings);
+      // Clear any previous messages
+
+      if (response.isSuccess) {
+        // Check if message has been shown already
+        // message.success(response.message);
+
+        setInfos(response.bookings);
+      }
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  };
+
   useEffect(() => {
     updatesportType(activetabKey);
   }, [activetabKey]);
@@ -42,7 +62,7 @@ const BookingIndex = ({ bookings }) => {
         <Session
           session_time={session_time}
           sportType={sportType}
-          bookings={bookings}
+          infos={infos}
         />
       ),
     },
@@ -52,8 +72,8 @@ const BookingIndex = ({ bookings }) => {
       children: (
         <Session
           session_time={session_time}
-          sportType={sportType}
-          bookings={bookings}
+          sportType={sportType}  
+          infos={infos}
         />
       ),
     },
@@ -64,7 +84,8 @@ const BookingIndex = ({ bookings }) => {
         <Session
           session_time={session_time}
           sportType={sportType}
-          bookings={bookings}
+
+          infos={infos}
         />
       ),
     },
@@ -75,7 +96,8 @@ const BookingIndex = ({ bookings }) => {
         <Session
           session_time={session_time}
           sportType={sportType}
-          bookings={bookings}
+        
+          infos={infos}
         />
       ),
     },
@@ -86,7 +108,8 @@ const BookingIndex = ({ bookings }) => {
         <Session
           session_time={session_time}
           sportType={sportType}
-          bookings={bookings}
+      
+          infos={infos}
         />
       ),
     },

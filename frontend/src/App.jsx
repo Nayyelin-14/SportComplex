@@ -31,7 +31,22 @@ const App = () => {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route
+              path="/"
+              element={
+                <AuthProvider
+                  allowedRoles={[
+                    "Student",
+                    "Staff",
+                    "Lecturer",
+                    "Outsider",
+                    "Admin",
+                  ]}
+                >
+                  <Home />
+                </AuthProvider>
+              }
+            />
             <Route path="/news" element={<News />}>
               <Route path="/news/:id" element={<NewsDetail />} />
             </Route>

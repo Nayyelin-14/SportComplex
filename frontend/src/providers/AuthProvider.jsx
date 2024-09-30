@@ -47,10 +47,19 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       message.error(err.message);
     }
   };
+  const expireLoginToken = () => {
+    setTimeout(() => {
+      localStorage.removeItem("token");
+      dispatch(setUser(null));
+      navigate("/login");
+      message.info("Session expired. You have been logged out.");
+    }, 3600000); // 1 hour in milliseconds
+  };
 
   useEffect(() => {
     if (token) {
       currentUser();
+      expireLoginToken();
     } else {
       navigate("/login");
       message.error("Unauthorized");
