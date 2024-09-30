@@ -25,15 +25,21 @@ const News = () => {
   return (
     <>
       <div className="container pb-8 sm:pb-0">
+<<<<<<< HEAD
         <h1 className="text-3xl font-bold justify-center items-center pt-8">
           MFU NEWS
         </h1>
         <p className="text-primary pb-8">What's new around campus?</p>
+=======
+        <h1 className='text-3xl font-bold justify-center items-center pt-8'>MFU NEWS</h1>
+        <p className='text-primary pb-8 font-bold'>What's new around campus?</p>
+>>>>>>> 4ea35db1353fbc5c7ab4d70f022ec95c619210f7
       </div>
 
       <div className="min-h-[300px] sm:min-h-[250px] bg-background">
         <div className="container pb-8 sm:pb-0 grid grid-cols-1 sm:grid-cols-2 gap-x-8">
           <div>
+<<<<<<< HEAD
             <img
               src="../../mfu.jpg"
               alt="mfu"
@@ -51,6 +57,16 @@ const News = () => {
             <h1 className="text-3xl sm:text-3xl lg:text-4xl font-bold">
               What's new around Campus?
             </h1>
+=======
+            <img src="../../mfu.jpg" alt='mfu' data-aos="zoom-in"
+                data-aos-duration="200" className='w-[500px] h-auto rounded-2xl my-4'/>
+          </div>
+          <div  data-aos="zoom-in"
+                data-aos-duration="500"
+                data-aos-once="true"
+              className="flex flex-col justify-center gap-4 pt-12 sm:pt-0 text-center text-white sm:text-left order-2 sm:order-1">
+            <h1 className='text-3xl sm:text-3xl lg:text-4xl font-bold'>What's new around campus?</h1>
+>>>>>>> 4ea35db1353fbc5c7ab4d70f022ec95c619210f7
             <p className="text-sm ">
               Discover a vibrant hub for fitness and sports at our Campus Sports
               Complex. With top-notch facilities including fitness centers,
@@ -63,9 +79,15 @@ const News = () => {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="container pb-8 sm:pb-0 grid grid-cols-1 sm:grid-cols-2 gap-x-8">
         {allNews.map((news, index) => (
           <h2 key={index}>{news.title}</h2>
+=======
+      <div className="container py-8 sm:py-14 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-14">
+        {allNews.map((news)=>(
+          <NewsItem title={news.title} image={news.image} featuredline={news.featuredline}/>
+>>>>>>> 4ea35db1353fbc5c7ab4d70f022ec95c619210f7
         ))}
       </div>
     </>
