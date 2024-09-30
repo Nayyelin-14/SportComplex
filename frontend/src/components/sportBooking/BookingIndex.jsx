@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { message, Tabs } from "antd";
 import Session from "./Session";
 import BookingFrom from "./BookingFrom";
+import { getdiff_Bookings } from "../../apiEndpoints/booking";
 
 const BookingIndex = ({ bookings }) => {
   const session_time = [
@@ -63,6 +64,7 @@ const BookingIndex = ({ bookings }) => {
           session_time={session_time}
           sportType={sportType}
           infos={infos}
+          fetchBookings={fetchBookings}
         />
       ),
     },
@@ -72,8 +74,9 @@ const BookingIndex = ({ bookings }) => {
       children: (
         <Session
           session_time={session_time}
-          sportType={sportType}  
+          sportType={sportType}
           infos={infos}
+          fetchBookings={fetchBookings}
         />
       ),
     },
@@ -84,7 +87,7 @@ const BookingIndex = ({ bookings }) => {
         <Session
           session_time={session_time}
           sportType={sportType}
-
+          fetchBookings={fetchBookings}
           infos={infos}
         />
       ),
@@ -96,7 +99,7 @@ const BookingIndex = ({ bookings }) => {
         <Session
           session_time={session_time}
           sportType={sportType}
-        
+          fetchBookings={fetchBookings}
           infos={infos}
         />
       ),
@@ -108,7 +111,7 @@ const BookingIndex = ({ bookings }) => {
         <Session
           session_time={session_time}
           sportType={sportType}
-      
+          fetchBookings={fetchBookings}
           infos={infos}
         />
       ),

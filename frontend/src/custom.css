@@ -2,3 +2,17 @@
   background-color: rgb(202, 202, 217); /* Hover background color */
   color: white; /* Text color on hover */
 }
+.custom-checkbox .ant-checkbox-inner {
+  width: 16px;
+  height: 16px;
+  border-color: #000000; /* Red border */
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #000000; /* Red background when checked */
+  border-color: #070707;
+}
+
+.custom-checkbox .ant-checkbox-checked::after {
+  border-color: white; /* Checkmark color */
+}

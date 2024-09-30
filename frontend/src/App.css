@@ -44,3 +44,17 @@
   background-color: blue; /* Hover background color */
   color: white; /* Text color on hover */
 }
+.custom-checkbox .ant-checkbox-inner {
+  width: 20px;
+  height: 20px;
+  border-color: #ff0000; /* Red border */
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #ff0000; /* Red background when checked */
+  border-color: #ff0000;
+}
+
+.custom-checkbox .ant-checkbox-checked::after {
+  border-color: white; /* Checkmark color */
+}

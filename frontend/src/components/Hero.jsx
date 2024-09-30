@@ -1,5 +1,6 @@
 import React from "react";
 import LottieSlideshow from "./LottieSlideshow";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -32,14 +33,11 @@ const Hero = () => {
                 goals. Whether you're here to compete or just have fun, our
                 complex has everything you need to elevate your game.
               </p>
-              <div>
-                <button
-                  className="bg-yellow-500 w-40 hover:scale-105 duration-200 text-white py-3 px-4 rounded-full"
-                  
-                >
+              <Link to={"/booking"}>
+                <button className="p-3 bg-red-800 rounded-md cursor-pointer font-medium   text-white w-40 hover:bg-white hover:border-2 border-red-800 hover:text-red-800 ">
                   Book Now
                 </button>
-              </div>
+              </Link>
             </div>
             <div className="mx-auto order-1 sm:order-2">
               <LottieSlideshow />

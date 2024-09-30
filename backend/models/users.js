@@ -16,6 +16,14 @@ const usersSchema = new Schema(
       required: true,
       type: String,
     },
+    memberID: {
+      required: true,
+      type: Number,
+    },
+    phnumber: {
+      required: true,
+      type: Number,
+    },
     status: {
       type: String,
       default: "active",
@@ -32,3 +40,5 @@ const usersSchema = new Schema(
 
 const usersModel = model("Users", usersSchema);
 module.exports = usersModel;
+// phnumber : phnumber ,
+// studentID

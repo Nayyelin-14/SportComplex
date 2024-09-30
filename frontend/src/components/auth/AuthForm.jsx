@@ -47,6 +47,7 @@ const AuthForm = ({ isLoginPage }) => {
     } catch (error) {
       message.error(error.message);
     }
+    // console.log(values);
   };
 
   return (
@@ -55,7 +56,7 @@ const AuthForm = ({ isLoginPage }) => {
         {/* left sidee */}
         <div className="w-1/2">hi there</div>
         {/* right side */}
-        <div className="w-1/2">
+        <div className="w-1/2 bg-red-600">
           <Form
             layout="vertical"
             initialValues={{ email: "", password: "" }}
@@ -63,40 +64,80 @@ const AuthForm = ({ isLoginPage }) => {
           >
             {!isLoginPage && (
               <>
-                <Form.Item
-                  layout="horizontal"
-                  className="font-semibold w-[200px]"
-                  label="Role"
-                  name="role"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Select role",
-                    },
-                  ]}
-                  hasFeedback
-                >
-                  <Select placeholder="Select a role" className="ml-4">
-                    <Select.Option value="Admin">Admin</Select.Option>
-                    <Select.Option value="Student">Student</Select.Option>
-                    <Select.Option value="Lecturer">Lecturer</Select.Option>
-                    <Select.Option value="Outsider">Outsider</Select.Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  className="font-semibold"
-                  label="Username"
-                  name="username"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Enter username",
-                    },
-                  ]}
-                  hasFeedback
-                >
-                  <Input placeholder="username..."></Input>
-                </Form.Item>
+                <div className="flex gap-[106px]">
+                  <Form.Item
+                    layout="horizontal"
+                    className="font-semibold w-[200px]"
+                    label="Role"
+                    name="role"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Select role",
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Select placeholder="Select a role" className="ml-[38px]">
+                      <Select.Option value="Admin">Admin</Select.Option>
+                      <Select.Option value="Student">Student</Select.Option>
+                      <Select.Option value="Lecturer">Lecturer</Select.Option>
+                      <Select.Option value="Outsider">Outsider</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    layout="horizontal"
+                    className="font-semibold"
+                    label="ID"
+                    name="memberid"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Enter valid phone number",
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input
+                      placeholder="enter id..."
+                      type="number"
+                      className="ml-[22px] w-[204px]"
+                    ></Input>
+                  </Form.Item>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Form.Item
+                    className="font-semibold"
+                    label="Username"
+                    name="username"
+                    layout="horizontal"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Enter username",
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input placeholder="username..." className="w-52"></Input>
+                  </Form.Item>
+                  <Form.Item
+                    layout="horizontal"
+                    className="font-semibold"
+                    label="Phone"
+                    name="phnumber"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Enter valid phone number",
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input placeholder="phnumber..." type="number"></Input>
+                  </Form.Item>
+                </div>
               </>
             )}
             <Form.Item
@@ -112,7 +153,7 @@ const AuthForm = ({ isLoginPage }) => {
               ]}
               hasFeedback
             >
-              <Input placeholder="username..."></Input>
+              <Input placeholder="email..."></Input>
             </Form.Item>
             <Form.Item
               className="my-1  font-semibold"

@@ -14,8 +14,8 @@ exports.registerNewUser = async (req, res) => {
     });
   }
 
-  const { username, email, password, role } = req.body;
-  console.log(username, email, password, role);
+  const { username, email, password, role, phnumber, memberid } = req.body;
+  // console.log(username, email, password, role, phnumber, memberid);
 
   const emailPattern = /^[0-9]{10}@lamduan\.mfu\.ac\.th$/;
   const adminEmailPattern = /^[0-9]{10}@lamduan\.mfu\.admin\.ac\.th$/;
@@ -51,6 +51,8 @@ exports.registerNewUser = async (req, res) => {
       username: username,
       password: hashedPassword,
       role: role,
+      phnumber: phnumber,
+      memberID: memberid,
     });
     return res.status(200).json({
       isSuccess: true,
@@ -116,7 +118,7 @@ exports.checkCurrentUser = async (req, res) => {
   // console.log(USER_ID);
   try {
     const CurrentLoginUser = await Users.findById(USER_ID).select(
-      "email role status username"
+      "email role status username memberID phnumber"
     );
     if (!CurrentLoginUser) {
       throw new Error("Unauthorized user found");

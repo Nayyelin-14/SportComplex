@@ -25,6 +25,8 @@ router.post(
       .withMessage("Enter email")
       .isEmail()
       .withMessage("Enter a valid email"),
+    body("phnumber").trim().notEmpty().withMessage("Enter phone number"),
+    body("memberid").trim().notEmpty().withMessage("Enter valid ID"),
   ],
   UserController.registerNewUser
 );
