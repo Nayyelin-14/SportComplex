@@ -19,7 +19,7 @@ app.use(authRoute);
 app.use(bookingRoute);
 app.use(adminRoute);
 app.use("/", uploadRoute);
-app.use("/", newsRoutes);
+// app.use("/", newsRoutes);
 
 const port = 4500;
 

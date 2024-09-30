@@ -8,9 +8,9 @@ router.use(
   express.static(path.join(__dirname, "../upload/images"))
 );
 
-router.post("/upload", upload.single("news"), (req, res) => {
+router.post("/admin/upload", upload.single("news"), (req, res) => {
   console.log(`File uploaded to: ${req.file.path}`);
-  res.json({
+  return res.json({
     success: 1,
     image_url: `http://localhost:${req.app.get("port")}/images/${
       req.file.filename
