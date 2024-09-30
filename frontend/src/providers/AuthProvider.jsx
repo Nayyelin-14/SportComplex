@@ -29,7 +29,7 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       // if(user.role)
       if (!allowedRoles.includes(response.currentUser.role)) {
         message.error("Admin can't place booking");
-        navigate("/booking");
+        navigate("/");
         return;
       }
 
