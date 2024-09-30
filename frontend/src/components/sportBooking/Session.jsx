@@ -8,11 +8,17 @@ import { getdiff_Bookings } from "../../apiEndpoints/booking";
 import { message } from "antd";
 // import { setSportType } from "../../store/typeSlice";
 
-const Session = ({ session_time, sportType, bookings }) => {
+const Session = ({
+  session_time,
+  sportType,
+
+  infos,
+  fetchBookings,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
-  console.log(user.role);
+  // console.log(user.role);
   const setSession = (time) => {
     if (user.role === "Admin") {
       navigate("/booking");
@@ -22,32 +28,15 @@ const Session = ({ session_time, sportType, bookings }) => {
       navigate("/bookingform");
     }
   };
-  // const { selectedTime } = useSelector((state) => state.booking);
-  // console.log(selectedTime);
-  const [infos, setInfos] = useState([]);
-
-  const fetchBookings = async (sportType) => {
-    try {
-      const response = await getdiff_Bookings(sportType);
-      // console.log(response.bookings);
-      // Clear any previous messages
-
-      if (response.isSuccess) {
-        // Check if message has been shown already
-        // message.success(response.message);
-
-        setInfos(response.bookings);
-      }
-    } catch (error) {
-      console.error("Error fetching bookings:", error);
-    }
-  };
   useEffect(() => {
     if (sportType) {
       fetchBookings(sportType);
     }
   }, [sportType]);
-  console.log(infos);
+  // const { selectedTime } = useSelector((state) => state.booking);
+  // console.log(selectedTime);
+
+  // console.log(infos);
   return (
     <div className="flex  gap-3 mt-6">
       {session_time.map((time, index) => (
@@ -66,7 +55,8 @@ const Session = ({ session_time, sportType, bookings }) => {
           <hr className="my-3" />
           {/* Display the bookings for each session */}
           <div className="ml-4">
-            {/* infos htl ka time twy htl mhr session_time nk tuu pee book htr tr twy ko pya */}
+            {/* infos htl ka time twy htl mhr session_time nk tuu pee book htr tr
+            twy ko pya */}
             {infos[time] && infos[time].length > 0 ? (
               infos[time].map((booking, i) => (
                 <div key={i} className="py-2">
