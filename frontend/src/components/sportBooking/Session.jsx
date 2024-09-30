@@ -12,6 +12,7 @@ const Session = ({ session_time, sportType, bookings }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
+  console.log(user.role);
   const setSession = (time) => {
     if (user.role === "Admin") {
       navigate("/booking");
@@ -46,7 +47,7 @@ const Session = ({ session_time, sportType, bookings }) => {
       fetchBookings(sportType);
     }
   }, [sportType]);
-
+  console.log(infos);
   return (
     <div className="flex  gap-3 mt-6">
       {session_time.map((time, index) => (

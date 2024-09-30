@@ -48,7 +48,16 @@ const App = () => {
                 </AuthProvider>
               }
             />
-            <Route path="/booking" element={<Booking />} />
+            <Route
+              path="/booking"
+              element={
+                <AuthProvider
+                  allowedRoles={["Student", "Staff", "Lecturer", "Outsider"]}
+                >
+                  <Booking />
+                </AuthProvider>
+              }
+            />
 
             <Route
               path="/bookingform"
