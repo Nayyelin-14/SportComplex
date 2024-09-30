@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Bookingdashboard from "../../components/admin/Bookingdashboard";
 import UsersDashboard from "../../components/admin/UsersDashboard";
 import CreateNews from "../../components/admin/CreateNews";
+import ManageNews from "../../components/admin/ManageNews";
 import { message, Tabs } from "antd";
 import "../../custom.css";
 import {
@@ -10,6 +11,7 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { getallBookings, getAllUsers } from "../../apiEndpoints/admin";
+
 const Adminpage = () => {
   const [allusers, setAllusers] = useState([]);
   const [allbookings, setAllbookings] = useState([]);
@@ -80,6 +82,17 @@ const Adminpage = () => {
         </div>
       ),
       children: <CreateNews />,
+    },
+
+    {
+      key: "4",
+      label: (
+        <div className=" p-4 flex items-center gap-2">
+          <InformationCircleIcon className="w-6 h-6" />
+          <p>Manage News</p>
+        </div>
+      ),
+      children: <ManageNews/>,
     },
   ];
 

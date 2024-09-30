@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { setUser } from "../store/userSlice";
 import { setLoader } from "../store/loaderSlice";
 import ClipLoader from "react-spinners/ClipLoader";
+
 const AuthProvider = ({ children, allowedRoles = [] }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

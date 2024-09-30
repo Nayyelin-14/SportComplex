@@ -14,6 +14,7 @@ export default {
         secondary: "#2f4e03",
         dark: "#1e1e1e",
         light: "#f5f5f5",
+        background: "#404040"
       },
       backgroundImage: {
         'custom-svg': "url('/src/assets/pattern-randomized.svg')",
