@@ -1,6 +1,18 @@
-const News = require("../models/newsModel");
-const path = require("path");
-const fs = require("fs");
+const News = require('../models/newsModel'); // Adjust the path as necessary
+
+exports.getAllNews = async (req, res) => {
+  try {
+    const news = await News.find(); // Fetch all news from the database
+    return res.status(200).json({
+      isSuccess: true,
+      message: 'Fetched all news',
+      news: news,
+    });
+  } catch (error) {
+    return res.status(500).json({ isSuccess: false, message: error.message });
+  }
+};
+
 
 // Add New
 // exports.addNew = async (req, res) => {
@@ -75,14 +87,4 @@ const fs = require("fs");
 //     res.status(500).json({ success: false, message: error.message });
 //   }
 // };
-
-// Get all News
-exports.getAllNews = async (req, res) => {
-  try {
-    let news = await News.find({});
-    res.json(news);
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
 

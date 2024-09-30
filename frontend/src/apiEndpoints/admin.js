@@ -89,7 +89,7 @@ export const removeNews = async (newsid) =>{
 
 export const upload_img = async (formData) => {
   try{
-    const response = await instance.post("/upload", formData);
+    const response = await instance.post("/admin/upload", formData);
     return response.data;
   }catch (error){
     return error.message;

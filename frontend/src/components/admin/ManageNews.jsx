@@ -3,7 +3,7 @@ import {
     removeNews,
     getAllNews
   } from "../../apiEndpoints/admin";
-  import { message } from "antd";
+import { message } from "antd";
 
 const ManageNews = () => {
     const [allNews, setAllNews] = useState([]); // State to store the news

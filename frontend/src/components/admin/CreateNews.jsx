@@ -44,13 +44,12 @@ const CreateNews = () => {
 
     let formData = new FormData();           //uploading image using FormData
     formData.append('news',image);
-    let responseData;
 
     try{
-      responseData = await upload_img(formData);
+      const response = await upload_img(formData);
         message.success("Upload Successfully");
-        console.log(responseData);
-        newsData.image = responseData.image_url;
+        console.log(response);
+        newsData.image = response.image_url;
         console.log(newsData);
     }catch(error){
       message.error("An error occurred: " + error.message);
