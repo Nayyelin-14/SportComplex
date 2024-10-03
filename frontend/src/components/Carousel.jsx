@@ -1,29 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Img from "../assets/mfulogo.png";
-const ServicesData = [
-  {
-    id: 1,
-    img: Img,
-    name: "Out Thar",
-    description:
-      "Lorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet.",
-  },
-  {
-    id: 2,
-    img: Img,
-    name: "Oppa",
-    description:
-      "Lorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet",
-  },
-  {
-    id: 3,
-    img: Img,
-    name: "Oppa Out Thar",
-    description:
-      "Lorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet",
-  },
-];
+import { NewsContext } from "./newsContext/NewsContext";
+import { Link } from "react-router-dom";
+
 const Carousel = () => {
+  const { allNews, loading } = useContext(NewsContext);
+
+  const featuredNews = allNews.slice(-3);
+  console.log(featuredNews);
+
   return (
     <>
       <span id="services"></span>
@@ -37,29 +22,31 @@ const Carousel = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-14 md:gap-5 place-items-center">
-            {ServicesData.map((service, index) => (
-              <div
-                key={index}
-                data-aos="zoom-in"
-                data-aos-duration="300"
-                className="rounded-2xl bg-white hover:bg-primary dark:hover:bg-primary hover:text-white relative shadow-xl duration-high group max-w-[300px]"
-              >
-                <div className="h-[100px]">
-                  <img
-                    src={service.img}
-                    alt=""
-                    className="max-w-[100px] block mx-auto transform -translate-y-14
+            {featuredNews.map((news) => (
+              <Link to={`/news/${news.id}`}>
+                <div
+                  key={news.id}
+                  data-aos="zoom-in"
+                  data-aos-duration="300"
+                  className="rounded-2xl bg-white hover:bg-primary dark:hover:bg-primary hover:text-white relative shadow-xl duration-high group max-w-[300px]"
+                >
+                  <div className="h-[100px]">
+                    <img
+                      src={Img}
+                      alt=""
+                      className="max-w-[100px] block mx-auto transform -translate-y-14
                   group-hover:scale-105 group-hover:rotate-6 duration-300"
-                  />
+                    />
+                  </div>
+                  <div className="p-4 text-center">
+                    <div className="w-full "></div>
+                    <h1 className="text-lg font-bold">{news.title}</h1>
+                    <p className="text-gray-500 group-hover:text-white duration-high text-sm pt-3 line-clamp-2">
+                      {news.featuredline}
+                    </p>
+                  </div>
                 </div>
-                <div className="p-4 text-center">
-                  <div className="w-full "></div>
-                  <h1 className="text-xl font-bold">{service.name}</h1>
-                  <p className="text-gray-500 group-hover:text-white duration-high text-sm line-clamp-2">
-                    {service.description}
-                  </p>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

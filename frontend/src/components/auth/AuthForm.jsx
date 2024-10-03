@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 const AuthForm = ({ isLoginPage }) => {
+  
   const { submitting, setSubmitting } = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const AuthForm = ({ isLoginPage }) => {
         {/* left sidee */}
         <div className="w-1/2">hi there</div>
         {/* right side */}
-        <div className="w-1/2 bg-red-600">
+        <div className="w-1/2">
           <Form
             layout="vertical"
             initialValues={{ email: "", password: "" }}

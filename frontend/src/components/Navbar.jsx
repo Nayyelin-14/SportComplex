@@ -13,6 +13,7 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+
 const Menu = [
   {
     id: 1,
@@ -22,16 +23,22 @@ const Menu = [
   {
     id: 2,
     name: "News",
-    link: "/news",
+    link: `/news`,
   },
   {
     id: 3,
+    name: "Booking",
+    link: "/booking",
+  },
+  {
+    id: 4,
     name: "About",
     link: "/about",
   },
 ];
 
 const Navbar = () => {
+
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
 
@@ -79,11 +86,15 @@ const Navbar = () => {
             <div onClick={() => setnavmenu("Home")}>
               <Link
                 to={Menu[0].link}
-                className="text-base justify-center items-center sm:text-xl flex gap-2"
+                className="justify-center items-center flex gap-2"
               >
-                <img src={Logo} alt="Logo" className="w-11" />
-                MFU
-                <br /> Sports Complex
+                <img src={Logo} alt="Logo" className="w-12" />
+                <div >
+                  <h1 className="text-base sm:text-xl">MFU</h1>
+                  <p className="text-sm sm:text-base text-yellow-500 font-bold">
+                    Sports Complex
+                  </p>
+                </div>
               </Link>
             </div>
 

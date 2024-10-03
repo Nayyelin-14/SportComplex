@@ -25,7 +25,7 @@ const Booking = () => {
   }, []);
 
   return (
-    <div className="mb-96">
+    <div className="mb-20">
       <h1>
         <DateDisplay />
       </h1>
