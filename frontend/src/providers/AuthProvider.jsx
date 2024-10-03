@@ -28,7 +28,7 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       }
       // if(user.role)
       if (!allowedRoles.includes(response.currentUser.role)) {
-        message.error("Admin can't place booking");
+        // message.error("Admin can't place booking");
         navigate("/");
         return;
       }
@@ -40,7 +40,7 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
           dispatch(setUser(null));
           navigate("/login");
 
-          throw new Error("Uaunthorized");
+          throw new Error("Unauthorized");
         }
       }
       dispatch(setLoader(false));
@@ -63,7 +63,6 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       expireLoginToken();
     } else {
       navigate("/login");
-      message.error("Unauthorized");
       dispatch(setLoader(false)); // Make sure to stop the loader
     }
   }, [token]);

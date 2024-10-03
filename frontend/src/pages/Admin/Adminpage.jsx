@@ -11,37 +11,48 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { getallBookings, getAllUsers } from "../../apiEndpoints/admin";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../store/loaderSlice";
 
 const Adminpage = () => {
+  const navigate = useNavigate();
   const [allusers, setAllusers] = useState([]);
   const [allbookings, setAllbookings] = useState([]);
+  const dispatch = useDispatch();
   const fetchAllusers = async () => {
     try {
+      dispatch(setLoader(true));
       const response = await getAllUsers();
 
       if (response.isSuccess) {
         // message.success(response.message);
         setAllusers(response.allusers_DOC);
       } else {
+        navigate("/");
         throw new Error(response.message);
       }
     } catch (error) {
       message.error(error.message);
     }
+    dispatch(setLoader(false));
   };
   const fetchallbookings = async () => {
     try {
+      dispatch(setLoader(true));
       const response = await getallBookings();
 
       if (response.isSuccess) {
         // message.success(response.message);
         setAllbookings(response.allBookings_doc);
       } else {
+        navigate("/");
         throw new Error(response.message);
       }
     } catch (error) {
       message.error(error.message);
     }
+    dispatch(setLoader(false));
   };
 
   useEffect(() => {
@@ -92,7 +103,7 @@ const Adminpage = () => {
           <p>Manage News</p>
         </div>
       ),
-      children: <ManageNews/>,
+      children: <ManageNews />,
     },
   ];
 
