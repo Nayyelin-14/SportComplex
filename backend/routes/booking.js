@@ -20,6 +20,9 @@ router.post(
       .isLength({ min: 8 })
       .withMessage("Phone number must have at least 8 characters"),
     body("studentid")
+      // .if((value, { req }) =>
+      //   ["Student", "Staff", "Lecturer"].includes(req.body.role)
+      // )
       .trim()
       .notEmpty()
       .withMessage("Enter valid id")
