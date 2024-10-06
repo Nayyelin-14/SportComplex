@@ -34,7 +34,7 @@ const Hero = () => {
                 complex has everything you need to elevate your game.
               </p>
               <Link to={"/booking"}>
-                <button className="p-3 bg-secondary rounded-2xl cursor-pointer font-medium text-white w-40 hover:bg-white hover:border-2 border-red-800 hover:text-red-800 ">
+                <button className="p-3 bg-red-900 rounded-lg cursor-pointer font-medium text-white w-40 hover:bg-white hover:border-2 border-red-800 hover:text-red-800 ">
                   Book Now
                 </button>
               </Link>
