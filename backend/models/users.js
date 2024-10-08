@@ -32,6 +32,10 @@ const usersSchema = new Schema(
       type: String,
       required: true,
     },
+    lastEditTime: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

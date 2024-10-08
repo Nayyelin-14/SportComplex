@@ -35,3 +35,15 @@ export const getCurrentUser = async () => {
     return error.message;
   }
 };
+
+export const updateInfo = async (payload) => {
+  try {
+    const response = await instance.post("/updateInfo", payload, {
+      validateStatus: () => true,
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};

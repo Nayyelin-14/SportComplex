@@ -56,4 +56,28 @@ router.get(
   authMiddleware,
   UserController.checkCurrentUser
 );
+
+router.post(
+  "/updateInfo",
+  [
+    body("username")
+      .trim()
+      .notEmpty()
+      .withMessage("Enter username")
+      .isLength({ min: 3 })
+      .withMessage("Username must have at least 3 characters"),
+    body("email")
+      .trim()
+      .normalizeEmail()
+      .notEmpty()
+      .withMessage("Enter email")
+      .isEmail()
+      .withMessage("Enter a valid email"),
+    body("phnumber").trim().notEmpty().withMessage("Enter phone number"),
+    body("memberid").trim().notEmpty().withMessage("Enter valid ID"),
+  ],
+  authMiddleware,
+  UserController.updateUser
+);
+
 module.exports = router;
