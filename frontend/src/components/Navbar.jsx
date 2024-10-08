@@ -180,7 +180,7 @@ const Navbar = () => {
 
       {/* /tags for profile/ */}
       {user && profileMenu && (
-        <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999]">
+        <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999] hidden sm:block">
           {/* / */}
 
           {user && user.role === "Admin" && (
@@ -237,6 +237,8 @@ const Navbar = () => {
         setOpenmenu={setOpenmenu}
         Menu={Menu}
         user={user}
+        profilepage={profilepage}
+        Adminprofilepage={Adminprofilepage}
         LogoutHandler={LogoutHandler}/>
       )}
     </>

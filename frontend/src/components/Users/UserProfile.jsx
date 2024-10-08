@@ -51,8 +51,8 @@ const UserProfile = () => {
             />
           </div>
           <div>
-            <h3 className="font-semibold text-3xl mt-3">{user.username}</h3>
-            <p className="text-[16px] text-gray-400 mt-1">{user.role}</p>
+            <h3 className="font-semibold text-lg mt-3 sm:text-2xl">{user.username}</h3>
+            <p className="text-sm sm:text-base text-gray-400">{user.role}</p>
           </div>
         </div>
         <div>

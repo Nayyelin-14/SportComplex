@@ -41,10 +41,10 @@ const News = () => {
             data-aos-once="true"
             className="flex flex-col justify-center gap-4 pt-12 sm:pt-0 text-center text-white sm:text-left order-2 sm:order-1"
           >
-            <h1 className="text-3xl sm:text-3xl lg:text-4xl font-bold">
+            <h1 className="text-3xl pt-8 sm:text-3xl lg:text-4xl font-bold">
               What's new around campus?
             </h1>
-            <p className="text-2sm sm:text-sm lg:text-base ">
+            <p className="text-2sm pb-8 sm:text-sm lg:text-base ">
               Discover a vibrant hub for fitness and sports at our Campus Sports
               Complex. With top-notch facilities including fitness centers,
               courts, pools, and tracks, it's the perfect place to stay active,

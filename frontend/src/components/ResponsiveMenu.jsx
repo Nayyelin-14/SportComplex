@@ -1,25 +1,57 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const ResponsiveMenu = ({ openmenu, setOpenmenu, Menu, user, LogoutHandler }) => {
+const ResponsiveMenu = ({
+  openmenu,
+  setOpenmenu,
+  Menu,
+  user,
+  LogoutHandler,
+  profilepage,
+  Adminprofilepage,
+}) => {
   const [navmenu, setnavmenu] = useState(null);
   const location = useLocation();
 
   const handleNavigation = (link) => {
     setnavmenu(link);
-    setOpenmenu(false); 
+    setOpenmenu(false);
   };
 
   return (
     <>
-
       <div
         className={`${
-          openmenu ? "top-20 opacity-100" : "top-[-100%] opacity-0"
+          openmenu ? "top-[95px] opacity-100" : "top-[-100%] opacity-0"
         } h-auto w-full bg-white/40 backdrop-blur-md fixed top-0 z-40 transition-all duration-300 ease-in-out`}
       >
         <nav className="my-10 text-center text-lg ">
           <ul className="space-y-10">
+
+                {user && user.role === "Admin" && (
+                  <li
+                    onClick={Adminprofilepage}
+                  >
+                    <button className="inline-block py-4 px-4 hover:text-yellow-500">
+                      Dashboard
+                    </button>
+                  </li>
+                )}
+                {user &&
+                  ["Student", "Staff", "Lecturer", "Outsider"].includes(
+                    user.role
+                  ) && (
+                    <>
+                      <li
+                        onClick={profilepage}
+                      >
+                        <button className="inline-block px-4 hover:text-yellow-500">
+                          Profile
+                        </button>
+                      </li>
+                    </>
+                  )}
+
             {Menu.map((menu) => (
               <li key={menu.id} onClick={() => handleNavigation(menu.name)}>
                 <Link
@@ -63,4 +95,3 @@ const ResponsiveMenu = ({ openmenu, setOpenmenu, Menu, user, LogoutHandler }) =>
 };
 
 export default ResponsiveMenu;
-
