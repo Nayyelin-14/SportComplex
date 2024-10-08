@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Card, Avatar, Button, Form, Input, Row, Col, message } from "antd";
-import { EditOutlined, UserOutlined } from "@ant-design/icons";
+import { EditOutlined, UserOutlined, BookOutlined } from "@ant-design/icons";
 import complex from "./complex.jpg";
 import { useSelector } from "react-redux";
 import Editprofile from "./Editprofile";
+import { Link } from "react-router-dom";
+
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   //   const [user, setUser] = useState({
@@ -55,21 +57,38 @@ const UserProfile = () => {
             <p className="text-[12px] text-gray-400 mt-1">role - {user.role}</p>
           </div>
         </div>
-        <div>
-          {isEditing ? (
-            <div>
-              <Editprofile setIsEditing={setIsEditing} isEditing={isEditing} />
-            </div>
-          ) : (
-            <Button
-              type="primary"
-              icon={<EditOutlined />}
-              onClick={onEdit}
-              className="mt-4"
-            >
-              Edit Profile
-            </Button>
-          )}
+        <div className="flex flex-col items-start gap-1 sm:flex sm:gap-2 sm:flex-row sm:items-start mt-2">
+          <div className="z-1000">
+            {isEditing ? (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                <div className="bg-white p-8 rounded-lg w-full max-w-2xl">
+                  <Editprofile
+                    setIsEditing={setIsEditing}
+                    isEditing={isEditing}
+                  />
+                </div>
+              </div>
+            ) : (
+              <Button
+                icon={<EditOutlined />}
+                onClick={onEdit}
+                className=" bg-red-900 border px-6 p-4 text-white font-medium"
+              >
+                Edit Profile
+              </Button>
+            )}
+          </div>
+
+          <div className="z-1">
+            <Link to="/booking">
+              <Button
+                icon={<BookOutlined />}
+                className=" hover:bg-white bg-blue-600  text-white font-medium"
+              >
+                Place booking
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

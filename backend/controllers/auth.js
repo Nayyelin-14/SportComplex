@@ -118,7 +118,7 @@ exports.checkCurrentUser = async (req, res) => {
   // console.log(USER_ID);
   try {
     const CurrentLoginUser = await Users.findById(USER_ID).select(
-      "email role status username memberID phnumber"
+      "email role status username memberID phnumber lastEditTime"
     );
     if (!CurrentLoginUser) {
       throw new Error("Unauthorized user found");
@@ -128,6 +128,48 @@ exports.checkCurrentUser = async (req, res) => {
       isSuccess: true,
       currentUser: CurrentLoginUser,
       message: "Authorized User",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      isSuccess: false,
+      message: error.messsage,
+    });
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  const errors = validationResult(req);
+  // console.log(errors.array()[0]);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      isSuccess: false,
+      message: errors.array()[0].msg,
+    });
+  }
+  const { USER_ID } = req;
+  const { username, email, role, phnumber, memberid } = req.body;
+  try {
+    const update_userDoc = await Users.findByIdAndUpdate(
+      USER_ID,
+      {
+        // Data to update
+        lastEditTime: new Date(),
+        username,
+        email,
+        role,
+        phnumber,
+        memberID: memberid, // Ensure field name matches your database schema
+      },
+      { new: true }
+    );
+    console.log(update_userDoc);
+    if (!update_userDoc) {
+      throw new Error("Something went wrong");
+    }
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Updated successfully",
+      update_userDoc,
     });
   } catch (error) {
     return res.status(400).json({
