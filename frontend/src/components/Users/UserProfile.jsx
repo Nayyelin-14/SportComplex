@@ -30,12 +30,12 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="relative md:max-w-5xl md:mx-auto">
-      <div className="md:max-w-5xl md:mx-auto ">
+    <div className="container py-10 md:max-w-5xl md:mx-auto">
+      <div className="md:max-w-5xl md:mx-auto items-center">
         <img
           src={complex}
           alt=""
-          className="w-full object-covver md:h-[420px] rounded-lg"
+          className="w-full object-cover h-[200px] md:h-[250px] rounded-3xl"
         />
       </div>
       <div className="flex gap-14 items-start md:max-w-5xl md:mx-auto md:flex md:items-start md:gap-24 justify-between px-2">
@@ -52,7 +52,7 @@ const UserProfile = () => {
           </div>
           <div>
             <h3 className="font-semibold text-3xl mt-3">{user.username}</h3>
-            <p className="text-[12px] text-gray-400 mt-1">role - {user.role}</p>
+            <p className="text-[16px] text-gray-400 mt-1">{user.role}</p>
           </div>
         </div>
         <div>

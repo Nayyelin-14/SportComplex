@@ -16,3 +16,38 @@
 .custom-checkbox .ant-checkbox-checked::after {
   border-color: white; /* Checkmark color */
 }
+
+/* Custom CSS for Ant Design Tabs */
+
+/* Base styles for each tab */
+.custom-tabs .ant-tabs-tab {
+  @apply text-lg font-medium text-gray-600; /* Default text and font */
+  border-left: 4px solid transparent !important; /* Remove default border */
+  padding: 1rem; /* Increase padding for broader column */
+}
+
+/* Active tab - set left border when the tab is active */
+.custom-tabs .ant-tabs-tab-active {
+  border-right: 4px solid #7d2923 !important; /* Set custom active border */
+  background-color: transparent !important; /* Remove background color */
+}
+
+/* Remove blue hover effect and set custom hover border */
+.custom-tabs .ant-tabs-tab:hover {
+  border-right: 4px solid #7d2923 !important; /* Custom hover border */
+}
+
+/* Additional specific styles to remove hover/active blue border */
+.custom-tabs .ant-tabs-nav .ant-tabs-tab-active {
+  border-right: none !important; /* Remove the default right border */
+}
+
+.custom-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #7d2923 !important; /* Set active text color */
+}
+
+/* Remove hover color and border-right from Ant Design's default behavior */
+.custom-tabs .ant-tabs-nav .ant-tabs-tab:hover {
+  color: #7d2923 !important; /* Change hover text color */
+  border-right: none !important; /* Remove blue border-right on hover */
+}

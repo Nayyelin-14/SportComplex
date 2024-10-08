@@ -126,7 +126,11 @@ const BookingIndex = ({ bookings }) => {
       tabPosition="left"
       size="large"
       activeKey={activetabKey}
+      tabBarStyle={{
+        borderBottom: '4px solid #7d2923', // Bottom border for the entire tab bar
+      }}
       onChange={(key) => handleTabChange(key)}
+      className="custom-tabs"
     />
   );
 };

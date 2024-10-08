@@ -13,6 +13,7 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import ResponsiveMenu from "./ResponsiveMenu";
 
 const Menu = [
   {
@@ -231,54 +232,62 @@ const Navbar = () => {
       {/* //// */}
       {/* sidebar */}
       {openmenu && (
-        <div className="absolute bg-red-600 h-screen w-fit right-0 z-100">
-          <div className="flex justify-between items-center gap-4">
-            <ul className=" lg:flex items-center text-sm gap-4">
-              {Menu.map((menu) => (
-                <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
-                  <Link
-                    to={menu.link}
-                    className={`inline-block py-1 px-4 ${
-                      navmenu === menu.name && location.pathname === menu.link
-                        ? "text-yellow-500"
-                        : "hover:text-yellow-500"
-                    }`}
-                  >
-                    {menu.name}
-                  </Link>
-                  {navmenu === menu.name && location.pathname === menu.link && (
-                    <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-                  )}
-                </li>
-              ))}
-              <li>
-                {user === null && (
-                  <div className="flex items-center justify-center">
-                    <Link to={"/login"}>
-                      <button className="inline-block py-1 px-1 hover:text-yellow-500 ">
-                        Sign in
-                      </button>
-                      {location.pathname === "/login" && (
-                        <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-                      )}
-                    </Link>
-                  </div>
-                )}
-                {user && (
-                  <button
-                    className="inline-block py-4 px-4 hover:text-yellow-500"
-                    onClick={LogoutHandler}
-                  >
-                    Logout
-                  </button>
-                )}
-              </li>
-            </ul>
-          </div>
-        </div>
+        <ResponsiveMenu
+        openmenu={openmenu}
+        setOpenmenu={setOpenmenu}
+        Menu={Menu}
+        user={user}
+        LogoutHandler={LogoutHandler}/>
       )}
     </>
   );
 };
 
 export default Navbar;
+
+
+{/* <div className="absolute bg-red-600 h-screen w-fit right-0 z-100">
+<div className="flex justify-between items-center gap-4">
+  <ul className=" lg:flex items-center text-sm gap-4">
+    {Menu.map((menu) => (
+      <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
+        <Link
+          to={menu.link}
+          className={`inline-block py-1 px-4 ${
+            navmenu === menu.name && location.pathname === menu.link
+              ? "text-yellow-500"
+              : "hover:text-yellow-500"
+          }`}
+        >
+          {menu.name}
+        </Link>
+        {navmenu === menu.name && location.pathname === menu.link && (
+          <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+        )}
+      </li>
+    ))}
+    <li>
+      {user === null && (
+        <div className="flex items-center justify-center">
+          <Link to={"/login"}>
+            <button className="inline-block py-1 px-1 hover:text-yellow-500 ">
+              Sign in
+            </button>
+            {location.pathname === "/login" && (
+              <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+            )}
+          </Link>
+        </div>
+      )}
+      {user && (
+        <button
+          className="inline-block py-4 px-4 hover:text-yellow-500"
+          onClick={LogoutHandler}
+        >
+          Logout
+        </button>
+      )}
+    </li>
+  </ul>
+</div>
+</div> */}
