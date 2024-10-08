@@ -11,12 +11,11 @@ const News = () => {
   return (
     <>
       <div className="container pb-8 sm:pb-0 flex flex-col sm:flex-row items-center sm:items-start justify-between">
-        <div className="sm:w-1/2">
+        <div className="sm:w-1/2 sm:text-left text-center flex flex-col sm:items-start items-center">
           <h1 className="text-3xl font-bold pt-8">MFU NEWS</h1>
-          <p className="text-primary font-bold">
-            What's new around campus?
-          </p>
+          <p className="text-primary font-bold">What's new around campus?</p>
         </div>
+
         <div className="sm:w-1/2 flex justify-center sm:justify-end">
           <Lottie
             animationData={animationData4}

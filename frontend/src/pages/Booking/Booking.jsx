@@ -25,10 +25,10 @@ const Booking = () => {
   }, []);
 
   return (
-    <div className="mb-20">
-      <h1>
+    <div className="my-8">
+      {/* <h1>
         <DateDisplay />
-      </h1>
+      </h1> */}
       <BookingIndex bookings={bookings} />
     </div>
   );
