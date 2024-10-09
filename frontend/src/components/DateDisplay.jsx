@@ -30,8 +30,8 @@ const DateDisplay = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Today's Date: {currentDate}</h2>
+    <div className="text-yellow-500 text-[14px] md:text-[18px]">
+      <h2>{currentDate}</h2>
     </div>
   );
 };

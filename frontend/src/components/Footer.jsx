@@ -5,18 +5,18 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-gray-100 rounded-lg shadow">
-        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+      <footer className="bg-gray-100 rounded-lg shadow relative z-50">
+        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 z-50">
           <div className="sm:flex sm:items-center sm:justify-between">
-            <a
-              href="https://flowbite.com/"
+            <Link
+              to="/home"
               className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
             >
               <img src={Logo} className="w-10" alt="MFU Logo" />
               <span className="self-center text-2xl whitespace-nowrap text-gray-500">
                 Sports Complex
               </span>
-            </a>
+            </Link>
             <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
               <li>
                 <Link to="/about" className="hover:underline me-4 md:me-6">

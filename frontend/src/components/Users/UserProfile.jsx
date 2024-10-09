@@ -57,40 +57,59 @@ const UserProfile = () => {
             <p className="text-sm sm:text-base text-gray-400">{user.role}</p>
           </div>
         </div>
-        <div className="flex flex-col items-start gap-1 sm:flex sm:gap-2 sm:flex-row sm:items-start mt-2">
-          <div className="z-1000">
-            {isEditing ? (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <div className="bg-white p-8 rounded-lg w-full max-w-2xl">
-                  <Editprofile
-                    setIsEditing={setIsEditing}
-                    isEditing={isEditing}
-                  />
-                </div>
-              </div>
-            ) : (
-              <Button
-                icon={<EditOutlined />}
-                onClick={onEdit}
-                className=" bg-red-900 border px-6 p-4 text-white font-medium"
-              >
-                Edit Profile
-              </Button>
-            )}
-          </div>
+      </div>
 
-          <div className="z-1">
-            <Link to="/booking">
-              <Button
-                icon={<BookOutlined />}
-                className=" hover:bg-white bg-blue-600  text-white font-medium"
-              >
-                Place booking
-              </Button>
-            </Link>
+      <div className="flex justify-between items-center rounded-2xl bg-white shadow-xl">
+          <div className="px-4 py-4">
+            <h3 className="pt-8 text-base sm:text-lg font-semibold">User Information</h3>
+            <ul className="px-4 py-4 text-sm sm:text-base">
+              <li className="grid grid-cols-1 sm:grid-cols-2 py-3">
+                <div className="font-semibold">Email:</div>
+                <div>{user.email}</div>
+              </li>
+              <li className="grid grid-cols-1 sm:grid-cols-2 py-3">
+                <div className="font-semibold">Student ID:</div>
+                <div>{user.memberID}</div>
+              </li>
+              <li className="grid grid-cols-1 sm:grid-cols-2 py-3">
+                <div className="font-semibold">Phone Number:</div>
+                <div>{user.phnumber}</div>
+              </li>
+            </ul>
+          </div>
+          <div className="flex flex-col px-4 py-2 items-start gap-1 sm:flex sm:gap-2 sm:flex-col sm:items-start mt-2">
+            <div>
+              {isEditing ? (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                  <div className="bg-white p-8 rounded-lg w-full max-w-2xl">
+                    <Editprofile
+                      setIsEditing={setIsEditing}
+                      isEditing={isEditing}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <Button
+                  icon={<EditOutlined />}
+                  onClick={onEdit}
+                  className=" bg-primary border px-6 p-4 text-white font-base sm:font-md"
+                >
+                  Edit Profile
+                </Button>
+              )}
+            </div>
+            <div className="z-1">
+              <Link to="/booking">
+                <Button
+                  icon={<BookOutlined />}
+                  className=" hover:bg-white bg-blue-600 text-white font-base sm:font-md"
+                >
+                  Place booking
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
     </div>
   );
 };

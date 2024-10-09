@@ -81,9 +81,9 @@ const Navbar = () => {
   // console.log(user);
   return (
     <>
-      <div className="shadow-md bg-primary text-white duration-200 py-2">
+      <div className="shadow-md bg-primary text-white duration-200 py-2 relative z-50">
         <div className="py-1 sm:py-2 lg:px-10 px-4">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center z-50">
             <div onClick={() => setnavmenu("Home")}>
               <Link
                 to={Menu[0].link}
@@ -164,7 +164,7 @@ const Navbar = () => {
 
             {openmenu ? (
               <XMarkIcon
-                className="h-6 w-6 text-white cursor-pointer"
+                className="h-6 w-6 text-white cursor-pointer z-50"
                 onClick={menuhandler}
               />
             ) : (

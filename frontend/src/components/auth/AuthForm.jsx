@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginaccount, registerNewUser } from "../../apiEndpoints/auth";
 import { Link } from "react-router-dom";
+import Lottie from "lottie-react";
+import animationData5 from "../../assets/Animation - 5.json";
 import { jwtDecode } from "jwt-decode";
 
 const AuthForm = ({ isLoginPage }) => {
-  
   const { submitting, setSubmitting } = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,23 +53,29 @@ const AuthForm = ({ isLoginPage }) => {
   };
 
   return (
-    <section>
-      <div className="max-w-6xl mx-auto flex my-10">
+    <section className="container">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center py-20">
         {/* left sidee */}
-        <div className="w-1/2">hi there</div>
+        <div className="hidden sm:block md:flex">
+          <Lottie
+            animationData={animationData5}
+            style={{ width: 400, height: 400 }}
+          />
+        </div>
         {/* right side */}
-        <div className="w-1/2">
+        <div>
           <Form
             layout="vertical"
             initialValues={{ email: "", password: "" }}
             onFinish={onFinishHandler}
           >
+            <div className="text-3xl pb-5 sm:pb-10 font-semibold">{isLoginPage ? <h1>Login</h1> : <h1>Sign Up</h1>}</div>
             {!isLoginPage && (
               <>
-                <div className="flex gap-[106px]">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-10">
                   <Form.Item
                     layout="horizontal"
-                    className="font-semibold w-[200px]"
+                    className="font-semibold w-full"
                     label="Role"
                     name="role"
                     rules={[
@@ -79,7 +86,7 @@ const AuthForm = ({ isLoginPage }) => {
                     ]}
                     hasFeedback
                   >
-                    <Select placeholder="Select a role" className="ml-[38px]">
+                    <Select placeholder="Select a role" className="w-full sm:w-auto">
                       <Select.Option value="Admin">Admin</Select.Option>
                       <Select.Option value="Student">Student</Select.Option>
                       <Select.Option value="Lecturer">Lecturer</Select.Option>
@@ -88,7 +95,7 @@ const AuthForm = ({ isLoginPage }) => {
                   </Form.Item>
                   <Form.Item
                     layout="horizontal"
-                    className="font-semibold"
+                    className="font-semibold w-full"
                     label="ID"
                     name="memberid"
                     rules={[
@@ -102,7 +109,7 @@ const AuthForm = ({ isLoginPage }) => {
                     <Input
                       placeholder="enter id..."
                       type="number"
-                      className="ml-[22px] w-[204px]"
+                      className="w-full sm:w-auto"
                     ></Input>
                   </Form.Item>
                 </div>
@@ -193,7 +200,7 @@ const AuthForm = ({ isLoginPage }) => {
             </div>
             <Form.Item>
               <Button
-                className="p-3 bg-red-800 rounded-lg cursor-pointer font-medium text-white"
+                className="py-5 bg-red-800 rounded-lg w-full sm:w-1/5 font-medium text-white"
                 htmlType="submit"
               >
                 {isLoginPage ? "Login" : "Sing up"}

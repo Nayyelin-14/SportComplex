@@ -20,37 +20,34 @@ const ResponsiveMenu = ({
 
   return (
     <>
+      {openmenu && (
+        <div className="fixed inset-0 z-20 bg-white/40 bg-opacity-50 backdrop-blur-md">
       <div
         className={`${
-          openmenu ? "top-[95px] opacity-100" : "top-[-100%] opacity-0"
-        } h-auto w-full bg-white/40 backdrop-blur-md fixed top-0 z-40 transition-all duration-300 ease-in-out`}
+          openmenu ? "top-[95px] opacity-100" : "top-[-100%] opacity-100"
+        } h-auto w-full bg-white/40 backdrop-blur-md fixed top-0 z-[9999] transition-all duration-300 ease-in-out`}
       >
         <nav className="my-10 text-center text-lg ">
           <ul className="space-y-10">
-
-                {user && user.role === "Admin" && (
-                  <li
-                    onClick={Adminprofilepage}
-                  >
-                    <button className="inline-block py-4 px-4 hover:text-yellow-500">
-                      Dashboard
+            {user && user.role === "Admin" && (
+              <li onClick={Adminprofilepage}>
+                <button className="inline-block py-4 px-4 hover:text-yellow-500">
+                  Dashboard
+                </button>
+              </li>
+            )}
+            {user &&
+              ["Student", "Staff", "Lecturer", "Outsider"].includes(
+                user.role
+              ) && (
+                <>
+                  <li onClick={profilepage}>
+                    <button className="inline-block px-4 hover:text-yellow-500">
+                      Profile
                     </button>
                   </li>
-                )}
-                {user &&
-                  ["Student", "Staff", "Lecturer", "Outsider"].includes(
-                    user.role
-                  ) && (
-                    <>
-                      <li
-                        onClick={profilepage}
-                      >
-                        <button className="inline-block px-4 hover:text-yellow-500">
-                          Profile
-                        </button>
-                      </li>
-                    </>
-                  )}
+                </>
+              )}
 
             {Menu.map((menu) => (
               <li key={menu.id} onClick={() => handleNavigation(menu.name)}>
@@ -90,6 +87,8 @@ const ResponsiveMenu = ({
           </ul>
         </nav>
       </div>
+      </div>
+      )}
     </>
   );
 };

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectedTime, setSportType } from "../../store/bookingSlice";
 import { getdiff_Bookings } from "../../apiEndpoints/booking";
 import { message } from "antd";
+import DateDisplay from "../DateDisplay";
 
 const Session = ({ session_time, sportType, infos, fetchBookings }) => {
   const dispatch = useDispatch();
@@ -48,24 +49,26 @@ const Session = ({ session_time, sportType, infos, fetchBookings }) => {
         <div className="sm:w-1/2 flex justify-center sm:justify-end">
         </div>
       </div>
-
+      <div className="container p-3 w-11/12 flex items-center justify-center rounded-lg bg-primary">
+        <DateDisplay/>
+      </div>
       {session_time.map((time, index) => (
         <div
           key={index}
           className="container p-3 w-11/12 rounded-lg bg-stone-200"
         >
           <div className="flex items-center justify-between">
-            <span className="text-black text-base py-2 px-5 font-semibold">{time}</span>
+            <span className="text-black text-[14px] sm:text-base py-2 px-5 font-semibold">{time}</span>
             {user.role !== "Admin" && (
               <button
-                className="text-sm sm:text-base py-2 px-4 bg-secondary rounded-2xl cursor-pointer text-white w-30 hover:bg-white hover:border-1 border-primary hover:text-primary"
+                className="text-[12px] sm:text-sm py-2 px-4 bg-secondary rounded-2xl cursor-pointer text-white w-30 hover:bg-white hover:border-1 border-primary hover:text-primary"
                 onClick={() => setSession(time)}
               >
                 Book Now
               </button>
             )}
             <button
-              className="text-sm cursor-pointer hover:border-b-2 hover:border-primary px-2"
+              className="text-[12px] cursor-pointer hover:border-b-2 hover:border-primary px-2"
               onClick={() => viewHandler(index)} // Pass the index of the session
             >
               View Bookings

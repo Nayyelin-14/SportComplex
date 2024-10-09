@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar";
 const Layout = ({ children }) => {
   return (
     <div>
-      <header>
+      <header className="z-70">
         <Navbar />
       </header>
 

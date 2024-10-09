@@ -18,6 +18,7 @@ export default {
       },
       backgroundImage: {
         'custom-svg': "url('/src/assets/pattern-randomized.svg')",
+        'mfu-bg': "url(/mfu.jpg)"
       },
       fontSize: {
         sm: ['14px', '20px'],
