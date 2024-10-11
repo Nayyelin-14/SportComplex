@@ -62,7 +62,7 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       currentUser();
       expireLoginToken();
     } else {
-      navigate("/login");
+      navigate("/");
       dispatch(setLoader(false)); // Make sure to stop the loader
     }
   }, [token]);
