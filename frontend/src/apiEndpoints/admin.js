@@ -26,8 +26,10 @@ export const getallBookings = async () => {
 
 export const restrict_user = async (userID) => {
   try {
+    // /admin/restrict-user/:userID
+    console.log(userID);
     const response = await instance.post(`/admin/restrict-user/${userID}`);
-    // console.log(response);
+    console.log(response);
     return response.data;
   } catch (error) {
     return error.message;
@@ -54,16 +56,16 @@ export const delete_user = async (userID) => {
   }
 };
 
-export const getAllNews = async () =>{
-  try{
+export const getAllNews = async () => {
+  try {
     const response = await instance.get("/admin/allnews", {
-      validateStatus: ()=>true
+      validateStatus: () => true,
     });
     return response.data;
-  } catch(error){
+  } catch (error) {
     return error.message;
   }
-}
+};
 
 export const addNews = async (newsData) => {
   try {
@@ -73,25 +75,27 @@ export const addNews = async (newsData) => {
     //  debugging
     console.error("API Error:", error);
     //  full error response
-    return { isSuccess: false, message: error.response?.data?.message || error.message };
+    return {
+      isSuccess: false,
+      message: error.response?.data?.message || error.message,
+    };
   }
 };
 
-
-export const removeNews = async (newsid) =>{
-  try{
+export const removeNews = async (newsid) => {
+  try {
     const response = await instance.post(`/admin/removenew/${newsid}`);
     return response.data;
-  }catch(error){
+  } catch (error) {
     return error.message;
   }
-}
+};
 
 export const upload_img = async (formData) => {
-  try{
+  try {
     const response = await instance.post("/admin/upload", formData);
     return response.data;
-  }catch (error){
+  } catch (error) {
     return error.message;
   }
-}
+};

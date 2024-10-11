@@ -59,7 +59,7 @@ exports.deleteUser = async (req, res) => {
     return res.status(200).json({
       isSuccess: true,
       message: "Deleted a member",
-      delete_User
+      delete_User,
     });
   } catch (error) {
     return res.status(404).json({
@@ -77,7 +77,7 @@ exports.restrictUser = async (req, res) => {
     if (!restrict_User) {
       throw new Error("User not found");
     }
-
+    // console.log("to restrict", restrict_User);
     restrict_User.status = "restricted";
     await restrict_User.save();
 
@@ -154,8 +154,7 @@ exports.addNew = async (req, res) => {
 };
 
 exports.removeNew = async (req, res) => {
-
-  console.log("newsid received:", req.params.newsid); 
+  console.log("newsid received:", req.params.newsid);
   try {
     const { newsid } = req.params;
     const newToDelete = await News.findOne({ id: newsid });

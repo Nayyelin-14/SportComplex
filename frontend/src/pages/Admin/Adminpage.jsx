@@ -22,7 +22,7 @@ const Adminpage = () => {
   const dispatch = useDispatch();
   const fetchAllusers = async () => {
     try {
-      dispatch(setLoader(true));
+      // dispatch(setLoader(true));
       const response = await getAllUsers();
 
       if (response.isSuccess) {
@@ -35,11 +35,11 @@ const Adminpage = () => {
     } catch (error) {
       message.error(error.message);
     }
-    dispatch(setLoader(false));
+    // dispatch(setLoader(false));
   };
   const fetchallbookings = async () => {
     try {
-      dispatch(setLoader(true));
+      // dispatch(setLoader(true));
       const response = await getallBookings();
 
       if (response.isSuccess) {
@@ -52,7 +52,7 @@ const Adminpage = () => {
     } catch (error) {
       message.error(error.message);
     }
-    dispatch(setLoader(false));
+    // dispatch(setLoader(false));
   };
 
   useEffect(() => {

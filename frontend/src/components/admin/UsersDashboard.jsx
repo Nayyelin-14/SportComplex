@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import emailjs from "emailjs-com";
 import Swal from "sweetalert2";
@@ -8,6 +8,7 @@ import {
   unrestrict_user,
 } from "../../apiEndpoints/admin";
 import { message } from "antd";
+import { TrashIcon } from "@heroicons/react/24/outline";
 const UsersDashboard = ({ allusers, fetchAllusers }) => {
   ///
 
@@ -201,7 +202,7 @@ const UsersDashboard = ({ allusers, fetchAllusers }) => {
                     <td
                       className={`${
                         user.role === "Admin" && `float-right`
-                      } px-6 py-4 text-center flex items-center justify-between `}
+                      } px-6 py-4 text-center flex items-center gap-2 justify-between `}
                     >
                       {user.status === "active" ? (
                         <>
@@ -211,31 +212,36 @@ const UsersDashboard = ({ allusers, fetchAllusers }) => {
                             "Outsider",
                             "Staff",
                           ].includes(user.role) && (
-                            <button
-                              type="button"
-                              className="font-sm  text-sm text-white bg-orange-600 p-1 px-4  hover:bg-orange-400 hover:text-black "
-                              onClick={() => restrictHandler(user._id)}
-                            >
-                              Restrict
-                            </button>
+                            <div className="flex gap-2 items-center">
+                              <button
+                                type="button"
+                                className="font-sm  text-sm text-white bg-orange-600 p-1 px-4  hover:bg-orange-400 hover:text-black rounded-md "
+                                onClick={() => restrictHandler(user._id)}
+                              >
+                                Restrict
+                              </button>
+                            </div>
                           )}
                         </>
                       ) : (
                         <button
                           type="button"
-                          className="font-sm  text-sm text-white bg-green-600 p-1 px-2 hover:bg-green-400 hover:text-black"
+                          className="font-sm rounded-md text-sm text-white bg-green-600 p-1 px-2 hover:bg-green-400 hover:text-black"
                           onClick={() => unrestrictHandler(user._id)}
                         >
                           Unrestrict
                         </button>
                       )}
-
-                      <button
-                        className="font-sm  text-sm text-white bg-red-700 p-1 px-2 hover:bg-red-600 hover:text-black"
-                        onClick={() => deleteHandler(user._id)}
-                      >
-                        Delete
-                      </button>
+                      {["Student", "Lecturer", "Outsider", "Staff"].includes(
+                        user.role
+                      ) && (
+                        <button
+                          className=" text-red-800 p-1 hover:text-black"
+                          onClick={() => deleteHandler(user._id)}
+                        >
+                          <TrashIcon width={20} height={20} />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
