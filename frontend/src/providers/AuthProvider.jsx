@@ -21,10 +21,12 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       const response = await getCurrentUser();
 
       if (response.isSuccess) {
-        // console.log("provider", response);
         message.success(response.message);
         // Store user data in Redux store
         dispatch(setUser(response.currentUser));
+      } else {
+        dispatch(setLoader(false));
+        return; // Stop execution here
       }
       // if(user.role)
       if (!allowedRoles.includes(response.currentUser.role)) {
@@ -34,14 +36,12 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       }
 
       if (user === null || !token) {
-        {
-          // Invalid token or user not found
-          localStorage.removeItem("token");
-          dispatch(setUser(null));
-          navigate("/login");
+        // Invalid token or user not found
+        localStorage.removeItem("token");
+        dispatch(setUser(null));
+        navigate("/login");
 
-          throw new Error("Unauthorized");
-        }
+        throw new Error("Unauthorized");
       }
       dispatch(setLoader(false));
     } catch (err) {

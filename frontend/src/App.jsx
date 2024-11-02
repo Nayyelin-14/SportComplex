@@ -47,13 +47,13 @@ const App = () => {
                 </AuthProvider>
               }
             />
-            <Route path="/news" element={<News />}/>
+            <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/about" element={<About />} />
             {/* <Route path="/events" element={<Booking />} /> */}
 
             <Route
-              path="/user-profile"
+              path="/user-profile/:userID"
               element={
                 <AuthProvider
                   allowedRoles={["Student", "Staff", "Lecturer", "Outsider"]}

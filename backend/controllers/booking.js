@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 
 const Users = require("../models/users");
 const Booking = require("../models/Booking/bookingInfo");
+const archivedBookingModel = require("../models/Booking/archivedBookings");
 
 exports.createBooking = async (req, res) => {
   const errors = validationResult(req);
@@ -41,6 +42,10 @@ exports.createBooking = async (req, res) => {
       throw new Error("Failed to get booking");
     }
     //     console.log("booking", bookingDoc);
+    // Archive the booking by creating a copy in the ArchivedBooking model
+    await archivedBookingModel.insertMany(bookingDoc);
+    // await archivedBookingModel.save();
+
     return res.status(200).json({
       isSuccess: true,
       message: "Booked successfully",
@@ -119,6 +124,31 @@ exports.getBookings = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      isSuccess: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.archiveBookings = async (req, res) => {
+  try {
+    // Retrieve all active bookings
+    const bookings = await Booking.find();
+
+    if (!bookings.length > 0) {
+      throw new Error("Error archiving bookings");
+    }
+    // Insert all active bookings into the archive collection
+    const archivedBooking_DOCs = await archivedBookingModel.insertMany(
+      bookings
+    );
+    return res.status(200).json({
+      isSuccess: true,
+      archivedBooking_DOCs: archivedBooking_DOCs,
+      message: "Bookings successfully archived.",
+    });
+  } catch (error) {
+    return res.status(404).json({
       isSuccess: false,
       message: error.message,
     });

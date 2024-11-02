@@ -39,10 +39,9 @@ const Menu = [
 ];
 
 const Navbar = () => {
-
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
-
+  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,8 +65,8 @@ const Navbar = () => {
     setProfileMenu(!profileMenu);
   };
 
-  const profilepage = () => {
-    navigate("/user-profile");
+  const profilepage = (userID) => {
+    navigate(`/user-profile/${userID}`);
     setProfileMenu(!profileMenu);
   };
   const bookingpage = () => {
@@ -90,7 +89,7 @@ const Navbar = () => {
                 className="justify-center items-center flex gap-2"
               >
                 <img src={Logo} alt="Logo" className="w-12" />
-                <div >
+                <div>
                   <h1 className="text-base sm:text-xl">MFU</h1>
                   <p className="text-sm sm:text-base text-yellow-500 font-bold">
                     Sports Complex
@@ -201,7 +200,7 @@ const Navbar = () => {
               <>
                 <div
                   className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-                  onClick={profilepage}
+                  onClick={() => profilepage(user._id)}
                 >
                   <UserCircleIcon className="w-7 text-white" />
                   <p className="text-white font-semibold cursor-pointer">
@@ -233,13 +232,14 @@ const Navbar = () => {
       {/* sidebar */}
       {openmenu && (
         <ResponsiveMenu
-        openmenu={openmenu}
-        setOpenmenu={setOpenmenu}
-        Menu={Menu}
-        user={user}
-        profilepage={profilepage}
-        Adminprofilepage={Adminprofilepage}
-        LogoutHandler={LogoutHandler}/>
+          openmenu={openmenu}
+          setOpenmenu={setOpenmenu}
+          Menu={Menu}
+          user={user}
+          profilepage={profilepage}
+          Adminprofilepage={Adminprofilepage}
+          LogoutHandler={LogoutHandler}
+        />
       )}
     </>
   );
@@ -247,8 +247,8 @@ const Navbar = () => {
 
 export default Navbar;
 
-
-{/* <div className="absolute bg-red-600 h-screen w-fit right-0 z-100">
+{
+  /* <div className="absolute bg-red-600 h-screen w-fit right-0 z-100">
 <div className="flex justify-between items-center gap-4">
   <ul className=" lg:flex items-center text-sm gap-4">
     {Menu.map((menu) => (
@@ -292,4 +292,5 @@ export default Navbar;
     </li>
   </ul>
 </div>
-</div> */}
+</div> */
+}

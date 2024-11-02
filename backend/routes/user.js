@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
-const UserController = require("../controllers/auth");
+const AuthController = require("../controllers/auth");
 const authMiddleware = require("../Middleware/auth");
+const UserController = require("../controllers/usersController");
 router.post(
   "/register",
   [
@@ -28,7 +29,7 @@ router.post(
     body("phnumber").trim().notEmpty().withMessage("Enter phone number"),
     body("memberid").trim().notEmpty().withMessage("Enter valid ID"),
   ],
-  UserController.registerNewUser
+  AuthController.registerNewUser
 );
 
 //Log into account
@@ -48,13 +49,13 @@ router.post(
       .isEmail()
       .withMessage("Enter a valid email"),
   ],
-  UserController.loginAccount
+  AuthController.loginAccount
 );
 
 router.get(
   "/get-current-user",
   authMiddleware,
-  UserController.checkCurrentUser
+  AuthController.checkCurrentUser
 );
 
 router.post(
@@ -77,7 +78,13 @@ router.post(
     body("memberid").trim().notEmpty().withMessage("Enter valid ID"),
   ],
   authMiddleware,
-  UserController.updateUser
+  AuthController.updateUser
+);
+
+router.get(
+  "/user-profile/:userId",
+  authMiddleware,
+  UserController.getUserHistory
 );
 
 module.exports = router;
