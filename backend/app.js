@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
+
 app.use(authRoute);
 app.use(bookingRoute);
 app.use(adminRoute);
@@ -25,6 +26,7 @@ app.use(newsRoutes);
 const port = 4500;
 
 app.set("port", port);
+
 mongoose.connect(process.env.MONGO_URL).then(() => {
   app.listen(port);
   console.log(`Server is running at port - ${port}`);

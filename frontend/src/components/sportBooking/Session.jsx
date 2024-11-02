@@ -42,11 +42,9 @@ const Session = ({ session_time, sportType, infos, fetchBookings }) => {
   return (
     <div className="flex flex-col gap-3 mt-0">
       <div className="container pb-8 sm:pb-5 flex flex-col sm:flex-row items-center sm:items-start justify-between">
-        <div className="sm:w-1/2">
+        <div className="sm:w-1/2 sm:text-left text-center flex flex-col sm:items-start items-center">
           <h1 className="text-3xl font-bold">{sportType}</h1>
           <p className="text-primary font-bold">Booking</p>
-        </div>
-        <div className="sm:w-1/2 flex justify-center sm:justify-end">
         </div>
       </div>
       <div className="container p-3 w-11/12 flex items-center justify-center rounded-lg bg-primary">
