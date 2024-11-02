@@ -2,7 +2,12 @@ const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/users");
-
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 //create new user when register success
 exports.registerNewUser = async (req, res) => {
   const errors = validationResult(req);
@@ -132,40 +137,29 @@ exports.checkCurrentUser = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       isSuccess: false,
-      message: error.messsage,
+      message: error.message,
     });
   }
 };
 
 exports.updateUser = async (req, res) => {
-  const errors = validationResult(req);
-  // console.log(errors.array()[0]);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      isSuccess: false,
-      message: errors.array()[0].msg,
-    });
-  }
   const { USER_ID } = req;
   const { username, email, role, phnumber, memberid } = req.body;
+
   try {
-    const update_userDoc = await Users.findByIdAndUpdate(
-      USER_ID,
-      {
-        // Data to update
-        lastEditTime: new Date(),
-        username,
-        email,
-        role,
-        phnumber,
-        memberID: memberid, // Ensure field name matches your database schema
-      },
-      { new: true }
-    );
+    let uploadedImageUrl = null;
+
+    const update_userDoc = await Users.findByIdAndUpdate(USER_ID, {
+      lastEditTime: new Date(),
+      username,
+      email,
+      role,
+      phnumber,
+      memberID: memberid,
+    });
+
+    if (!update_userDoc) throw new Error("Update failed");
     console.log(update_userDoc);
-    if (!update_userDoc) {
-      throw new Error("Something went wrong");
-    }
     return res.status(200).json({
       isSuccess: true,
       message: "Updated successfully",
@@ -174,7 +168,7 @@ exports.updateUser = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       isSuccess: false,
-      message: error.messsage,
+      message: error.message,
     });
   }
 };

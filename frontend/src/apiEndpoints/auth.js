@@ -29,7 +29,7 @@ export const getCurrentUser = async () => {
     const response = await instance.get("/get-current-user", {
       validateStatus: () => true,
     });
-    // console.log(response);
+    console.log(response);
     return response.data;
   } catch (error) {
     return error.message;
@@ -37,10 +37,21 @@ export const getCurrentUser = async () => {
 };
 
 export const updateInfo = async (payload) => {
+  console.log(payload);
   try {
     const response = await instance.post("/updateInfo", payload, {
       validateStatus: () => true,
     });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const getBookingHistory = async (userID) => {
+  try {
+    const response = await instance.get(`/user-profile/${userID}`);
     console.log(response);
     return response.data;
   } catch (error) {

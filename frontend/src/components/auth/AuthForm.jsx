@@ -25,7 +25,7 @@ const AuthForm = ({ isLoginPage }) => {
           message.success(response.message);
           localStorage.setItem("token", response.token);
 
-          console.log(response);
+          // console.log(response);
 
           // const decodedUser = jwtDecode(response.token);
           dispatch(setUser(response.LogIn_Account));
@@ -36,8 +36,8 @@ const AuthForm = ({ isLoginPage }) => {
         }
       } else {
         response = await registerNewUser(values);
-        console.log(values);
-        console.log(response);
+        // console.log(values);
+        // console.log(response);
 
         if (response.isSuccess) {
           message.success(response.message);
@@ -54,9 +54,9 @@ const AuthForm = ({ isLoginPage }) => {
 
   return (
     <section className="container">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center py-20">
-        {/* left sidee */}
-        <div className="hidden sm:block md:flex">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-16 sm:gap-10">
+        {/* left side */}
+        <div className="hidden   md:flex">
           <Lottie
             animationData={animationData5}
             style={{ width: 400, height: 400 }}
@@ -69,7 +69,9 @@ const AuthForm = ({ isLoginPage }) => {
             initialValues={{ email: "", password: "" }}
             onFinish={onFinishHandler}
           >
-            <div className="text-3xl pb-5 sm:pb-10 font-semibold">{isLoginPage ? <h1>Login</h1> : <h1>Sign Up</h1>}</div>
+            <div className="text-3xl pb-5 sm:pb-10 font-semibold">
+              {isLoginPage ? <h1>Login</h1> : <h1>Sign Up</h1>}
+            </div>
             {!isLoginPage && (
               <>
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-10">
@@ -86,7 +88,10 @@ const AuthForm = ({ isLoginPage }) => {
                     ]}
                     hasFeedback
                   >
-                    <Select placeholder="Select a role" className="w-full sm:w-auto">
+                    <Select
+                      placeholder="Select a role"
+                      className="w-full sm:w-auto"
+                    >
                       <Select.Option value="Admin">Admin</Select.Option>
                       <Select.Option value="Student">Student</Select.Option>
                       <Select.Option value="Lecturer">Lecturer</Select.Option>
@@ -200,7 +205,7 @@ const AuthForm = ({ isLoginPage }) => {
             </div>
             <Form.Item>
               <Button
-                className="py-5 bg-red-800 rounded-lg w-full sm:w-1/5 font-medium text-white"
+                className="py-5 bg-red-800 rounded-lg w-full sm:w-full font-medium text-white"
                 htmlType="submit"
               >
                 {isLoginPage ? "Login" : "Sing up"}

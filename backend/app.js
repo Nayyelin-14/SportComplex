@@ -3,14 +3,14 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 require("dotenv").config();
 const cors = require("cors");
-
+const cron = require("node-cron");
 const authRoute = require("./routes/user");
 const bookingRoute = require("./routes/booking");
 const bodyParser = require("body-parser");
 const uploadRoute = require("./routes/uploadRoute");
-const newsRoutes = require('./routes/newsRoute');
+const newsRoutes = require("./routes/newsRoute");
 const adminRoute = require("./routes/admin");
-
+const archivedbookings = require("./models/Booking/archivedBookings");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,8 +20,10 @@ app.use(bodyParser.json());
 app.use(authRoute);
 app.use(bookingRoute);
 app.use(adminRoute);
-app.use('/', newsRoutes); 
+app.use("/", newsRoutes);
 app.use(newsRoutes);
+
+cron.schedule("59 23 * * *", archivedbookings);
 
 const port = 4500;
 
