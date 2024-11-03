@@ -5,7 +5,7 @@ export const registerNewUser = async (payload) => {
     const response = await instance.post("/register", payload, {
       validateStatus: () => true,
     });
-    // console.log(response);
+
     return response.data;
   } catch (error) {
     return error.message;
@@ -17,7 +17,7 @@ export const loginaccount = async (payload) => {
     const response = await instance.post("/login", payload, {
       validateStatus: () => true,
     });
-    console.log(response);
+
     return response.data;
   } catch (error) {
     return error.message;
@@ -29,7 +29,7 @@ export const getCurrentUser = async () => {
     const response = await instance.get("/get-current-user", {
       validateStatus: () => true,
     });
-    console.log(response);
+
     return response.data;
   } catch (error) {
     return error.message;
@@ -45,7 +45,7 @@ export const updateInfo = async (formData) => {
       },
       validateStatus: () => true,
     });
-    console.log(response);
+
     return response.data;
   } catch (error) {
     return error.message;
@@ -55,7 +55,7 @@ export const updateInfo = async (formData) => {
 export const getBookingHistory = async (userID) => {
   try {
     const response = await instance.get(`/user-profile/${userID}`);
-    console.log(response);
+
     return response.data;
   } catch (error) {
     return error.message;

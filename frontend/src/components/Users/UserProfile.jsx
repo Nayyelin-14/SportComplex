@@ -3,23 +3,25 @@ import { Card, Avatar, Button, Form, Input, Row, Col, message } from "antd";
 
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import complex from "./complex.jpg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { getBookingHistory } from "../../apiEndpoints/auth";
 
 import UserSettingIndex from "./UserSettingIndex";
+import { setUser } from "../../store/userSlice";
 
 const UserProfile = () => {
   const [bookingshistory, setBookingshistory] = useState([]);
 
   const { user } = useSelector((state) => state.user);
-  console.log(user);
 
+  const dispatch = useDispatch();
   const fetchHistory = async (userID) => {
     try {
       const response = await getBookingHistory(userID);
       if (response.isSuccess) {
         setBookingshistory(response.booking_history);
+        dispatch(setUser(response.currentUser_doc));
       } else {
         throw new Error(response.message);
       }
@@ -32,39 +34,42 @@ const UserProfile = () => {
     if (user && user._id) {
       fetchHistory(user._id);
     }
-  }, [user]);
+  }, []);
   // console.log(bookingshistory);
   return (
     <div className="max-w-6xl mx-auto p-10">
-      <div>
-        <div className="flex justify-between items-center">
-          <div className="flex items-end gap-10">
-            <img
-              src={
-                user.profileImage
-                  ? user.profileImage[user.profileImage.length - 1]
-                  : complex
-              }
-              alt=""
-              className="w-[170px] h-[170px] rounded-xl"
-            />
-            <div>
-              <h4 className="text-xl font-bold">{user.username}</h4>
-              <p className="flex items-center text-lg font-bold">
-                <EnvelopeIcon className="h-7 w-7 font-bold text-gray-500 mr-2 " />
-                {user.email}
-              </p>
-            </div>
+      <div className="flex justify-between items-start md:items-center ">
+        <div className="flex-cols md:flex sm:items-end sm:gap-10 gap-4">
+          <img
+            src={
+              user.profileImage
+                ? user.profileImage[user.profileImage.length - 1]
+                : complex
+            }
+            alt=""
+            className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-black p-1"
+          />
+          <div className="mt-4  flex-cols gap-3">
+            <h4 className="text-md md:text-[20px] font-bold sm:mb-3">
+              {user.username}
+            </h4>
+            <p className="flex items-center text-sm md:text-lg text-gray-400 font-bold">
+              <EnvelopeIcon className="h-5 w-5 md:h-7 md:w-7 font-bold  mr-2 " />
+              {user.email}
+            </p>
           </div>
-          <div className="bg-red-900 w-[120px] h-[120px] flex items-center justify-center rounded-xl">
-            <div className="flex flex-col gap-4 items-center justify-center text-white font-bold">
-              <p className="text-5xl">{bookingshistory.length}</p>
-              <h3>Bookings</h3>
-            </div>
+        </div>
+        <div className="border-2 text-black border-black w-[70px] h-[70px] md:w-[100px] md:h-[100px] flex items-center justify-center rounded-md">
+          <div className="flex flex-col sm:gap-3 items-center justify-center font-bold">
+            <p className="text-lg md:text-2xl">{bookingshistory.length}</p>
+            <p className="text-[11px] md:text-[14px]">Bookings</p>
           </div>
         </div>
       </div>
-      <h1 className=" my-10 text-3xl font-bold">Account Setting</h1>
+
+      <h1 className="mt-6 text-[14px] sm:my-10 md:text-[20px] font-bold md:font-medium border-2 border-black w-fit p-2 md:p-2  text-black rounded-lg">
+        Account Setting
+      </h1>
       <div className=" ">
         <UserSettingIndex />
       </div>

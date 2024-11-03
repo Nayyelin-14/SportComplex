@@ -1,13 +1,10 @@
 const archivedBookings = require("../models/Booking/archivedBookings");
 const Users = require("../models/users");
-const cloudinary = require("cloudinary").v2;
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+
 exports.getUserHistory = async (req, res) => {
+  const { USER_ID } = req;
   const { userId } = req.params;
+
   try {
     const booking_history = await archivedBookings.find({
       bookingUser_id: userId,
@@ -16,10 +13,20 @@ exports.getUserHistory = async (req, res) => {
     if (!booking_history) {
       throw new Error("No Booking History");
     }
+
+    if (USER_ID !== userId) {
+      throw new Error("Unauthorized!!!");
+    }
+    const currentUser_doc = await Users.findById(userId);
+    if (!currentUser_doc) {
+      throw new Error("User not found");
+    }
+
     return res.status(200).json({
       isSuccess: true,
       message: "Booking history are fetched",
       booking_history,
+      currentUser_doc,
     });
   } catch (error) {
     return res.status(404).json({

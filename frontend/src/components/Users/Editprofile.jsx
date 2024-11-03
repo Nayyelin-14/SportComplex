@@ -73,6 +73,7 @@ const EditProfile = () => {
       if (response.isSuccess) {
         message.success(response.message);
         dispatch(setUser(response.update_userDoc));
+        console.log(response.update_userDoc);
       }
     } catch (error) {
       message.error(error.message); // Fixed: use error.message

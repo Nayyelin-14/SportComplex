@@ -41,7 +41,7 @@ const Menu = [
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
-  console.log(user);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
