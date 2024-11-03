@@ -36,10 +36,13 @@ export const getCurrentUser = async () => {
   }
 };
 
-export const updateInfo = async (payload) => {
-  console.log(payload);
+export const updateInfo = async (formData) => {
+  // console.log(payload);
   try {
-    const response = await instance.post("/updateInfo", payload, {
+    const response = await instance.post("/updateInfo", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
       validateStatus: () => true,
     });
     console.log(response);

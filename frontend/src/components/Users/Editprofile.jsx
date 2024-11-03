@@ -10,128 +10,171 @@ import {
   Upload,
 } from "antd";
 import "./TabBars.css";
-
 import { useDispatch, useSelector } from "react-redux";
 import { updateInfo } from "../../apiEndpoints/auth";
 import { setUser } from "../../store/userSlice";
-import { UploadOutlined, WarningOutlined } from "@ant-design/icons";
+import { PlusOutlined, WarningOutlined } from "@ant-design/icons";
 import moment from "moment";
-import complex from "./complex.jpg";
-const Editprofile = () => {
+
+const EditProfile = () => {
   const [form] = Form.useForm();
   const { user } = useSelector((state) => state.user);
-  const [iswarning, setIswarning] = useState(false);
+  const [isWarning, setIsWarning] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [fileList, setFileList] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);
 
-  const now = moment(); // Get current time
+  // Handle preview of the uploaded image
+  const handlePreview = async (file) => {
+    setPreviewImage(file.thumbUrl || file.preview);
+  };
 
-  const onfinishandler = async (values) => {
+  // Update file list on file change
+  const handleChange = ({ fileList }) => setFileList(fileList);
+
+  // Handle edit warning logic
+  useEffect(() => {
+    if (user?.lastEditTime) {
+      const now = moment();
+      const lastEditTime = moment(user.lastEditTime);
+      const timeDifference = now.diff(lastEditTime, "minutes");
+
+      if (timeDifference < 1) {
+        setIsWarning(true);
+        const timer = setTimeout(() => {
+          setIsWarning(false);
+        }, 60000); // Reset warning after 1 minute
+
+        return () => clearTimeout(timer); // Cleanup timeout
+      } else {
+        setIsWarning(false); // Reset warning if more than 1 minute has passed
+      }
+    }
+  }, [user]);
+
+  const onFinishHandler = async (values) => {
     try {
+      const formData = new FormData();
+
+      // Add image files to formData if any
+      fileList.forEach((file) => {
+        formData.append("profileImage", file.originFileObj);
+      });
+
+      formData.append("username", values.username);
+      formData.append("email", values.email);
+      formData.append("memberid", values.memberid);
+      formData.append("phnumber", values.phnumber);
+
       setLoading(true); // Set loading state
-      const response = await updateInfo(values);
+      const response = await updateInfo(formData);
+
       if (response.isSuccess) {
         message.success(response.message);
         dispatch(setUser(response.update_userDoc));
       }
     } catch (error) {
-      message.error(error.message);
+      message.error(error.message); // Fixed: use error.message
     } finally {
       setLoading(false); // Reset loading state
     }
   };
+
   // Update the form fields when user data changes
   useEffect(() => {
-    form.setFieldsValue({
-      email: user.email,
-      username: user.username,
-      role: user.role,
-      memberid: user.memberID ? user.memberID : "",
-      phnumber: user.phnumber,
-    });
+    if (user) {
+      form.setFieldsValue({
+        email: user.email,
+        username: user.username,
+        memberid: user.memberID || "",
+        phnumber: user.phnumber,
+      });
+    }
   }, [user, form]);
+
   return (
     <div>
-      <Form form={form} layout="vertical" onFinish={onfinishandler}>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinishHandler}
+        encType="multipart/form-data"
+      >
+        <Form.Item label="Upload Images">
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            beforeUpload={() => false} // Prevent automatic upload
+            multiple
+          >
+            {fileList.length < 1 && (
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            )}
+          </Upload>
+        </Form.Item>
+
+        {previewImage && (
+          <div style={{ marginTop: 20 }}>
+            <img
+              src={previewImage}
+              alt="Preview"
+              style={{
+                width: "100%",
+                maxHeight: "300px",
+                objectFit: "contain",
+              }}
+            />
+          </div>
+        )}
+
         <Form.Item
-          layout="vertical"
-          className="font-semibold"
-          label={<p className="text-[16px] sm:text-[19px] font-semibold">ID</p>}
+          label="ID"
           name="memberid"
-          rules={[{ required: true, message: "Enter valid phone number" }]}
-          hasFeedback
+          rules={[{ required: true, message: "Enter valid ID" }]}
         >
-          <Input
-            placeholder="enter id..."
-            type="number"
-            className="w-[100%] sm:h-[45px] sm:text-[17px] border-red-900 sm:border-2 h-[33px]"
-          />
+          <Input placeholder="enter id..." type="number" />
         </Form.Item>
 
         <Form.Item
-          className="font-semibold"
-          label={
-            <p className="text-[16px] sm:text-[19px] font-semibold">Username</p>
-          }
+          label="Username"
           name="username"
-          layout="vertical"
           rules={[{ required: true, message: "Enter username" }]}
-          hasFeedback
         >
-          <Input
-            placeholder="username..."
-            className="w-[100%] sm:h-[45px] sm:text-[17px] border-red-900 sm:border-2"
-          />
+          <Input placeholder="username..." />
         </Form.Item>
+
         <Form.Item
-          layout="vertical"
-          className="font-semibold"
-          label={
-            <p className="text-[16px] sm:text-[19px] font-semibold">
-              Phone Number
-            </p>
-          }
+          label="Phone Number"
           name="phnumber"
           rules={[{ required: true, message: "Enter valid phone number" }]}
-          hasFeedback
         >
-          <Input
-            className="w-[100%] sm:h-[45px] sm:text-[17px] border-red-900 sm:border-2"
-            placeholder="phnumber..."
-            type="number"
-          />
+          <Input placeholder="phnumber..." type="number" />
         </Form.Item>
 
         <Form.Item
-          className="font-semibold "
-          label={
-            <p className="text-[16px] sm:text-[19px] font-semibold">Email</p>
-          }
+          label="Email"
           name="email"
           rules={[
             { required: true, type: "email", message: "Enter valid email" },
           ]}
-          hasFeedback
         >
-          <Input
-            className="w-[100%] sm:h-[45px] sm:text-[17px] border-red-900 border-2"
-            placeholder="email..."
-          />
+          <Input placeholder="email..." />
         </Form.Item>
 
         <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="mr-2"
-            disabled={iswarning}
-          >
-            {loading ? "Saving" : "Save Changes"}
+          <Button type="primary" htmlType="submit" disabled={isWarning}>
+            {loading ? "Saving..." : "Save Changes"}
           </Button>
         </Form.Item>
       </Form>
 
-      {iswarning && (
+      {user?.lastEditTime && isWarning && (
         <div className="flex gap-2 items-center">
           <WarningOutlined className="text-red-700" />
           <p className="text-red-600 text-sm">
@@ -144,22 +187,9 @@ const Editprofile = () => {
   );
 };
 
-export default Editprofile;
+export default EditProfile;
 
 {
-  // const lastEditTime = moment(user.lastEditTime);
-  // const timeDifference = now.diff(lastEditTime, "minutes"); // Time difference in minutes
-  // now.diff(lastEditTime, "minutes") calculates the difference between the current time (now) and the lastEditTime. The "minutes" argument specifies that the result should be in minutes.
-  // console.log(lastEditTime);
-  // console.log(timeDifference);
-  // Check if 1 minute has passed since last edit
-  // if (timeDifference < 1) {
-  //   setIswarning(true);
-  //   setTimeout(() => {
-  //     setIswarning(false);
-  //   }, 60000);
-  //   return;
-  // }
   /* <Form.Item
           layout="vertical"
           className="font-semibold w-[200px]"

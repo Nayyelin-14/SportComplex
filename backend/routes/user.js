@@ -4,6 +4,7 @@ const { body } = require("express-validator");
 const AuthController = require("../controllers/auth");
 const authMiddleware = require("../Middleware/auth");
 const UserController = require("../controllers/usersController");
+const upload = require("../utils/storageConfig");
 router.post(
   "/register",
   [
@@ -78,6 +79,7 @@ router.post(
     body("memberid").trim().notEmpty().withMessage("Enter valid ID"),
   ],
   authMiddleware,
+
   AuthController.updateUser
 );
 
@@ -87,4 +89,10 @@ router.get(
   UserController.getUserHistory
 );
 
+router.post(
+  "/uploadImage",
+  authMiddleware,
+  upload.array("profileImage", 1),
+  UserController.uploadProfile_image
+);
 module.exports = router;

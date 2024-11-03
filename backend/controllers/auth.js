@@ -143,23 +143,57 @@ exports.checkCurrentUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const { USER_ID } = req;
-  const { username, email, role, phnumber, memberid } = req.body;
+  const { USER_ID } = req; // Assuming USER_ID is passed correctly from middleware
+  const { username, email, role, phnumber, memberid, lastEditTime } = req.body;
+  let secureUrlArray = [];
+  const profileImages = req.files || []; // Array of files from multer
 
   try {
-    let uploadedImageUrl = null;
+    const userDoc = await Users.findById(USER_ID);
 
-    const update_userDoc = await Users.findByIdAndUpdate(USER_ID, {
-      lastEditTime: new Date(),
-      username,
-      email,
-      role,
-      phnumber,
-      memberID: memberid,
-    });
+    // Ensure profileImage is an array
+    if (!Array.isArray(userDoc.profileImage)) {
+      userDoc.profileImage = [];
+    }
 
-    if (!update_userDoc) throw new Error("Update failed");
-    console.log(update_userDoc);
+    // Upload images to Cloudinary
+    const uploadPromises = profileImages.map(
+      (img) =>
+        new Promise((resolve, reject) => {
+          cloudinary.uploader.upload(img.path, (err, result) => {
+            if (err) {
+              reject(new Error("Cloudinary upload failed."));
+            } else {
+              secureUrlArray.push(result.secure_url);
+              resolve();
+            }
+          });
+        })
+    );
+
+    // Wait for all images to upload
+    await Promise.all(uploadPromises);
+
+    // Update the user document with the secure URLs of uploaded images
+    const update_userDoc = await Users.findByIdAndUpdate(
+      USER_ID,
+      {
+        username,
+        email,
+        role,
+        phnumber,
+        memberID: memberid,
+        lastEditTime: new Date(),
+        // $push: { profileImage: { $each: secureUrlArray } }, // Using $each for array
+        $push: { profileImage: secureUrlArray },
+      },
+      { new: true }
+    );
+    // console.log(update_userDoc);
+    if (!update_userDoc) {
+      throw new Error("User update failed.");
+    }
+
     return res.status(200).json({
       isSuccess: true,
       message: "Updated successfully",

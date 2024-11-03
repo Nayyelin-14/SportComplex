@@ -27,7 +27,7 @@ const UserProfile = () => {
       console.error("Error fetching bookings:", error);
     }
   };
-  console.log(bookingshistory);
+
   useEffect(() => {
     if (user && user._id) {
       fetchHistory(user._id);
@@ -40,7 +40,11 @@ const UserProfile = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-end gap-10">
             <img
-              src={complex}
+              src={
+                user.profileImage
+                  ? user.profileImage[user.profileImage.length - 1]
+                  : complex
+              }
               alt=""
               className="w-[170px] h-[170px] rounded-xl"
             />
