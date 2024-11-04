@@ -1,9 +1,10 @@
 import { Tabs } from "antd";
 import React, { useState, useEffect } from "react";
-import "./TabBars.css";
-import Editprofile from "./Editprofile";
 
-const UserSettingIndex = () => {
+import Editprofile from "./Editprofile";
+import BookingHistory from "./BookingHistory";
+
+const UserSettingIndex = ({ bookingshistory }) => {
   const [activeTabKey, setActiveTabKey] = useState("1");
   const [tabPosition, setTabPosition] = useState("left"); // Default tab position
   const [isEditing, setIsEditing] = useState(false);
@@ -11,7 +12,7 @@ const UserSettingIndex = () => {
     {
       key: "1",
       label: (
-        <p className="font-semibold sm:text-[19px] text-red-900 h-[50px] flex items-center">
+        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Edit Profile
         </p>
       ),
@@ -24,7 +25,7 @@ const UserSettingIndex = () => {
     {
       key: "2",
       label: (
-        <p className="font-semibold sm:text-[19px] text-red-900 h-[50px] flex items-center">
+        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Password
         </p>
       ),
@@ -33,16 +34,20 @@ const UserSettingIndex = () => {
     {
       key: "3",
       label: (
-        <p className="font-semibold sm:text-[19px] text-red-900 h-[50px] flex items-center">
+        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Booking history
         </p>
       ),
-      children: "hi",
+      children: (
+        <div>
+          <BookingHistory bookingshistory={bookingshistory} />
+        </div>
+      ),
     },
     {
       key: "4",
       label: (
-        <p className="font-semibold sm:text-[19px] text-red-900 h-[50px] flex items-center">
+        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Edit Profile
         </p>
       ),
@@ -56,7 +61,7 @@ const UserSettingIndex = () => {
 
   // Update tab position based on screen width
   const updateTabPosition = () => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 668) {
       setTabPosition("top"); // Use top position for smaller screens
     } else {
       setTabPosition("left"); // Use left position for larger screens

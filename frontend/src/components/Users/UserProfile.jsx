@@ -38,8 +38,9 @@ const UserProfile = () => {
   // console.log(bookingshistory);
   return (
     <div className="max-w-6xl mx-auto p-10">
-      <div className="flex justify-between items-start md:items-center ">
-        <div className="flex-cols md:flex sm:items-end sm:gap-10 gap-4">
+      <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between w-full lg:w-[90%] gap-4 lg:gap-32 mx-auto">
+        {/* Left Side: Image, Username, and Email */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-end gap-4 lg:w-[70%]">
           <img
             src={
               user.profileImage
@@ -49,20 +50,29 @@ const UserProfile = () => {
             alt=""
             className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-black p-1"
           />
-          <div className="mt-4  flex-cols gap-3">
+          <div className="lg:mt-4 flex flex-col items-center lg:items-start">
             <h4 className="text-md md:text-[20px] font-bold sm:mb-3">
               {user.username}
             </h4>
             <p className="flex items-center text-sm md:text-lg text-gray-400 font-bold">
-              <EnvelopeIcon className="h-5 w-5 md:h-7 md:w-7 font-bold  mr-2 " />
+              <EnvelopeIcon className="h-5 w-5 md:h-7 md:w-7 font-bold mr-2" />
               {user.email}
             </p>
           </div>
         </div>
-        <div className="border-2 text-black border-black w-[70px] h-[70px] md:w-[100px] md:h-[100px] flex items-center justify-center rounded-md">
-          <div className="flex flex-col sm:gap-3 items-center justify-center font-bold">
-            <p className="text-lg md:text-2xl">{bookingshistory.length}</p>
-            <p className="text-[11px] md:text-[14px]">Bookings</p>
+
+        {/* Right Side: Recent Bookings */}
+        <div
+          className="bg-red-900 text-white w-[100%] h-[54px] 
+        sm:w-[60%] md:w-[60%] lg:w-[15%] lg:h-[90px] flex items-center justify-center mt-4 sm:mt-0 sm:ml-4 lg:ml-10 rounded-xl"
+        >
+          <div className="flex flex-col items-center justify-center font-bold">
+            <p className=" mb-1 sm:text-lg md:text-2xl">
+              {bookingshistory.length}
+            </p>
+            <p className="text-center  text-[11px] md:text-[14px]">
+              Recent bookings
+            </p>
           </div>
         </div>
       </div>
@@ -70,8 +80,8 @@ const UserProfile = () => {
       <h1 className="mt-6 text-[14px] sm:my-10 md:text-[20px] font-bold md:font-medium border-2 border-black w-fit p-2 md:p-2  text-black rounded-lg">
         Account Setting
       </h1>
-      <div className=" ">
-        <UserSettingIndex />
+      <div className="">
+        <UserSettingIndex bookingshistory={bookingshistory} />
       </div>
     </div>
   );
@@ -176,43 +186,6 @@ export default UserProfile;
         <Button onClick={() => fetchHistory(user._id)}>
           Show booking history
         </Button>
-        <div>
-          {prevBookings ? (
-            <div>
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                  <tr>
-                    <th scope="col" className="px-6 py-3 text-center">
-                      Sport Type
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-center">
-                      Booked date
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-center">
-                      Session
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {prevBookings.map((prev_booking) => (
-                    <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b ">
-                      <td className="px-6 py-4 text-center">
-                        {prev_booking.sporttype}
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        {prev_booking.createdAt}
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        {prev_booking.session}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div>Hi there</div>
-          )}
-        </div>
+       
       </div> */
 }

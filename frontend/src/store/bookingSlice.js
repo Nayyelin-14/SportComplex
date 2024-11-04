@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const bookingInitialState = {
   selectedTime: null,
   SportType: null,
+  // bookingDate: null,
   // successBooking: null,
 };
 export const BookingSlice = createSlice({
@@ -21,6 +22,9 @@ export const BookingSlice = createSlice({
     resetSportType: (state) => {
       state.SportType = null;
     },
+    // setBookingDate: (state, action) => {
+    //   state.bookingDate = action.payload;
+    // },
   },
 });
 
@@ -29,5 +33,6 @@ export const {
   setSportType,
   resetSelectedTime,
   resetSportType,
+  // setBookingDate,
 } = BookingSlice.actions;
 export default BookingSlice.reducer;

@@ -9,12 +9,18 @@ import {
   message,
   Upload,
 } from "antd";
-import "./TabBars.css";
+
 import { useDispatch, useSelector } from "react-redux";
 import { updateInfo } from "../../apiEndpoints/auth";
 import { setUser } from "../../store/userSlice";
 import { PlusOutlined, WarningOutlined } from "@ant-design/icons";
 import moment from "moment";
+import {
+  AtSymbolIcon,
+  PhoneIcon,
+  PhotoIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 
 const EditProfile = () => {
   const [form] = Form.useForm();
@@ -102,8 +108,15 @@ const EditProfile = () => {
         onFinish={onFinishHandler}
         encType="multipart/form-data"
       >
-        <Form.Item label="Upload Images">
+        <Form.Item
+          label={
+            <p className="font-medium sm:text-[15px]md:text-[16px] lg:text-[17px] flex items-center gap-2">
+              <PhotoIcon width={20} height={20} /> Upload Images
+            </p>
+          }
+        >
           <Upload
+            className="border-2 w-fit border-black"
             listType="picture-card"
             fileList={fileList}
             onPreview={handlePreview}
@@ -135,37 +148,67 @@ const EditProfile = () => {
         )}
 
         <Form.Item
-          label="ID"
+          label={
+            <p className="font-medium sm:text-[15px]md:text-[16px] lg:text-[17px]">
+              ID
+            </p>
+          }
           name="memberid"
           rules={[{ required: true, message: "Enter valid ID" }]}
         >
-          <Input placeholder="enter id..." type="number" />
+          <Input
+            placeholder="enter id..."
+            type="number"
+            className="border-black sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium"
+          />
         </Form.Item>
 
         <Form.Item
-          label="Username"
+          label={
+            <p className="font-medium sm:text-[15px]md:text-[16px] lg:text-[17px] flex items-center gap-2">
+              <UserIcon height={20} width={20} /> Username
+            </p>
+          }
           name="username"
           rules={[{ required: true, message: "Enter username" }]}
         >
-          <Input placeholder="username..." />
+          <Input
+            placeholder="username..."
+            className="border-black sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium"
+          />
         </Form.Item>
 
         <Form.Item
-          label="Phone Number"
+          label={
+            <p className="font-medium sm:text-[15px]md:text-[16px] lg:text-[17px] flex items-center gap-2">
+              <PhoneIcon width={19} height={19} /> Phone Number
+            </p>
+          }
           name="phnumber"
           rules={[{ required: true, message: "Enter valid phone number" }]}
         >
-          <Input placeholder="phnumber..." type="number" />
+          <Input
+            placeholder="phnumber..."
+            type="number"
+            className="border-black sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium"
+          />
         </Form.Item>
 
         <Form.Item
-          label="Email"
+          label={
+            <p className="font-medium sm:text-[15px]md:text-[16px] lg:text-[17px] flex items-center gap-2">
+              <AtSymbolIcon width={20} height={20} /> Email
+            </p>
+          }
           name="email"
           rules={[
             { required: true, type: "email", message: "Enter valid email" },
           ]}
         >
-          <Input placeholder="email..." />
+          <Input
+            placeholder="email..."
+            className="border-black sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium"
+          />
         </Form.Item>
 
         <Form.Item>

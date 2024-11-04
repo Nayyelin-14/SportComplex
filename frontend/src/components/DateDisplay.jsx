@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+// import { setBookingDate } from "../store/bookingSlice";
 
 const DateDisplay = () => {
   const [currentDate, setCurrentDate] = useState("");
-
+  const dispatch = useDispatch();
   useEffect(() => {
     // Function to format and get the current date
     const getCurrentDate = () => {
@@ -19,7 +21,7 @@ const DateDisplay = () => {
 
     // Set the current date in state
     setCurrentDate(getCurrentDate());
-
+    // dispatch(setBookingDate(currentDate));
     // Update the date at midnight to reflect the new day
     const timer = setInterval(() => {
       setCurrentDate(getCurrentDate());
