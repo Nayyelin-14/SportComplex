@@ -211,8 +211,12 @@ const EditProfile = () => {
           />
         </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={isWarning}>
+        <Form.Item className="text-center">
+          <Button
+            className=" bg-red-900 p-5 text-white text-lg font-semibold w-1/2 "
+            htmlType="submit"
+            disabled={isWarning}
+          >
             {loading ? "Saving..." : "Save Changes"}
           </Button>
         </Form.Item>

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 
 import Editprofile from "./Editprofile";
 import BookingHistory from "./BookingHistory";
+import Userimages from "./userimages";
+import Resetpassword from "./Resetpassword";
 
 const UserSettingIndex = ({ bookingshistory }) => {
   const [activeTabKey, setActiveTabKey] = useState("1");
@@ -26,10 +28,14 @@ const UserSettingIndex = ({ bookingshistory }) => {
       key: "2",
       label: (
         <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
-          Password
+          Reset Password
         </p>
       ),
-      children: "hi",
+      children: (
+        <div>
+          <Resetpassword />
+        </div>
+      ),
     },
     {
       key: "3",
@@ -48,10 +54,14 @@ const UserSettingIndex = ({ bookingshistory }) => {
       key: "4",
       label: (
         <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
-          Edit Profile
+          Photos
         </p>
       ),
-      children: "hi",
+      children: (
+        <div>
+          <Userimages />
+        </div>
+      ),
     },
   ];
 

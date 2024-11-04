@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Avatar, Button, Form, Input, Row, Col, message } from "antd";
 
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
-import complex from "./complex.jpg";
+import complex from "./images/complex.jpg";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getBookingHistory } from "../../apiEndpoints/auth";
@@ -48,7 +48,7 @@ const UserProfile = () => {
                 : complex
             }
             alt=""
-            className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-black p-1"
+            className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-red-900 p-1"
           />
           <div className="lg:mt-4 flex flex-col items-center lg:items-start">
             <h4 className="text-md md:text-[20px] font-bold sm:mb-3">
@@ -64,20 +64,20 @@ const UserProfile = () => {
         {/* Right Side: Recent Bookings */}
         <div
           className="bg-red-900 text-white w-[100%] h-[54px] 
-        sm:w-[60%] md:w-[60%] lg:w-[15%] lg:h-[90px] flex items-center justify-center mt-4 sm:mt-0 sm:ml-4 lg:ml-10 rounded-xl"
+        sm:w-[60%] md:w-[60%] lg:w-[10%] lg:h-[110px] flex items-center justify-center mt-4 sm:mt-0 sm:ml-4 lg:ml-10 rounded-xl"
         >
           <div className="flex flex-col items-center justify-center font-bold">
-            <p className=" mb-1 sm:text-lg md:text-2xl">
+            <p className=" mb-1 sm:text-lg md:text-2xl text-white">
               {bookingshistory.length}
             </p>
-            <p className="text-center  text-[11px] md:text-[14px]">
+            <p className="text-center  text-[11px] md:text-[14px] text-white">
               Recent bookings
             </p>
           </div>
         </div>
       </div>
 
-      <h1 className="mt-6 text-[14px] sm:my-10 md:text-[20px] font-bold md:font-medium border-2 border-black w-fit p-2 md:p-2  text-black rounded-lg">
+      <h1 className="mt-6 text-[14px] sm:my-10 md:text-[20px] font-bold md:p-2 lg:text-xl  text-black rounded-md">
         Account Setting
       </h1>
       <div className="">
@@ -121,7 +121,7 @@ export default UserProfile;
             />
           </div>
           <div>
-            <h3 className="font-semibold text-lg mt-3 sm:text-2xl">
+            <h3 className=" text-lg mt-3 sm:text-2xl">
               {user.username}
             </h3>
             <p className="text-sm sm:text-base text-gray-400">{user.role}</p>

@@ -15,13 +15,15 @@ const BookingIndex = ({ bookings }) => {
   ];
   const [sportType, setSportType] = useState("");
   const [activetabKey, setActivetabKey] = useState("1");
-
+  const [tabPosition, setTabPosition] = useState("left");
   const updatesportType = (key) => {
     // console.log(key);
     const selectedItem = items.find((item) => {
       return item.key === key;
     });
 
+    setSportType(selectedItem.label);
+    setActivetabKey(key);
     setSportType(selectedItem.label);
     setActivetabKey(key);
   };
@@ -118,19 +120,35 @@ const BookingIndex = ({ bookings }) => {
     },
   ];
 
-  // console.log(sportType);
+  const updateTabPosition = () => {
+    if (window.innerWidth < 668) {
+      setTabPosition("top"); // Use top position for smaller screens
+    } else {
+      setTabPosition("left"); // Use left position for larger screens
+    }
+  };
+  useEffect(() => {
+    updateTabPosition(); // Set initial tab position
 
+    // Add event listener for window resizing
+    window.addEventListener("resize", updateTabPosition);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateTabPosition);
+    };
+  }, []);
   return (
     <Tabs
       items={items}
-      tabPosition="left"
+      tabPosition={tabPosition}
       size="large"
       activeKey={activetabKey}
       tabBarStyle={{
-        borderBottom: '4px solid #7d2923', // Bottom border for the entire tab bar
+        borderBottom: "4px solid #7d2923", // Bottom border for the entire tab bar
       }}
       onChange={(key) => handleTabChange(key)}
-      className="custom-tabs"
+      className="custom-tabs p-5"
     />
   );
 };
