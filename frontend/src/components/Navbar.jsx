@@ -150,13 +150,24 @@ const Navbar = () => {
                   Logout
                 </button>
               )} */}
-              {user && (
+              {user &&
+              user.role !== "Admin" &&
+              user.profileImage &&
+              user.profileImage.length > 0 ? (
+                <div className="flex items-center gap-2 ">
+                  <img
+                    src={user.profileImage[user.profileImage.length - 1]}
+                    alt=""
+                    className="w-14 h-14 p-1 border-2 border-gray-600 rounded-full object-cover cursor-pointer "
+                    onClick={openprofileMenu}
+                  />
+                </div>
+              ) : (
                 <div className="flex items-center gap-2 ">
                   <UserIcon
                     className="w-8 h-8 cursor-pointer hover:text-gray-500"
                     onClick={openprofileMenu}
                   />
-                  {/* <p>{user.username}</p> */}
                 </div>
               )}
             </div>
@@ -246,51 +257,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-{
-  /* <div className="absolute bg-red-600 h-screen w-fit right-0 z-100">
-<div className="flex justify-between items-center gap-4">
-  <ul className=" lg:flex items-center text-sm gap-4">
-    {Menu.map((menu) => (
-      <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
-        <Link
-          to={menu.link}
-          className={`inline-block py-1 px-4 ${
-            navmenu === menu.name && location.pathname === menu.link
-              ? "text-yellow-500"
-              : "hover:text-yellow-500"
-          }`}
-        >
-          {menu.name}
-        </Link>
-        {navmenu === menu.name && location.pathname === menu.link && (
-          <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-        )}
-      </li>
-    ))}
-    <li>
-      {user === null && (
-        <div className="flex items-center justify-center">
-          <Link to={"/login"}>
-            <button className="inline-block py-1 px-1 hover:text-yellow-500 ">
-              Sign in
-            </button>
-            {location.pathname === "/login" && (
-              <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-            )}
-          </Link>
-        </div>
-      )}
-      {user && (
-        <button
-          className="inline-block py-4 px-4 hover:text-yellow-500"
-          onClick={LogoutHandler}
-        >
-          Logout
-        </button>
-      )}
-    </li>
-  </ul>
-</div>
-</div> */
-}
