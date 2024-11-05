@@ -1,6 +1,11 @@
 const archivedBookings = require("../models/Booking/archivedBookings");
+const cloudinary = require("cloudinary").v2;
 const Users = require("../models/users");
-
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 exports.getUserHistory = async (req, res) => {
   const { USER_ID } = req;
   const { userId } = req.params;
@@ -36,51 +41,48 @@ exports.getUserHistory = async (req, res) => {
   }
 };
 
-exports.uploadProfile_image = async (req, res) => {
-  const profileImg = req.files;
-  const userID = req.body.editProductId;
-  let secureUrlArray = [];
-  // console.log(productImages);
-  // console.log(productId);
-  const userDOC = await Users.findOne({ _id: userID });
-  console.log(userDOC);
-  if (req.USER_ID !== userDOC._id) {
-    throw new Error("Authorization Failed.");
-  }
-
+exports.deletePhotos = async (req, res) => {
   try {
-    // Use Promise.all to wait for all uploads to complete
-    const uploadPromise = new Promise((resolve, reject) => {
-      cloudinary.uploader.upload(profileImg.path, (err, result) => {
-        // img.path: This is the file path to the image that you want to upload.
-        if (err) {
-          reject(new Error("Cloud upload Failed."));
-        } else {
-          secureUrlArray.push(result.secure_url);
-          resolve();
-          // The resolve() function is then called to indicate that the Promise has been fulfilled successfully
-        }
-      });
-    });
+    const { user_ID } = req.params;
+    const deleteImageID = req.body.deleteimgID;
 
-    await Promise.all(uploadPromise);
-    // Wait for all uploads to finish
-    if (uploadPromise.length === secureUrlArray.length) {
-      await Users.findByIdAndUpdate(userID, {
-        $push: { images: secureUrlArray },
-      });
-      return res.status(200).json({
-        isSuccess: true,
-        message: "Product images saved.",
-        secureUrlArray,
-      });
-    } else {
-      throw new Error("Failed to upload images");
+    if (!deleteImageID) {
+      return res
+        .status(400)
+        .json({ isSuccess: false, message: "Image ID is required" });
     }
-  } catch (err) {
-    return res.status(404).json({
+
+    const decodedImageID = decodeURIComponent(deleteImageID);
+
+    const public_ID_ToDelete = decodedImageID.substring(
+      decodedImageID.lastIndexOf("/") + 1,
+      decodedImageID.lastIndexOf(".")
+    );
+
+    // Cloudinary deletion
+    await cloudinary.uploader.destroy(public_ID_ToDelete);
+
+    // Remove image from user's profile in database
+    const user = await Users.findByIdAndUpdate(
+      user_ID,
+      { $pull: { profileImage: decodedImageID } },
+      { new: true }
+    );
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ isSuccess: false, message: "User not found" });
+    }
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Image successfully deleted",
+    });
+  } catch (error) {
+    return res.status(500).json({
       isSuccess: false,
-      message: err.message,
+      message: "An error occurred while deleting the image",
     });
   }
 };

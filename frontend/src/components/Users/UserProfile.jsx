@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Card, Avatar, Button, Form, Input, Row, Col, message } from "antd";
 
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
-import complex from "./images/complex.jpg";
+import { EnvelopeIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import usericon from "./images/usericon.jpg";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getBookingHistory } from "../../apiEndpoints/auth";
@@ -29,7 +29,7 @@ const UserProfile = () => {
       console.error("Error fetching bookings:", error);
     }
   };
-
+  <UserCircleIcon />;
   useEffect(() => {
     if (user && user._id) {
       fetchHistory(user._id);
@@ -41,15 +41,19 @@ const UserProfile = () => {
       <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between w-full lg:w-[90%] gap-4 lg:gap-32 mx-auto">
         {/* Left Side: Image, Username, and Email */}
         <div className="flex flex-col lg:flex-row items-center lg:items-end gap-4 lg:w-[70%]">
-          <img
-            src={
-              user.profileImage
-                ? user.profileImage[user.profileImage.length - 1]
-                : complex
-            }
-            alt=""
-            className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-red-900 p-1"
-          />
+          {user.profileImage && user.profileImage.length > 0 ? (
+            <img
+              src={user?.profileImage[user.profileImage.length - 1]}
+              alt=""
+              className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-red-900 p-1"
+            />
+          ) : (
+            <img
+              src={usericon}
+              alt=""
+              className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-red-900 p-1"
+            />
+          )}
           <div className="lg:mt-4 flex flex-col items-center lg:items-start">
             <h4 className="text-md md:text-[20px] font-bold sm:mb-3">
               {user.username}
@@ -88,104 +92,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-
-// const [form] = Form.useForm();
-
-// const onEdit = () => {
-//   setIsEditing(true);
-//   form.setFieldsValue(user); // Set initial form values to current user data
-// };
-// const onFinish = (values) => {
-//   setUser(values);
-//   setIsEditing(false);
-//   message.success("Profile updated successfully!");
-// };
-{
-  /* <div className="md:max-w-5xl md:mx-auto items-center">
-        <img
-          src={complex}
-          alt=""
-          className="w-full object-cover h-[200px] md:h-[250px] rounded-3xl"
-        />
-      </div>
-      <div className="flex gap-14 items-start md:max-w-5xl md:mx-auto md:flex md:items-start md:gap-24 justify-between px-2">
-        <div className="flex sm:gap-20 gap-10">
-          <div style={{ padding: "50px" }} className="relative">
-            <Avatar
-              size={100}
-              icon={<UserOutlined />}
-              src={user.profileImage || null}
-              alt="Profile Picture"
-              style={{ marginBottom: "20px" }}
-              className="bg-gray-800 border-4 border-white rounded-full absolute left-[80px] transform -translate-x-1/2 md:bottom-[5px] bottom-[15px] sm:left-[100px]"
-            />
-          </div>
-          <div>
-            <h3 className=" text-lg mt-3 sm:text-2xl">
-              {user.username}
-            </h3>
-            <p className="text-sm sm:text-base text-gray-400">{user.role}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-between items-center rounded-2xl bg-white shadow-xl">
-        <div className="px-4 py-4">
-          <h3 className="pt-8 text-base sm:text-lg font-semibold">
-            User Information
-          </h3>
-          <ul className="px-4 py-4 text-sm sm:text-base">
-            <li className="grid grid-cols-1 sm:grid-cols-2 py-3">
-              <div className="font-semibold">Email:</div>
-              <div>{user.email}</div>
-            </li>
-            <li className="grid grid-cols-1 sm:grid-cols-2 py-3">
-              <div className="font-semibold">Student ID:</div>
-              <div>{user.memberID}</div>
-            </li>
-            <li className="grid grid-cols-1 sm:grid-cols-2 py-3">
-              <div className="font-semibold">Phone Number:</div>
-              <div>{user.phnumber}</div>
-            </li>
-          </ul>
-        </div>
-        <div className="flex flex-col px-4 py-2 items-start gap-1 sm:flex sm:gap-2 sm:flex-col sm:items-start mt-2">
-          <div>
-            {isEditing ? (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <div className="bg-white p-8 rounded-lg w-full max-w-2xl">
-                  <Editprofile
-                    setIsEditing={setIsEditing}
-                    isEditing={isEditing}
-                  />
-                </div>
-              </div>
-            ) : (
-              <Button
-                icon={<EditOutlined />}
-                onClick={onEdit}
-                className=" bg-primary border px-6 p-4 text-white font-base sm:font-md"
-              >
-                Edit Profile
-              </Button>
-            )}
-          </div>
-          <div className="z-1">
-            <Link to="/booking">
-              <Button
-                icon={<BookOutlined />}
-                className=" hover:bg-white bg-blue-600 text-white font-base sm:font-md"
-              >
-                Place booking
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div>
-        <Button onClick={() => fetchHistory(user._id)}>
-          Show booking history
-        </Button>
-       
-      </div> */
-}
