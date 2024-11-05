@@ -104,3 +104,19 @@ export const deletePhoto = async (payload) => {
     return { isSuccess: false, message: error.message }; // Ensure error structure matches the response
   }
 };
+
+export const PasswordChange = async (payload) => {
+  const { userid } = payload;
+  console.log(payload.userid);
+  try {
+    const response = await instance.post(
+      `/user-profile/${userid}/changepassword`,
+      payload,
+      { validateStatus: () => true }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return { isSuccess: false, message: error.message };
+  }
+};

@@ -102,4 +102,10 @@ router.delete(
   UserController.deletePhotos
 );
 
+router.post(
+  "/user-profile/:userid/changepassword",
+  authMiddleware,
+  UserController.changePassword
+);
+
 module.exports = router;

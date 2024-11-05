@@ -53,11 +53,10 @@ const Userimages = () => {
   };
 
   return (
-    <div className="h-[650px] flex flex-col gap-32 justify-between">
+    <div className="lg:h-[650px] flex flex-col gap-32 justify-between">
       <div>
-        {" "}
         <p className="mb-8">Uploaded images</p>
-        <div className="flex flex-row gap-6 flex-wrap ">
+        <div className="flex flex-row gap-14 lg:gap-6 flex-wrap ">
           {currentImages.length > 0 ? (
             currentImages.map((image, index) => (
               <div

@@ -81,7 +81,7 @@ const UserProfile = () => {
         </div>
       </div>
 
-      <h1 className="mt-6 text-[14px] sm:my-10 md:text-[20px] font-bold md:p-2 lg:text-xl  text-black rounded-md">
+      <h1 className="mt-6 text-[25px] sm:my-10 md:text-[20px] font-bold md:p-2 lg:text-xl  text-black rounded-md">
         Account Setting
       </h1>
       <div className="">

@@ -179,7 +179,7 @@ const Navbar = () => {
 
       {/* /tags for profile/ */}
       {user && profileMenu && (
-        <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999] hidden sm:block">
+        <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999] hidden lg:block">
           {/* / */}
 
           {user && user.role === "Admin" && (

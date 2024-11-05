@@ -224,7 +224,7 @@ const EditProfile = () => {
 
         <Form.Item className="text-center">
           <Button
-            className="bg-red-900 p-5 text-white text-lg font-semibold w-1/2"
+            className="bg-red-900 p-5 text-white text-[17px] font-semibold w-full"
             htmlType="submit"
             disabled={isWarning}
           >

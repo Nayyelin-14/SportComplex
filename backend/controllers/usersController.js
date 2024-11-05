@@ -1,4 +1,5 @@
 const archivedBookings = require("../models/Booking/archivedBookings");
+const bcrypt = require("bcryptjs");
 const cloudinary = require("cloudinary").v2;
 const Users = require("../models/users");
 cloudinary.config({
@@ -84,5 +85,46 @@ exports.deletePhotos = async (req, res) => {
       isSuccess: false,
       message: "An error occurred while deleting the image",
     });
+  }
+};
+
+exports.changePassword = async (req, res) => {
+  const { userid } = req.params;
+  const { oldpass, confirmpass, newpass } = req.body;
+
+  try {
+    const userdoc = await Users.findById(userid);
+    if (!userdoc) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Compare oldpass with the hashed password in the database
+    const isMatch = await bcrypt.compare(oldpass, userdoc.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Old password does not match" });
+    }
+
+    if (newpass !== confirmpass) {
+      return res
+        .status(400)
+        .json({ message: "Confirm password does not match" });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newpass, salt);
+
+    // Update the user's password in the database
+    userdoc.password = hashedNewPassword;
+    await userdoc.save();
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Password updated successfully",
+      userdoc,
+    });
+  } catch (error) {
+    return res.status(500).json({ isSuccess: false, message: error.message });
   }
 };
