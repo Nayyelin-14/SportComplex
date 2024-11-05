@@ -1,14 +1,33 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-// import { FaTrashAlt } from "react-icons/fa"; // Import a trash icon from react-icons (or use any other icon library)
+import { deletePhoto } from "../../apiEndpoints/auth";
+import { message } from "antd";
 
 const Userimages = () => {
   const { user } = useSelector((state) => state.user);
+  const [isdeleting, setIsdeleting] = useState(false);
+  const deletephotos = async (image) => {
+    try {
+      setIsdeleting(true);
 
-  const handleDelete = (index) => {
-    console.log(`Delete image at index: ${index}`);
-    // Add your deletion logic here (e.g., update Redux store, send API request)
+      message.warning("Deleteing a photo , please wait");
+
+      const response = await deletePhoto({
+        userID: user._id,
+        deleteimgID: image, // Use the image URL directly
+      });
+      if (response.isSuccess) {
+        window.location.reload();
+        message.success(response.message);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setIsdeleting(false); // Always reset isdeleting state
+    }
   };
 
   return (
@@ -27,18 +46,22 @@ const Userimages = () => {
                 alt={`Uploaded image ${index}`}
                 className="w-full h-full object-cover rounded-lg border-2 border-black"
               />
-
-              {/* Delete Icon (Initially hidden, visible on hover) */}
+              {/* Delete Icon */}
               <button
+                disabled={isdeleting}
                 className="absolute bottom-2 right-2 p-1 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                onClick={() => handleDelete(index)}
+                onClick={() => deletephotos(image)} // Call with the image URL
               >
                 <TrashIcon width={20} height={20} />
               </button>
             </div>
           ))
         ) : (
-          <p>No images uploaded.</p>
+          <div className="flex justify-center w-full">
+            <p className="text-center font-bold text-red-900 text-2xl">
+              You haven't uploaded any photos.
+            </p>
+          </div>
         )}
       </div>
     </div>

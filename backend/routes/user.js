@@ -89,10 +89,17 @@ router.get(
   UserController.getUserHistory
 );
 
-router.post(
-  "/uploadImage",
+// router.post(
+//   "/uploadImage",
+//   authMiddleware,
+//   upload.array("profileImage", 1),
+//   UserController.uploadProfile_image
+// );
+
+router.delete(
+  "/user-profile/:user_ID",
   authMiddleware,
-  upload.array("profileImage", 1),
-  UserController.uploadProfile_image
+  UserController.deletePhotos
 );
+
 module.exports = router;

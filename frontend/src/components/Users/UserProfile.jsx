@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Card, Avatar, Button, Form, Input, Row, Col, message } from "antd";
 
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
-import complex from "./images/complex.jpg";
+import { EnvelopeIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import usericon from "./images/usericon.jpg";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getBookingHistory } from "../../apiEndpoints/auth";
@@ -29,7 +29,7 @@ const UserProfile = () => {
       console.error("Error fetching bookings:", error);
     }
   };
-
+  <UserCircleIcon />;
   useEffect(() => {
     if (user && user._id) {
       fetchHistory(user._id);
@@ -41,15 +41,19 @@ const UserProfile = () => {
       <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between w-full lg:w-[90%] gap-4 lg:gap-32 mx-auto">
         {/* Left Side: Image, Username, and Email */}
         <div className="flex flex-col lg:flex-row items-center lg:items-end gap-4 lg:w-[70%]">
-          <img
-            src={
-              user.profileImage
-                ? user.profileImage[user.profileImage.length - 1]
-                : complex
-            }
-            alt=""
-            className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-red-900 p-1"
-          />
+          {user.profileImage && user.profileImage.length > 0 ? (
+            <img
+              src={user?.profileImage[user.profileImage.length - 1]}
+              alt=""
+              className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-red-900 p-1"
+            />
+          ) : (
+            <img
+              src={usericon}
+              alt=""
+              className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-red-900 p-1"
+            />
+          )}
           <div className="lg:mt-4 flex flex-col items-center lg:items-start">
             <h4 className="text-md md:text-[20px] font-bold sm:mb-3">
               {user.username}
