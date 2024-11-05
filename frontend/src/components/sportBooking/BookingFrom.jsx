@@ -8,7 +8,7 @@ import {
 } from "../../store/bookingSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import photo from "../../../mfu.jpg"
+import photo from "../../../mfu.jpg";
 
 const trainers = [
   {
@@ -80,167 +80,175 @@ const BookingForm = () => {
         Sport Complex Booking ({SportType})
       </h3>
       <div className="container rounded-xl shadow-lg py-8">
-      <div className="flex flex-col md:flex-row md:gap-8 lg:gap-12 max-w-2xl mx-auto py-5">
-        <div className="w-full">
-          <Form
-            layout="vertical"
-            onFinish={onFinishHandler}
-            form={form}
-            initialValues={{
-              sporttype: SportType || "Tennis",
-              status: user ? user.status : "active",
-              studentid: "",
-              name: "",
-              phone: "",
-              session: selectedTime || "8:00 - 10:00",
-              role: user ? user.role : "Student",
-              useLoginInfo: false,
-            }}
-          >
-            <div className="flex flex-col md:flex-row md:gap-6">
-              <Form.Item className="w-full" label="Sport Type" name="sporttype">
-                <Input
+        <div className="flex flex-col md:flex-row md:gap-8 lg:gap-12 max-w-2xl mx-auto py-5">
+          <div className="w-full">
+            <Form
+              layout="vertical"
+              onFinish={onFinishHandler}
+              form={form}
+              initialValues={{
+                sporttype: SportType || "Tennis",
+                status: user ? user.status : "active",
+                studentid: "",
+                name: "",
+                phone: "",
+                session: selectedTime || "8:00 - 10:00",
+                role: user ? user.role : "Student",
+                useLoginInfo: false,
+              }}
+            >
+              <div className="flex flex-col md:flex-row md:gap-6">
+                <Form.Item
                   className="w-full"
-                  value={SportType || "Tennis"}
-                  placeholder={SportType || "Tennis"}
-                  disabled
+                  label="Sport Type"
+                  name="sporttype"
+                >
+                  <Input
+                    className="w-full p-2"
+                    value={SportType || "Tennis"}
+                    placeholder={SportType || "Tennis"}
+                    disabled
+                  />
+                </Form.Item>
+                <Form.Item className="w-full" label="Session" name="session">
+                  <Input
+                    className="w-full p-2"
+                    value={selectedTime}
+                    placeholder={selectedTime}
+                    disabled
+                  />
+                </Form.Item>
+              </div>
+
+              <div className="flex flex-col md:flex-row md:gap-6 mt-4">
+                <Form.Item className="w-full" label="Role" name="role">
+                  <select className="w-full border-2 border-black p-2 cursor-pointer rounded-md">
+                    <option value="student">Student</option>
+                    <option value="Staff">Staff</option>
+                    <option value="lecturer">Lecturer</option>
+                    <option value="outsider">Outsider</option>
+                  </select>
+                </Form.Item>
+                <Form.Item className="w-full" label="Status" name="status">
+                  <Input
+                    className="w-full p-2"
+                    value={user.status}
+                    placeholder={user.status}
+                    disabled
+                  />
+                </Form.Item>
+              </div>
+
+              <Form.Item
+                className="mt-4"
+                label="Student ID"
+                name="studentid"
+                rules={[{ required: true, message: "Enter your student id" }]}
+              >
+                <Input
+                  className="w-full p-2 border-1 border-black"
+                  type="number"
                 />
               </Form.Item>
-              <Form.Item className="w-full" label="Session" name="session">
+
+              <Form.Item
+                className="mt-4"
+                label="Name"
+                name="name"
+                rules={[{ required: true, message: "Enter name" }]}
+              >
                 <Input
-                  className="w-full"
-                  value={selectedTime}
-                  placeholder={selectedTime}
-                  disabled
+                  className="w-full p-2 border-1 border-black"
+                  placeholder="Enter username..."
                 />
               </Form.Item>
-            </div>
 
-            <div className="flex flex-col md:flex-row md:gap-6 mt-4">
-              <Form.Item className="w-full" label="Role" name="role">
-                <select className="w-full border-2 border-red-700 cursor-pointer rounded-md">
-                  <option value="student">Student</option>
-                  <option value="Staff">Staff</option>
-                  <option value="lecturer">Lecturer</option>
-                  <option value="outsider">Outsider</option>
-                </select>
-              </Form.Item>
-              <Form.Item className="w-full" label="Status" name="status">
+              <Form.Item
+                className="mt-4"
+                label="Phone"
+                name="phone"
+                rules={[{ required: true, message: "Enter your phone number" }]}
+              >
                 <Input
-                  className="w-full"
-                  value={user.status}
-                  placeholder={user.status}
-                  disabled
+                  className="w-full p-2 border-1 border-black"
+                  type="number"
+                  placeholder="Phone Number..."
                 />
               </Form.Item>
-            </div>
 
-            <Form.Item
-              className="mt-4"
-              label="Student ID"
-              name="studentid"
-              rules={[{ required: true, message: "Enter your student id" }]}
-            >
-              <Input className="w-full" type="number" />
-            </Form.Item>
+              <Form.Item
+                name="useLoginInfo"
+                valuePropName="checked"
+                className="mt-4"
+              >
+                <Checkbox onChange={useInfo}>
+                  <span className="text-md font-semibold text-black">
+                    Use login information?
+                  </span>
+                </Checkbox>
+              </Form.Item>
 
-            <Form.Item
-              className="mt-4"
-              label="Name"
-              name="name"
-              rules={[{ required: true, message: "Enter name" }]}
-            >
-              <Input className="w-full" placeholder="Name" />
-            </Form.Item>
-
-            <Form.Item
-              className="mt-4"
-              label="Phone"
-              name="phone"
-              rules={[{ required: true, message: "Enter your phone number" }]}
-            >
-              <Input
-                className="w-full"
-                type="number"
-                placeholder="Phone Number..."
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="useLoginInfo"
-              valuePropName="checked"
-              className="mt-4"
-            >
-              <Checkbox onChange={useInfo}>
-                <span className="text-md font-semibold text-black">
-                  Use login information?
-                </span>
-              </Checkbox>
-            </Form.Item>
-
-            <Form.Item
-              className="mt-4 py-4"
-              label="Trainer(Optional)"
-              name="trainer"
-            >
-              <Radio.Group onChange={handleSelectTrainer} className="w-full">
-                <ul className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
-                  {trainers.map((trainer) => (
-                    <li key={trainer.id} className="flex justify-center">
-                      <Radio value={trainer.id} className="hidden-radio">
-                        <div
-                          className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96
+              <Form.Item
+                className="mt-4 py-4"
+                label="Trainer(Optional)"
+                name="trainer"
+              >
+                <Radio.Group onChange={handleSelectTrainer} className="w-full">
+                  <ul className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
+                    {trainers.map((trainer) => (
+                      <li key={trainer.id} className="flex justify-center">
+                        <Radio value={trainer.id} className="hidden-radio">
+                          <div
+                            className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96
                     ${
                       selectedTrainer === trainer.id
                         ? "border-red-700 border-2 shadow-lg"
                         : "border-gray-300"
                     }
                   `}
-                          onClick={() => setSelectedTrainer(trainer.id)}
-                        >
-                          <img
-                            src={
-                              trainer.image || photo
-                            } // Placeholder image if no URL
-                            alt={trainer.name}
-                            className="w-24 h-24 rounded-full mb-4 object-cover"
-                          />
-                          <h1 className="text-lg font-semibold text-center">
-                            {trainer.name}
-                          </h1>
-                          <span className="text-sm text-gray-500 text-center mb-3">
-                            {trainer.category || "Trainer"}
-                          </span>
+                            onClick={() => setSelectedTrainer(trainer.id)}
+                          >
+                            <img
+                              src={trainer.image || photo} // Placeholder image if no URL
+                              alt={trainer.name}
+                              className="w-24 h-24 rounded-full mb-4 object-cover"
+                            />
+                            <h1 className="text-lg font-semibold text-center">
+                              {trainer.name}
+                            </h1>
+                            <span className="text-sm text-gray-500 text-center mb-3">
+                              {trainer.category || "Trainer"}
+                            </span>
 
-                          <ul className="divide-y rounded bg-gray-100 py-3 px-4 w-full text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
-                            <li className="flex items-center py-3 text-sm">
-                              <span>Email</span>
-                              <span className="ml-auto">{trainer.email}</span>
-                            </li>
-                            <li className="flex items-center py-3 text-sm">
-                              <span>Phone</span>
-                              <span className="ml-auto">{trainer.phone}</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </Radio>
-                    </li>
-                  ))}
-                </ul>
-              </Radio.Group>
-            </Form.Item>
+                            <ul className="divide-y rounded bg-gray-100 py-3 px-4 w-full text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+                              <li className="flex items-center py-3 text-sm">
+                                <span>Email</span>
+                                <span className="ml-auto">{trainer.email}</span>
+                              </li>
+                              <li className="flex items-center py-3 text-sm">
+                                <span>Phone</span>
+                                <span className="ml-auto">{trainer.phone}</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </Radio>
+                      </li>
+                    ))}
+                  </ul>
+                </Radio.Group>
+              </Form.Item>
 
-            <Form.Item className="mt-6 pt-6">
-              <Button
-                className="w-full bg-red-800 text-white rounded-lg"
-                htmlType="submit"
-              >
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
+              <Form.Item className="mt-6 pt-6">
+                <Button
+                  className="w-full bg-red-800 text-white rounded-lg"
+                  htmlType="submit"
+                >
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
         </div>
-      </div>
       </div>
     </section>
   );
