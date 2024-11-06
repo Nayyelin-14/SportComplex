@@ -12,7 +12,7 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { updateInfo } from "../../apiEndpoints/auth";
-import { setUser } from "../../store/userSlice";
+import { setImages, setUser } from "../../store/userSlice";
 import { PlusOutlined, WarningOutlined } from "@ant-design/icons";
 import moment from "moment";
 import {
@@ -25,6 +25,7 @@ import {
 const EditProfile = () => {
   const [form] = Form.useForm();
   const { user } = useSelector((state) => state.user);
+
   const [isWarning, setIsWarning] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -80,8 +81,9 @@ const EditProfile = () => {
 
       if (response.isSuccess) {
         message.success(response.message);
+
         dispatch(setUser(response.update_userDoc));
-        console.log(response.update_userDoc);
+        dispatch(setImages(response.update_userDoc.profileImage));
 
         // Clear fileList after successful update
         setFileList([]); // Clear the uploaded photo

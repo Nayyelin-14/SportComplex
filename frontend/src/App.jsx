@@ -15,6 +15,7 @@ import Profile from "./pages/Users/Profile";
 import BookingFrom from "./components/sportBooking/BookingFrom";
 import NotFound from "./components/NotFound";
 import Adminpage from "./pages/Admin/Adminpage";
+import Trainers from "./pages/Trainers/Trainers";
 
 const App = () => {
   React.useEffect(() => {
@@ -83,7 +84,22 @@ const App = () => {
                 </AuthProvider>
               }
             />
-
+            <Route
+              path="/trainer-details"
+              element={
+                <AuthProvider
+                  allowedRoles={[
+                    "Student",
+                    "Staff",
+                    "Lecturer",
+                    "Outsider",
+                    "Admin",
+                  ]}
+                >
+                  <Trainers />
+                </AuthProvider>
+              }
+            />
             <Route
               path="/admin"
               element={

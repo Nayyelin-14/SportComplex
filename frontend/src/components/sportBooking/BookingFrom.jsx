@@ -1,13 +1,13 @@
-import { Form, Input, Button, message, Checkbox, Radio } from "antd";
+import { Form, Input, Button, message, Checkbox, Radio, Card } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { create_Booking } from "../../apiEndpoints/booking";
+import { create_Booking, get_alltrainers } from "../../apiEndpoints/booking";
 import {
   resetSelectedTime,
   resetSportType,
   setSportType,
 } from "../../store/bookingSlice";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import photo from "../../../mfu.jpg";
 
 const trainers = [
@@ -31,7 +31,7 @@ const BookingForm = () => {
   const { user } = useSelector((state) => state.user);
   const [checked, setChecked] = useState(false);
   const [form] = Form.useForm();
-
+  const [alltrainers, setAlltrainers] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -41,20 +41,35 @@ const BookingForm = () => {
     setSelectedTrainer(e.target.value);
   };
 
-  const onFinishHandler = async (values) => {
+  const fetchTrainers = async () => {
     try {
-      const response = await create_Booking(values);
+      const response = await get_alltrainers();
       if (response.isSuccess) {
-        message.success(response.message);
-        navigate("/booking");
+        console.log(response);
+        setAlltrainers(response.trainers_doc);
       } else {
         throw new Error(response.message);
       }
     } catch (error) {
       message.error(error.message);
-      dispatch(resetSelectedTime());
-      dispatch(resetSportType());
     }
+  };
+
+  const onFinishHandler = async (values) => {
+    console.log(values);
+    // try {
+    //   const response = await create_Booking(values);
+    //   if (response.isSuccess) {
+    //     message.success(response.message);
+    //     navigate("/booking");
+    //   } else {
+    //     throw new Error(response.message);
+    //   }
+    // } catch (error) {
+    //   message.error(error.message);
+    //   dispatch(resetSelectedTime());
+    //   dispatch(resetSportType());
+    // }
   };
 
   const useInfo = (e) => {
@@ -73,7 +88,10 @@ const BookingForm = () => {
       });
     }
   };
-
+  useEffect(() => {
+    fetchTrainers();
+  }, []);
+  // console.log(alltrainers);
   return (
     <section className="container px-4 py-6 md:py-10 md:px-16 lg:px-24">
       <h3 className="text-2xl md:text-2xl font-semibold text-center md:mb-6">
@@ -190,52 +208,61 @@ const BookingForm = () => {
 
               <Form.Item
                 className="mt-4 py-4"
-                label="Trainer(Optional)"
+                label="Trainer (Optional)"
                 name="trainer"
               >
-                <Radio.Group onChange={handleSelectTrainer} className="w-full">
+                <div className="w-full">
                   <ul className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
-                    {trainers.map((trainer) => (
-                      <li key={trainer.id} className="flex justify-center">
-                        <Radio value={trainer.id} className="hidden-radio">
-                          <div
-                            className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96
-                    ${
-                      selectedTrainer === trainer.id
-                        ? "border-red-700 border-2 shadow-lg"
-                        : "border-gray-300"
-                    }
-                  `}
-                            onClick={() => setSelectedTrainer(trainer.id)}
-                          >
-                            <img
-                              src={trainer.image || photo} // Placeholder image if no URL
-                              alt={trainer.name}
-                              className="w-24 h-24 rounded-full mb-4 object-cover"
-                            />
-                            <h1 className="text-lg font-semibold text-center">
-                              {trainer.name}
-                            </h1>
-                            <span className="text-sm text-gray-500 text-center mb-3">
-                              {trainer.category || "Trainer"}
-                            </span>
+                    {alltrainers.map((trainer) => (
+                      <li key={trainer._id} className="flex justify-center">
+                        <div
+                          className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96 ${
+                            selectedTrainer === trainer._id
+                              ? "border-red-700 border-2 shadow-lg"
+                              : "border-gray-300"
+                          }`}
+                          onClick={() => {
+                            setSelectedTrainer(trainer._id);
+                            form.setFieldsValue({
+                              trainer: trainer._id, // Set the selected trainer ID in the form
+                            });
+                          }}
+                        >
+                          <img
+                            src={trainer.image || photo} // Placeholder image if no URL
+                            alt={trainer.name}
+                            className="w-24 h-24 rounded-full mb-4 object-cover"
+                          />
+                          <h1 className="text-lg font-semibold text-center">
+                            {trainer.name}
+                          </h1>
+                          <span className="text-sm text-gray-500 text-center mb-3">
+                            {trainer.sporttype || "Trainer"}
+                          </span>
 
-                            <ul className="divide-y rounded bg-gray-100 py-3 px-4 w-full text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
-                              <li className="flex items-center py-3 text-sm">
-                                <span>Email</span>
-                                <span className="ml-auto">{trainer.email}</span>
-                              </li>
-                              <li className="flex items-center py-3 text-sm">
-                                <span>Phone</span>
-                                <span className="ml-auto">{trainer.phone}</span>
-                              </li>
-                            </ul>
+                          <ul className="divide-y rounded bg-gray-100 py-3 px-4 w-full text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+                            <li className="flex items-center py-3 text-sm">
+                              <span>Email</span>
+                              <span className="ml-auto">{trainer.email}</span>
+                            </li>
+                            <li className="flex items-center py-3 text-sm">
+                              <span>Phone</span>
+                              <span className="ml-auto">{trainer.phone}</span>
+                            </li>
+                          </ul>
+                          <div className="flex justify-end w-full pr-4 mt-4 text-right">
+                            <Link
+                              className="text-red-700 font-semibold underline cursor-pointer"
+                              to={`/trainer-details/${trainer._id}`} // Use dynamic route
+                            >
+                              Check detail info
+                            </Link>
                           </div>
-                        </Radio>
+                        </div>
                       </li>
                     ))}
                   </ul>
-                </Radio.Group>
+                </div>
               </Form.Item>
 
               <Form.Item className="mt-6 pt-6">

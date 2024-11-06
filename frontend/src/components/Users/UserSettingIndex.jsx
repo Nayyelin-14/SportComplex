@@ -59,7 +59,7 @@ const UserSettingIndex = ({ bookingshistory }) => {
       ),
       children: (
         <div>
-          <Userimages />
+          <Userimages setActiveTabKey={setActiveTabKey} />
         </div>
       ),
     },

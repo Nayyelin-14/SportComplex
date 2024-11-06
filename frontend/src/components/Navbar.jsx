@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "../assets/mfulogo.png";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -41,6 +41,7 @@ const Menu = [
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
+  const { userImages } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -150,24 +151,21 @@ const Navbar = () => {
                   Logout
                 </button>
               )} */}
-              {user &&
-              user.role !== "Admin" &&
-              user.profileImage &&
-              user.profileImage.length > 0 ? (
-                <div className="flex items-center gap-2 ">
-                  <img
-                    src={user.profileImage[user.profileImage.length - 1]}
-                    alt=""
-                    className="w-14 h-14 p-1 border-2 border-gray-600 rounded-full object-cover cursor-pointer "
-                    onClick={openprofileMenu}
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 ">
-                  <UserIcon
-                    className="w-8 h-8 cursor-pointer hover:text-gray-500"
-                    onClick={openprofileMenu}
-                  />
+              {user && (
+                <div>
+                  {userImages && userImages.length > 0 ? (
+                    <img
+                      src={userImages[userImages.length - 1]}
+                      alt="Profile"
+                      className="w-14 h-14 p-1 border-2 border-gray-600 rounded-full object-cover cursor-pointer"
+                      onClick={openprofileMenu}
+                    />
+                  ) : (
+                    <UserIcon
+                      className="w-8 h-8 cursor-pointer hover:text-gray-500"
+                      onClick={openprofileMenu}
+                    />
+                  )}
                 </div>
               )}
             </div>

@@ -1,29 +1,27 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { deletePhoto } from "../../apiEndpoints/auth";
 import { message } from "antd";
+import { setImages } from "../../store/userSlice";
 
-const Userimages = () => {
+const Userimages = ({ setActiveTabKey }) => {
   const ImagePerPage = 10; // Number of images to display per page
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const [isdeleting, setIsdeleting] = useState(false); // Delete state
-
   const { user } = useSelector((state) => state.user);
+  const userImages = user?.profileImage || [];
+  const dispatch = useDispatch();
 
   // Calculate the index range for the current page
   const indexOfLastImage = currentPage * ImagePerPage;
   const indexOfFirstImage = indexOfLastImage - ImagePerPage;
 
   // Get the current images based on the current page
-  const currentImages =
-    user?.profileImage?.slice(indexOfFirstImage, indexOfLastImage) || [];
+  const currentImages = userImages.slice(indexOfFirstImage, indexOfLastImage);
 
   // Handle page changes
-  const totalPages = Math.ceil(
-    (user?.profileImage?.length || 0) / ImagePerPage
-  );
-
+  const totalPages = Math.ceil(userImages.length / ImagePerPage);
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -39,9 +37,12 @@ const Userimages = () => {
       });
       if (response.isSuccess) {
         message.success(response.message);
-        // Update user profile image after deletion
-        // Ideally, you should fetch the updated user data instead of reloading the window
-        // Consider adding a mechanism to remove the image from the state
+        window.location.reload();
+        // Dispatch the updated image list to Redux store
+        dispatch(setImages(response.update_userIMG.profileImage));
+
+        setActiveTabKey("1");
+        // You can also set the userImages state directly here, but it's already handled by Redux.
       } else {
         throw new Error(response.message);
       }
@@ -56,7 +57,7 @@ const Userimages = () => {
     <div className="lg:h-[650px] flex flex-col gap-32 justify-between">
       <div>
         <p className="mb-8">Uploaded images</p>
-        <div className="flex flex-row gap-14 lg:gap-6 flex-wrap ">
+        <div className="flex flex-row gap-14 lg:gap-6 flex-wrap">
           {currentImages.length > 0 ? (
             currentImages.map((image, index) => (
               <div

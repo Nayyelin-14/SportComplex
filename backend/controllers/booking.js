@@ -3,7 +3,7 @@ const { validationResult } = require("express-validator");
 const Users = require("../models/users");
 const Booking = require("../models/Booking/bookingInfo");
 const archivedBookingModel = require("../models/Booking/archivedBookings");
-
+const trainers = require("../models/trainers");
 exports.createBooking = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -146,6 +146,24 @@ exports.archiveBookings = async (req, res) => {
       isSuccess: true,
       archivedBooking_DOCs: archivedBooking_DOCs,
       message: "Bookings successfully archived.",
+    });
+  } catch (error) {
+    return res.status(404).json({
+      isSuccess: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getAlltrainers = async (req, res) => {
+  try {
+    const trainers_doc = await trainers.find();
+    if (!trainers_doc) {
+      throw new Error("No trainers found!!!");
+    }
+    return res.status(200).json({
+      isSuccess: true,
+      trainers_doc,
     });
   } catch (error) {
     return res.status(404).json({

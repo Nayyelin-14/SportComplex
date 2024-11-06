@@ -64,13 +64,13 @@ exports.deletePhotos = async (req, res) => {
     await cloudinary.uploader.destroy(public_ID_ToDelete);
 
     // Remove image from user's profile in database
-    const user = await Users.findByIdAndUpdate(
+    const update_userIMG = await Users.findByIdAndUpdate(
       user_ID,
       { $pull: { profileImage: decodedImageID } },
       { new: true }
     );
 
-    if (!user) {
+    if (!update_userIMG) {
       return res
         .status(404)
         .json({ isSuccess: false, message: "User not found" });
@@ -79,6 +79,7 @@ exports.deletePhotos = async (req, res) => {
     return res.status(200).json({
       isSuccess: true,
       message: "Image successfully deleted",
+      update_userIMG,
     });
   } catch (error) {
     return res.status(500).json({

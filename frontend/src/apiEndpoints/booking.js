@@ -31,3 +31,13 @@ export const getdiff_Bookings = async (sportType) => {
     return error.message;
   }
 };
+// alltrainers
+
+export const get_alltrainers = async () => {
+  try {
+    const response = await instance.get(`/alltrainers`);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
