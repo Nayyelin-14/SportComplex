@@ -2,6 +2,8 @@ const { validationResult } = require("express-validator");
 
 const Users = require("../models/users");
 const Booking = require("../models/Booking/bookingInfo");
+const Trainers = require("../models/trainers");
+const trainerAvailability = require("../models/traineravailability");
 const archivedBookingModel = require("../models/Booking/archivedBookings");
 const trainers = require("../models/trainers");
 exports.createBooking = async (req, res) => {
@@ -13,9 +15,18 @@ exports.createBooking = async (req, res) => {
     });
   }
   try {
-    const { sporttype, session, status, studentid, name, phone, role } =
-      req.body;
-    // console.log(role);
+    const {
+      sporttype,
+      session,
+      status,
+      studentid,
+      name,
+      phone,
+      role,
+      trainer,
+    } = req.body;
+    console.log(trainer);
+
     // const { USER_ID } = req;
 
     if (status === "restricted") {
@@ -41,16 +52,29 @@ exports.createBooking = async (req, res) => {
     if (!bookingDoc) {
       throw new Error("Failed to get booking");
     }
-    //     console.log("booking", bookingDoc);
-    // Archive the booking by creating a copy in the ArchivedBooking model
-    await archivedBookingModel.insertMany(bookingDoc);
-    // await archivedBookingModel.save();
+    console.log("booking", bookingDoc);
+    const trainer_doc = await Trainers.findById(trainer);
+    console.log("trainer doc", trainer_doc);
 
-    return res.status(200).json({
-      isSuccess: true,
-      message: "Booked successfully",
-      bookingDoc,
+    const avaliable_Doc = await trainerAvailability.create({
+      trainer: trainer._id,
+      booking_sportType: bookingDoc.sporttype,
+      bookingUser_id: req.USER_ID,
+      booking_ID: bookingDoc._id,
+      avaliable_session: bookingDoc.session,
     });
+
+    const ava_doc = await trainerAvailability.findById(trainer_doc._id);
+    console.log("check trainer avail", ava_doc);
+    // // Archive the booking by creating a copy in the ArchivedBooking model
+    // await archivedBookingModel.insertMany(bookingDoc);
+    // // await archivedBookingModel.save();
+
+    // return res.status(200).json({
+    //   isSuccess: true,
+    //   message: "Booked successfully",
+    //   bookingDoc,
+    // });
   } catch (error) {
     return res.status(400).json({
       isSuccess: false,

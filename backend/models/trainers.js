@@ -6,21 +6,12 @@ const trainersSchema = new Schema(
       required: true,
       type: String,
     },
-    bookingUser_id: {
-      type: Schema.Types.ObjectId,
-      ref: "Users",
-      default: null,
-    },
-    booking_ID: {
-      type: Schema.Types.ObjectId,
-      ref: "Booking",
-      default: null,
-    },
+
     trainer_description: {
       required: true,
       type: String,
     },
-    sporttype: {
+    specailization: {
       required: true,
       type: String,
     },
@@ -32,14 +23,7 @@ const trainersSchema = new Schema(
       required: true,
       type: String,
     },
-    availability: {
-      default: true,
-      type: Boolean,
-    },
-    taken: {
-      default: false,
-      type: Boolean,
-    },
+
     phone: {
       type: Number,
       required: true,

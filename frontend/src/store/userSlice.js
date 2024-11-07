@@ -11,9 +11,15 @@ export const UserSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+      if (!action.payload) {
+        // Clear userImages if user is null
+        state.userImages = [];
+      }
     },
     setImages: (state, action) => {
-      state.userImages = action.payload;
+      if (state.user) {
+        state.userImages = action.payload;
+      }
     },
   },
 });

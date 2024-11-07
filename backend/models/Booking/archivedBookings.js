@@ -35,6 +35,11 @@ const archivedBookingSchema = new Schema(
       required: true,
       type: String,
     },
+    trainer: {
+      type: Schema.Types.ObjectId,
+      ref: "trainers",
+      default: null,
+    },
   },
   {
     timestamps: true,
