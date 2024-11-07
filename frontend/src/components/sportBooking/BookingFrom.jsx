@@ -46,6 +46,8 @@ const BookingForm = () => {
     try {
       const response = await create_Booking(values);
       if (response.isSuccess) {
+        // bookingDoc,
+        // avaliable_Doc, response. u yone pl
         message.success(response.message);
         navigate("/booking");
       } else {

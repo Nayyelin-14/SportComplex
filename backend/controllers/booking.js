@@ -14,6 +14,7 @@ exports.createBooking = async (req, res) => {
       message: errors.array()[0].msg,
     });
   }
+
   try {
     const {
       sporttype,
@@ -27,17 +28,28 @@ exports.createBooking = async (req, res) => {
     } = req.body;
     console.log(trainer);
 
-    // const { USER_ID } = req;
-
     if (status === "restricted") {
       throw new Error("Your account has been restricted!!!");
     }
     if (role === "Admin") {
       throw new Error("Something went wrong!!!");
     }
-    // console.log(USER_ID);
-    // const Booking_User = await Users.findById(USER_ID).select("role");
-    // console.log(Booking_User);
+
+    // Check if the trainer is already booked for the same sport and session
+    const existingBooking = await trainerAvailability.findOne({
+      trainer: trainer, // Use the trainer ID from req.body
+      booking_sportType: sporttype,
+      avaliable_session: session,
+    });
+
+    if (existingBooking) {
+      return res.status(400).json({
+        isSuccess: false,
+        message: `The coach is already booked for ${sporttype} at ${session}. Please choose another session or proceed without a coach.`,
+      });
+    }
+
+    // Create the booking after validation
     const bookingDoc = await Booking.create({
       sporttype,
       session,
@@ -47,34 +59,35 @@ exports.createBooking = async (req, res) => {
       phone,
       role,
       bookingUser_id: req.USER_ID,
+      trainer,
     });
 
     if (!bookingDoc) {
-      throw new Error("Failed to get booking");
+      throw new Error("Failed to create booking");
     }
-    console.log("booking", bookingDoc);
-    const trainer_doc = await Trainers.findById(trainer);
-    console.log("trainer doc", trainer_doc);
 
+    // Create an entry in the trainerAvailability collection
     const avaliable_Doc = await trainerAvailability.create({
-      trainer: trainer._id,
-      booking_sportType: bookingDoc.sporttype,
-      bookingUser_id: req.USER_ID,
+      trainer: trainer, // Use trainer ID directly
+      booking_sportType: sporttype,
+      bookingUser_id: bookingDoc._id,
       booking_ID: bookingDoc._id,
-      avaliable_session: bookingDoc.session,
+      avaliable_session: session,
     });
 
-    const ava_doc = await trainerAvailability.findById(trainer_doc._id);
-    console.log("check trainer avail", ava_doc);
-    // // Archive the booking by creating a copy in the ArchivedBooking model
-    // await archivedBookingModel.insertMany(bookingDoc);
-    // // await archivedBookingModel.save();
+    if (!avaliable_Doc) {
+      throw new Error("Failed to record trainer availability");
+    }
 
-    // return res.status(200).json({
-    //   isSuccess: true,
-    //   message: "Booked successfully",
-    //   bookingDoc,
-    // });
+    // Archive the booking in the ArchivedBooking model
+    await archivedBookingModel.insertMany(bookingDoc);
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Booked successfully",
+      bookingDoc,
+      avaliable_Doc,
+    });
   } catch (error) {
     return res.status(400).json({
       isSuccess: false,
@@ -95,6 +108,7 @@ exports.getAllbookings = async (req, res) => {
       isSuccess: true,
       message: "Bookings fetched",
       Allbookings,
+      existingBooking,
     });
   } catch (error) {
     return res.status(422).json({
