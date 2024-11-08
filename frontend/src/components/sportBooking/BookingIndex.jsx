@@ -60,7 +60,7 @@ const BookingIndex = ({ bookings }) => {
   const items = [
     {
       key: "1",
-      label: "Tennis",
+      label: <p className="text-[14px] md:text-[20px]">Tennis</p>,
       children: (
         <Session
           session_time={session_time}
@@ -72,7 +72,7 @@ const BookingIndex = ({ bookings }) => {
     },
     {
       key: "2",
-      label: "Swimming Pool",
+      label: <p className="text-[14px] md:text-[20px]">Swimming pool</p>,
       children: (
         <Session
           session_time={session_time}
@@ -84,7 +84,7 @@ const BookingIndex = ({ bookings }) => {
     },
     {
       key: "3",
-      label: "Football",
+      label: <p className="text-[14px] md:text-[20px]">Football</p>,
       children: (
         <Session
           session_time={session_time}
@@ -96,7 +96,7 @@ const BookingIndex = ({ bookings }) => {
     },
     {
       key: "4",
-      label: "Badminton",
+      label: <p className="text-[14px] md:text-[20px]">Badminton</p>,
       children: (
         <Session
           session_time={session_time}
@@ -108,7 +108,7 @@ const BookingIndex = ({ bookings }) => {
     },
     {
       key: "5",
-      label: "Fitness",
+      label: <p className="text-[14px] md:text-[20px]">Fitness</p>,
       children: (
         <Session
           session_time={session_time}
@@ -121,7 +121,7 @@ const BookingIndex = ({ bookings }) => {
   ];
 
   const updateTabPosition = () => {
-    if (window.innerWidth < 668) {
+    if (window.innerWidth < 510) {
       setTabPosition("top"); // Use top position for smaller screens
     } else {
       setTabPosition("left"); // Use left position for larger screens

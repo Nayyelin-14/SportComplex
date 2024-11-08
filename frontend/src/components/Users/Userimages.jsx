@@ -1,12 +1,41 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePhoto } from "../../apiEndpoints/auth";
 import { message } from "antd";
 import { setImages } from "../../store/userSlice";
 
 const Userimages = ({ setActiveTabKey }) => {
-  const ImagePerPage = 10; // Number of images to display per page
+  const [imagePerPage, setImagePerPage] = useState(10);
+  // const ImagePerPage = 10; // Number of images to display per page
+  // Function to determine photos per page based on screen size
+  const updatePhotosPerPage = () => {
+    const width = window.innerWidth;
+    if (width <= 568) {
+      // Small screen (mobile)
+      setImagePerPage(4);
+    } else if (width <= 768) {
+      // Medium screen (tablet)
+      setImagePerPage(6);
+    } else if (width <= 1024) {
+      // Medium screen (tablet)
+      setImagePerPage(8);
+    } else {
+      // Large screen (desktop)
+      setImagePerPage(10);
+    }
+  };
+
+  // Update the photosPerPage whenever the window is resized
+  useEffect(() => {
+    updatePhotosPerPage(); // Set initial photos per page based on screen size
+    window.addEventListener("resize", updatePhotosPerPage); // Add resize event listener
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", updatePhotosPerPage);
+    };
+  }, []);
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const [isdeleting, setIsdeleting] = useState(false); // Delete state
   const { user } = useSelector((state) => state.user);
@@ -14,14 +43,14 @@ const Userimages = ({ setActiveTabKey }) => {
   const dispatch = useDispatch();
 
   // Calculate the index range for the current page
-  const indexOfLastImage = currentPage * ImagePerPage;
-  const indexOfFirstImage = indexOfLastImage - ImagePerPage;
+  const indexOfLastImage = currentPage * imagePerPage;
+  const indexOfFirstImage = indexOfLastImage - imagePerPage;
 
   // Get the current images based on the current page
   const currentImages = userImages.slice(indexOfFirstImage, indexOfLastImage);
 
   // Handle page changes
-  const totalPages = Math.ceil(userImages.length / ImagePerPage);
+  const totalPages = Math.ceil(userImages.length / imagePerPage);
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -54,15 +83,16 @@ const Userimages = ({ setActiveTabKey }) => {
   };
 
   return (
-    <div className="lg:h-[650px] flex flex-col gap-32 justify-between">
+    <div className="h-[450px] lg:h-[550px] flex flex-col lg:gap-32 justify-between">
       <div>
         <p className="mb-8">Uploaded images</p>
-        <div className="flex flex-row gap-14 lg:gap-6 flex-wrap">
+        <div className="flex flex-row gap-8 sm:gap-4 md:gap-6 lg:gap-6 flex-wrap p-2">
           {currentImages.length > 0 ? (
             currentImages.map((image, index) => (
               <div
                 key={index}
-                className="relative flex flex-row group w-[154px] h-[150px]"
+                className="relative flex flex-row group 
+            w-[90px] h-[100px] sm:w-[114px] sm:h-[110px] md:w-[144px] md:h-[145px] "
               >
                 {/* Image */}
                 <img

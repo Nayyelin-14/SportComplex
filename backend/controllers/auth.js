@@ -123,7 +123,7 @@ exports.checkCurrentUser = async (req, res) => {
   // console.log(USER_ID);
   try {
     const CurrentLoginUser = await Users.findById(USER_ID).select(
-      "email role status username memberID phnumber lastEditTime"
+      "email role status username memberID phnumber lastEditTime profileImage"
     );
     if (!CurrentLoginUser) {
       throw new Error("Unauthorized user found");

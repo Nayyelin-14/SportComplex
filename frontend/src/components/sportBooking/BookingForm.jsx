@@ -25,10 +25,10 @@ const BookingForm = () => {
   const navigate = useNavigate();
 
   const [selectedTrainer, setSelectedTrainer] = useState(null);
-  const [trainerDetail, setTrainerDetail] = useState(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = (trainer) => {
+  const handleOpenModal = () => {
     setIsModalOpen(true); // Open the modal
   };
 
@@ -207,20 +207,19 @@ const BookingForm = () => {
                 </Checkbox>
               </Form.Item>
 
-              {/* Trainer Form */}
               <Form.Item
                 className="mt-4 py-4"
                 label="Trainer (Optional)"
                 name="trainer"
               >
                 <div className="w-full">
-                  <ul className="flex flex-col lg:flex-row justify-evenly items-center gap-6 md:gap-8">
+                  <ul className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
                     {alltrainers.map((trainer) => (
                       <div>
                         {trainer.specailization === SportType && (
-                          <li key={trainer._id} className="flex">
+                          <li key={trainer._id} className="flex justify-center">
                             <div
-                              className={`border p-6 md:rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96 ${
+                              className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96 ${
                                 selectedTrainer === trainer._id
                                   ? "border-red-700 border-2 shadow-lg"
                                   : "border-gray-300"
@@ -232,7 +231,6 @@ const BookingForm = () => {
                                 });
                               }}
                             >
-                              {console.log(selectedTrainer)}
                               <img
                                 src={trainer.image || photo} // Placeholder image if no URL
                                 alt={trainer.name}
@@ -260,9 +258,7 @@ const BookingForm = () => {
                                 </li>
                               </ul>
                               <div className="flex justify-end w-full pr-4 mt-4 text-right">
-                                <Button onClick={() => {
-                                  setTrainerDetail(trainer);
-                                  handleOpenModal()}}>
+                                <Button onClick={handleOpenModal}>
                                   Check detail info
                                 </Button>
                               </div>
@@ -270,8 +266,7 @@ const BookingForm = () => {
                                 isOpen={isModalOpen}
                                 onClose={handleCloseModal}
                               >
-                                <Trainers trainerdetail={trainerDetail} />
-                                
+                                <Trainers trainerdetail={trainer} />
                               </Popupdetail>
                             </div>
                           </li>

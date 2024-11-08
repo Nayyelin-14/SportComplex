@@ -13,9 +13,9 @@ const About = () => {
       }}
     >
       <div className="fixed inset-0 bg-black/20 backdrop-blur-sm"></div>
-      <div className="z-10 flex flex-col items-center justify-center px-4 py-8">
+      <div className="z-10 flex flex-col items-center justify-center  sm:px-4 sm:py-8">
         {/* Heading */}
-        <h1 className="md:w-[550px] text-center text-3xl sm:text-4xl md:text-5xl font-bold select-none text-white mb-6">
+        <h1 className="md:w-[550px] text-center text-3xl  sm:text-4xl md:text-5xl font-bold select-none text-white mb-6">
           About Us
         </h1>
 

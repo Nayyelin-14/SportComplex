@@ -1,5 +1,5 @@
 import { Button, Form, Input, message } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PasswordChange } from "../../apiEndpoints/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/userSlice";
@@ -9,6 +9,31 @@ const Resetpassword = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+
+  const useResponsiveGap = () => {
+    const [gap, setGap] = useState("gap-2");
+
+    const updateGap = () => {
+      const width = window.innerWidth;
+
+      if (width >= 576) {
+        setGap("gap-12"); // sm breakpoint (576px)
+      } else {
+        setGap("gap-2");
+      }
+    };
+
+    useEffect(() => {
+      updateGap(); // Initial call on component mount
+      window.addEventListener("resize", updateGap);
+
+      // Cleanup event listener on unmount
+      return () => window.removeEventListener("resize", updateGap);
+    }, []);
+
+    return gap;
+  };
+  const gapClass = useResponsiveGap();
   const onFinishHandler = async (values) => {
     try {
       const response = await PasswordChange(values);
@@ -34,7 +59,7 @@ const Resetpassword = () => {
             confirmpass: "",
             userid: user?._id,
           }}
-          className="flex flex-col gap-2 lg:gap-14"
+          className={`flex flex-col ${gapClass}`}
         >
           <Form.Item
             label={
@@ -53,7 +78,7 @@ const Resetpassword = () => {
             ]}
             hasFeedback
           >
-            <Input.Password className="border-2 border-black text-[16px]" />
+            <Input.Password className="border-2 border-black sm:text-[16px]" />
           </Form.Item>
           <Form.Item
             label={
@@ -72,7 +97,7 @@ const Resetpassword = () => {
             ]}
             hasFeedback
           >
-            <Input.Password className="border-2 border-black text-[16px]" />
+            <Input.Password className="border-2 border-black sm:text-[16px]" />
           </Form.Item>
 
           <Form.Item
@@ -92,7 +117,7 @@ const Resetpassword = () => {
             ]}
             hasFeedback
           >
-            <Input.Password className="border-2 border-black text-[16px]" />
+            <Input.Password className="border-2 border-black sm:text-[16px]" />
           </Form.Item>
           <Form.Item
             hidden
@@ -115,7 +140,7 @@ const Resetpassword = () => {
             <Input className="border-2 border-black text-[16px]" />
           </Form.Item>
           <Button
-            className="font-bold text-[18px] bg-red-900 text-white h-10"
+            className="font-bold sm:text-[18px] bg-red-900 text-white sm:h-10 h-[37px]"
             htmlType="submit"
           >
             Change password

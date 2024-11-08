@@ -8,9 +8,29 @@ import tennis from "./images/tennis.webp";
 import moment from "moment";
 
 const BookingHistory = ({ bookingshistory }) => {
-  const bookingsPerPage = 6; // Number of bookings to display per page
+  const [bookingsPerPage, setBookingsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const [isAnimating, setIsAnimating] = useState(false); // Animation state
+  console.log(bookingshistory);
+  // Function to update bookings per page based on screen size
+  const updateBookingsPerPage = () => {
+    if (window.innerWidth <= 576) {
+      setBookingsPerPage(3);
+    } else {
+      setBookingsPerPage(6);
+    }
+  };
+  console.log(bookingshistory);
+  // useEffect to handle responsive bookingsPerPage
+  useEffect(() => {
+    updateBookingsPerPage();
+
+    // Add a resize event listener
+    window.addEventListener("resize", updateBookingsPerPage);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener("resize", updateBookingsPerPage);
+  }, []);
 
   // Calculate the index range for the current page
   const indexOfLastBooking = currentPage * bookingsPerPage;
@@ -50,10 +70,14 @@ const BookingHistory = ({ bookingshistory }) => {
   return (
     <div>
       {/* Bookings List */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[500px]">
+      <div
+        className={`grid gap-4 h-[500px] lg:h-[400px] mb-20 sm:mb-18 md:mb-20   ${
+          bookingsPerPage === 3 ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-2"
+        }`}
+      >
         {currentBookings.map((booking) => (
           <div
-            className={`w-[100%] sm:w-[80%] lg:w-[100%] h-[130px] bg-gray-200 flex items-center px-4 mb-4 gap-4 transform transition-opacity duration-300 ${
+            className={`sm:w-[90%]  md:w-[80%] lg:w-[100%] h-[160px] bg-gray-200 flex items-center px-4 mb-4 gap-4 transform transition-opacity duration-300 ${
               isAnimating ? "opacity-0" : "opacity-100"
             }`}
             key={booking._id}
@@ -72,6 +96,11 @@ const BookingHistory = ({ bookingshistory }) => {
               <p className="text-[15px] font-bold">
                 {moment(booking.createdAt).format("MMM Do YY")}
               </p>
+              {booking.trainer ? (
+                <p>{booking.trainer.name}</p>
+              ) : (
+                <p>No trainer booked</p>
+              )}
             </div>
           </div>
         ))}

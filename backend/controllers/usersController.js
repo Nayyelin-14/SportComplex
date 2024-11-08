@@ -12,9 +12,11 @@ exports.getUserHistory = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const booking_history = await archivedBookings.find({
-      bookingUser_id: userId,
-    });
+    const booking_history = await archivedBookings
+      .find({
+        bookingUser_id: userId,
+      })
+      .populate("trainer");
 
     if (!booking_history) {
       throw new Error("No Booking History");
