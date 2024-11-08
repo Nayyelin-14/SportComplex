@@ -12,7 +12,7 @@ import Login from "./pages/Authentication/Login";
 import Register from "./pages/Authentication/Register";
 import AuthProvider from "./providers/AuthProvider";
 import Profile from "./pages/Users/Profile";
-import BookingFrom from "./components/sportBooking/BookingFrom";
+import BookingFrom from "./components/sportBooking/BookingForm";
 import NotFound from "./components/NotFound";
 import Adminpage from "./pages/Admin/Adminpage";
 import Trainers from "./pages/Trainers/Trainers";
@@ -85,7 +85,7 @@ const App = () => {
               }
             />
             <Route
-              path="/trainer-details"
+              path="/trainer-details/:trainer_ID"
               element={
                 <AuthProvider
                   allowedRoles={[

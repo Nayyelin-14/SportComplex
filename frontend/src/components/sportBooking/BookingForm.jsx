@@ -9,6 +9,9 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import photo from "../../../mfu.jpg";
+import Popupdetail from "./Popupdetail";
+import TrainerDetail from "./TrainerDetail";
+import Trainers from "../../pages/Trainers/Trainers";
 
 const BookingForm = () => {
   const { selectedTime } = useSelector((state) => state.booking);
@@ -22,6 +25,16 @@ const BookingForm = () => {
   const navigate = useNavigate();
 
   const [selectedTrainer, setSelectedTrainer] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Close the modal
+  };
 
   const handleSelectTrainer = (e) => {
     setSelectedTrainer(e.target.value);
@@ -245,13 +258,16 @@ const BookingForm = () => {
                                 </li>
                               </ul>
                               <div className="flex justify-end w-full pr-4 mt-4 text-right">
-                                <Link
-                                  className="text-red-700 font-semibold underline cursor-pointer"
-                                  to={`/trainer-details/${trainer._id}`} // Use dynamic route
-                                >
+                                <Button onClick={handleOpenModal}>
                                   Check detail info
-                                </Link>
+                                </Button>
                               </div>
+                              <Popupdetail
+                                isOpen={isModalOpen}
+                                onClose={handleCloseModal}
+                              >
+                                <Trainers trainerdetail={trainer} />
+                              </Popupdetail>
                             </div>
                           </li>
                         )}

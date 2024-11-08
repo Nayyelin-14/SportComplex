@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { message, Tabs } from "antd";
 import Session from "./Session";
-import BookingFrom from "./BookingFrom";
+import BookingFrom from "./BookingForm";
 import { getdiff_Bookings } from "../../apiEndpoints/booking";
 
 const BookingIndex = ({ bookings }) => {

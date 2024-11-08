@@ -11,6 +11,7 @@ const bodyParser = require("body-parser");
 const uploadRoute = require("./routes/uploadRoute");
 const newsRoutes = require("./routes/newsRoute");
 const adminRoute = require("./routes/admin");
+const trainerRoute = require("./routes/trainers");
 const archivedbookings = require("./models/Booking/archivedBookings");
 
 const app = express();
@@ -51,7 +52,7 @@ app.use(bookingRoute);
 app.use(adminRoute);
 app.use("/", newsRoutes);
 app.use(newsRoutes);
-
+app.use(trainerRoute);
 cron.schedule("59 23 * * *", archivedbookings);
 
 const port = 4500;
