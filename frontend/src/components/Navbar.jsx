@@ -130,27 +130,32 @@ const Navbar = () => {
 
             {/* /// */}
             <div className="hidden lg:flex">
-              {user === null && (
+              {user === null && location.pathname === "/register" && (
                 <Link to={"/login"}>
                   <button
-                    className={`inline-block p-2 order-1 text-md font-semibold rounded-md px-4 cursor-pointer ${
-                      location.pathname === "/login"
-                        ? "bg-black text-white"
-                        : "text-red-900 bg-white hover:text-red-700"
-                    }`}
+                    className={`rounded-md px-3.5 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-red-900 bg-white text-red-900 `}
                   >
-                    Sign in
+                    <span class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-red-900 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+                    <span class="relative text-red-900 transition duration-300 group-hover:text-white ease">
+                      Log In
+                    </span>
                   </button>
                 </Link>
               )}
-              {/* {user && (
-                <button
-                  className="inline-block py-4 px-4 hover:text-yellow-500"
-                  onClick={LogoutHandler}
-                >
-                  Logout
-                </button>
-              )} */}
+              {user === null && location.pathname === "/login" && (
+                <Link to={"register"}>
+                  {" "}
+                  <button
+                    className={`rounded-md px-3.5 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-red-900 bg-white text-red-900 `}
+                  >
+                    <span class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-red-900 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+                    <span class="relative text-red-900 transition duration-300 group-hover:text-white ease">
+                      Sing up
+                    </span>
+                  </button>
+                </Link>
+              )}
+
               {user && (
                 <div>
                   {userImages && userImages.length > 0 ? (

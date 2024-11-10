@@ -55,9 +55,9 @@ const AuthForm = ({ isLoginPage }) => {
 
   return (
     <section className="container">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-16 sm:gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-12 sm:gap-10 ">
         {/* left side */}
-        <div className="hidden   md:flex">
+        <div className="hidden md:flex">
           <Lottie
             animationData={animationData5}
             style={{ width: 400, height: 400 }}
@@ -81,10 +81,10 @@ const AuthForm = ({ isLoginPage }) => {
             </div>
             {!isLoginPage && (
               <>
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-10">
+                <div className="flex md:flex-col gap-6 md:gap-0 lg:gap-10">
                   <Form.Item
                     layout="horizontal"
-                    className="font-semibold w-full"
+                    className="font-semibold w-full sm:w-[398px] md:w-2/3 lg:w-full"
                     label="Role"
                     name="role"
                     rules={[
@@ -121,12 +121,12 @@ const AuthForm = ({ isLoginPage }) => {
                     <Input
                       placeholder="enter id..."
                       type="number"
-                      className="w-full sm:w-auto"
+                      className="w-[180px] sm:w-[170px] ml-3"
                     ></Input>
                   </Form.Item>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex-col lg:flex items-center gap-2">
                   <Form.Item
                     className="font-semibold"
                     label="Username"
@@ -140,7 +140,10 @@ const AuthForm = ({ isLoginPage }) => {
                     ]}
                     hasFeedback
                   >
-                    <Input placeholder="username..." className="w-52"></Input>
+                    <Input
+                      placeholder="username..."
+                      className="w-full sm:w-full"
+                    ></Input>
                   </Form.Item>
                   <Form.Item
                     layout="horizontal"
@@ -155,7 +158,11 @@ const AuthForm = ({ isLoginPage }) => {
                     ]}
                     hasFeedback
                   >
-                    <Input placeholder="phnumber..." type="number"></Input>
+                    <Input
+                      className="sm:ml-6 sm:w-[94%]"
+                      placeholder="phnumber..."
+                      type="number"
+                    ></Input>
                   </Form.Item>
                 </div>
               </>
