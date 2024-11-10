@@ -46,7 +46,11 @@ const AuthForm = ({ isLoginPage }) => {
 
   return (
     <section className="container mx-auto p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div
+        className={`grid grid-cols-1 md:grid-cols-2 gap-8 items-center lg:h-[575px] ${
+          isLoginPage && `lg:h-[500px]`
+        }`}
+      >
         {/* Left Side Animation */}
         <div className="hidden md:flex justify-center">
           <Lottie
@@ -74,28 +78,37 @@ const AuthForm = ({ isLoginPage }) => {
             {/* Extra Fields for Registration */}
             {!isLoginPage && (
               <>
-                <Form.Item
-                  label="Role"
-                  name="role"
-                  rules={[{ required: true, message: "Please select a role" }]}
-                  hasFeedback
-                >
-                  <Select placeholder="Select a role">
-                    <Select.Option value="Admin">Admin</Select.Option>
-                    <Select.Option value="Student">Student</Select.Option>
-                    <Select.Option value="Lecturer">Lecturer</Select.Option>
-                    <Select.Option value="Outsider">Outsider</Select.Option>
-                  </Select>
-                </Form.Item>
+                <div className="lg:flex lg:items-center lg:gap-20">
+                  <Form.Item
+                    label="Role"
+                    name="role"
+                    rules={[
+                      { required: true, message: "Please select a role" },
+                    ]}
+                    hasFeedback
+                    className="lg:w-2/5"
+                  >
+                    <Select placeholder="Select a role">
+                      <Select.Option value="Admin">Admin</Select.Option>
+                      <Select.Option value="Student">Student</Select.Option>
+                      <Select.Option value="Lecturer">Lecturer</Select.Option>
+                      <Select.Option value="Outsider">Outsider</Select.Option>
+                    </Select>
+                  </Form.Item>
 
-                <Form.Item
-                  label="Member ID"
-                  name="memberid"
-                  rules={[{ required: true, message: "Enter your ID" }]}
-                  hasFeedback
-                >
-                  <Input placeholder="Enter your ID..." type="number" />
-                </Form.Item>
+                  <Form.Item
+                    label="Member ID"
+                    name="memberid"
+                    rules={[{ required: true, message: "Enter your ID" }]}
+                    hasFeedback
+                  >
+                    <Input
+                      className="border-black lg:w-full"
+                      placeholder="Enter your ID..."
+                      type="number"
+                    />
+                  </Form.Item>
+                </div>
 
                 <Form.Item
                   label="Username"
@@ -105,7 +118,10 @@ const AuthForm = ({ isLoginPage }) => {
                   ]}
                   hasFeedback
                 >
-                  <Input placeholder="Enter your username..." />
+                  <Input
+                    className="border-black"
+                    placeholder="Enter your username..."
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -117,6 +133,7 @@ const AuthForm = ({ isLoginPage }) => {
                   hasFeedback
                 >
                   <Input
+                    className="border-black"
                     placeholder="Enter your phone number..."
                     type="number"
                   />
@@ -137,7 +154,10 @@ const AuthForm = ({ isLoginPage }) => {
               ]}
               hasFeedback
             >
-              <Input placeholder="Enter your email..." />
+              <Input
+                placeholder="Enter your email..."
+                className="border-black"
+              />
             </Form.Item>
 
             <Form.Item
@@ -146,7 +166,10 @@ const AuthForm = ({ isLoginPage }) => {
               rules={[{ required: true, message: "Enter your password" }]}
               hasFeedback
             >
-              <Input.Password placeholder="Enter your password..." />
+              <Input.Password
+                placeholder="Enter your password..."
+                className="border-black"
+              />
             </Form.Item>
 
             {/* Redirect Links */}

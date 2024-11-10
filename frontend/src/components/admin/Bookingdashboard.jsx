@@ -1,6 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
+import { Pagination } from "antd";
 const Bookingdashboard = ({ allbookings }) => {
+  console.log(allbookings.length);
+  // State to manage the current page and the number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of bookings per page
+
+  // Calculate the index of the first and last booking for the current page
+  const indexOfLastBooking = currentPage * itemsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
+
+  // Slice the data to show only the current page's bookings
+  const currentBookings = allbookings.slice(
+    indexOfFirstBooking,
+    indexOfLastBooking
+  );
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -25,15 +45,15 @@ const Bookingdashboard = ({ allbookings }) => {
               <th scope="col" className="px-6 py-3 text-center">
                 StudentID
               </th>
-              {/* <th scope="col" className="px-6 py-3 text-center">
+              <th scope="col" className="px-6 py-3 text-center">
                 Action
-              </th> */}
+              </th>
             </tr>
           </thead>
           <tbody>
             {allbookings && (
               <>
-                {allbookings.map((booking) => (
+                {currentBookings.map((booking) => (
                   <tr
                     className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b "
                     key={booking._id}
@@ -62,21 +82,6 @@ const Bookingdashboard = ({ allbookings }) => {
                     >
                       {booking.session}
                     </th>
-                    {/* <td className="px-6 py-4 text-center">{user.email}</td>
-                    {user.role === "Admin" && (
-                      <td className="px-6 py-4 text-center">
-                        <span className="bg-blue-600 text-white font-medium p-2 rounded-lg">
-                          {booking.role}
-                        </span>
-                      </td>
-                    )} */}
-                    {/* {user.role === "Student" && (
-                      <td className="px-6 py-4 text-center">
-                        <span className="bg-green-600 text-white font-medium p-2 rounded-lg">
-                          {user.role}
-                        </span>
-                      </td>
-                    )} */}
 
                     <td className="px-6 py-4 text-center">
                       {moment(booking.createdAt).format("L")}
@@ -84,9 +89,11 @@ const Bookingdashboard = ({ allbookings }) => {
                     <td className="px-6 py-4 text-center">
                       {booking.studentid}
                     </td>
-                    {/* <td className="px-6 py-4 text-center">
-                      <button>Delete</button>
-                    </td> */}
+                    <td className="px-6 py-4 text-center">
+                      <button className="font-bold border-2 p-2  rounded-lg border-red-300 transition-all duration-300 ease-in-out hover:bg-red-500 hover:text-white hover:border-red-500 ">
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </>
@@ -94,6 +101,14 @@ const Bookingdashboard = ({ allbookings }) => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        defaultCurrent={1}
+        current={currentPage} // Set current page
+        total={allbookings.length} // Total number of items
+        pageSize={itemsPerPage} // Items per page
+        onChange={handlePageChange} // Handle page change
+        className="float-right mt-10"
+      />
     </div>
   );
 };
