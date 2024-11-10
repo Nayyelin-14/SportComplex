@@ -48,7 +48,7 @@ const Session = ({ session_time, sportType, infos, fetchBookings }) => {
         </div>
       </div>
       <div className="container p-3 w-11/12 flex items-center justify-center rounded-lg bg-primary">
-        <DateDisplay/>
+        <DateDisplay />
       </div>
       {session_time.map((time, index) => (
         <div
@@ -56,7 +56,9 @@ const Session = ({ session_time, sportType, infos, fetchBookings }) => {
           className="container p-3 w-11/12 rounded-lg bg-stone-200"
         >
           <div className="flex items-center justify-between">
-            <span className="text-black text-[14px] sm:text-base py-2 px-5 font-semibold">{time}</span>
+            <span className="text-black text-[14px] sm:text-base py-2 px-5 font-semibold">
+              {time}
+            </span>
             {user.role !== "Admin" && (
               <button
                 className="text-[12px] sm:text-sm py-2 px-4 bg-secondary rounded-2xl cursor-pointer text-white w-30 hover:bg-white hover:border-1 border-primary hover:text-primary"
@@ -76,10 +78,10 @@ const Session = ({ session_time, sportType, infos, fetchBookings }) => {
 
           {/* Display the bookings only for the session whose index matches viewIndex */}
           {viewIndex === index && (
-            <div className="flex justify-center items-center">
+            <div className=" flex flex-col justify-center items-center">
               {infos[time] && infos[time].length > 0 ? (
                 infos[time].map((booking, i) => (
-                  <div key={i} className="py-2">
+                  <div key={i} className="py-2 ">
                     <p className="font-semibold text-sm sm:text-base">
                       {booking.name}
                     </p>

@@ -10,14 +10,14 @@ import animationData5 from "../../assets/Animation - 5.json";
 import { jwtDecode } from "jwt-decode";
 
 const AuthForm = ({ isLoginPage }) => {
-  const { submitting, setSubmitting } = useState();
+  const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  console.log(user);
 
   const onFinishHandler = async (values) => {
     try {
+      setSubmitting(true);
       let response;
       if (isLoginPage) {
         response = await loginaccount(values);
@@ -48,8 +48,9 @@ const AuthForm = ({ isLoginPage }) => {
       }
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setSubmitting(false);
     }
-    // console.log(values);
   };
 
   return (
@@ -70,7 +71,13 @@ const AuthForm = ({ isLoginPage }) => {
             onFinish={onFinishHandler}
           >
             <div className="text-3xl pb-5 sm:pb-10 font-semibold">
-              {isLoginPage ? <h1>Login</h1> : <h1>Sign Up</h1>}
+              {isLoginPage ? (
+                <h1 className="text-red-900 font-bold">
+                  Login to your account
+                </h1>
+              ) : (
+                <h1 className="text-red-900 font-bold">Sign Up new account</h1>
+              )}
             </div>
             {!isLoginPage && (
               <>
@@ -207,6 +214,7 @@ const AuthForm = ({ isLoginPage }) => {
               <Button
                 className="py-5 bg-red-800 rounded-lg w-full sm:w-full font-medium text-white"
                 htmlType="submit"
+                disabled={submitting}
               >
                 {isLoginPage ? "Login" : "Sing up"}
               </Button>

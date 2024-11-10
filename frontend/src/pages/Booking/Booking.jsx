@@ -7,21 +7,21 @@ import { message } from "antd";
 import DateDisplay from "../../components/DateDisplay";
 
 const Booking = () => {
-  const [bookings, setBookings] = useState([]);
-  const displayBookings = async () => {
-    try {
-      const response = await getAll_Bookings();
-      if (response.isSuccess) {
-        // message.success(response.message);
-        setBookings((prev) => [...prev, response.Allbookings]);
-      }
-    } catch (error) {
-      message.error(error.message);
-    }
-  };
+  // const [bookings, setBookings] = useState([]);
+  // const displayBookings = async () => {
+  //   try {
+  //     const response = await getAll_Bookings();
+  //     if (response.isSuccess) {
+  //       // message.success(response.message);
+  //       setBookings((prev) => [...prev, response.Allbookings]);
+  //     }
+  //   } catch (error) {
+  //     message.error(error.message);
+  //   }
+  // };
 
   useEffect(() => {
-    displayBookings();
+    // displayBookings();
   }, []);
 
   return (
@@ -29,7 +29,7 @@ const Booking = () => {
       {/* <h1>
         <DateDisplay />
       </h1> */}
-      <BookingIndex bookings={bookings} />
+      <BookingIndex />
     </div>
   );
 };

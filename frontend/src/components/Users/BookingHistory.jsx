@@ -11,16 +11,18 @@ const BookingHistory = ({ bookingshistory }) => {
   const [bookingsPerPage, setBookingsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const [isAnimating, setIsAnimating] = useState(false); // Animation state
-  console.log(bookingshistory);
+
   // Function to update bookings per page based on screen size
   const updateBookingsPerPage = () => {
     if (window.innerWidth <= 576) {
       setBookingsPerPage(3);
+    } else if (window.innerWidth <= 1023) {
+      setBookingsPerPage(3);
     } else {
-      setBookingsPerPage(6);
+      setBookingsPerPage(4);
     }
   };
-  console.log(bookingshistory);
+
   // useEffect to handle responsive bookingsPerPage
   useEffect(() => {
     updateBookingsPerPage();
@@ -77,7 +79,7 @@ const BookingHistory = ({ bookingshistory }) => {
       >
         {currentBookings.map((booking) => (
           <div
-            className={`sm:w-[90%]  md:w-[80%] lg:w-[100%] h-[160px] bg-gray-200 flex items-center px-4 mb-4 gap-4 transform transition-opacity duration-300 ${
+            className={`sm:w-[90%]  md:w-[75%] lg:w-[100%] h-[160px] bg-gray-200 flex items-center px-4 mb-4 gap-4 transform transition-opacity duration-300 rounded-xl ${
               isAnimating ? "opacity-0" : "opacity-100"
             }`}
             key={booking._id}
@@ -88,18 +90,24 @@ const BookingHistory = ({ bookingshistory }) => {
               className="w-[45%] h-[80%] sm:w-[42%] mr-4"
             />
 
-            <div className="flex flex-col h-full gap-4">
-              <h1 className="font-bold text-[15px] mt-2">
+            <div className="flex flex-col h-full gap-3 md:gap-2">
+              <h1 className="font-bold text-[13px] md:text-[15px] mt-2 text-red-900">
                 {booking.sporttype}
               </h1>
-              <p className="text-[15px] font-bold">{booking.session}</p>
-              <p className="text-[15px] font-bold">
+              <p className="text-[13px] md:text-[15px] font-bold text-red-900">
+                {booking.session}
+              </p>
+              <p className="text-[13px] md:text-[15px] font-bold text-red-900">
                 {moment(booking.createdAt).format("MMM Do YY")}
               </p>
               {booking.trainer ? (
-                <p>{booking.trainer.name}</p>
+                <p className="text-gray-500 font-bold text-[13px] md:text-[15px]">
+                  {booking.trainer.name} (Trainer)
+                </p>
               ) : (
-                <p>No trainer booked</p>
+                <p className="text-gray-400 font-bold text-[13px] md:text-[15px]">
+                  No trainer booked
+                </p>
               )}
             </div>
           </div>

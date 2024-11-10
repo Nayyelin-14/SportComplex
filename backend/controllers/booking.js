@@ -26,7 +26,6 @@ exports.createBooking = async (req, res) => {
       role,
       trainer,
     } = req.body;
-    console.log(trainer);
 
     if (status === "restricted") {
       throw new Error("Your account has been restricted!!!");
@@ -103,7 +102,7 @@ exports.getAllbookings = async (req, res) => {
     if (!Allbookings) {
       throw new Error("Something went wrong");
     }
-    // console.log("allbookings", Allbookings);
+    console.log("allbookings", Allbookings);
     return res.status(200).json({
       isSuccess: true,
       message: "Bookings fetched",

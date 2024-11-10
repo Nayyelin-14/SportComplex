@@ -25,7 +25,7 @@ import {
 const EditProfile = () => {
   const [form] = Form.useForm();
   const { user } = useSelector((state) => state.user);
-
+  const [issaving, setIssaving] = useState(false);
   const [isWarning, setIsWarning] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -64,6 +64,7 @@ const EditProfile = () => {
 
   const onFinishHandler = async (values) => {
     try {
+      setIssaving(true);
       const formData = new FormData();
 
       // Add the image file to formData if any
@@ -92,6 +93,7 @@ const EditProfile = () => {
     } catch (error) {
       message.error(error.message); // Fixed: use error.message
     } finally {
+      setIssaving(false);
       setLoading(false); // Reset loading state
     }
   };
@@ -228,7 +230,7 @@ const EditProfile = () => {
           <Button
             className="bg-red-900 p-5 text-white text-[17px] font-semibold w-full"
             htmlType="submit"
-            disabled={isWarning}
+            disabled={isWarning || issaving}
           >
             {loading ? "Saving..." : "Save Changes"}
           </Button>

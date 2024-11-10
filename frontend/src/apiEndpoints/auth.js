@@ -61,32 +61,7 @@ export const getBookingHistory = async (userID) => {
     return error.message;
   }
 };
-// router.delete(
-//   "/user-profile/:user_ID/:deleteImageID",
-//   authMiddleware,
-//   UserController.deletePhotos
-// );
-// export const deletePhoto = async (payload) => {
-//   // console.log(payload);
-//   try {
-//     const { deleteimgID, userID } = payload;
-//     console.log(deleteimgID, userID);
-//     const encodedImgUrl = encodeURIComponent(deleteimgID);
-//     // console.log(encodedImgUrl);
-//     // console.log(userID);
-//     const response = await instance.delete(
-//       `/user-profile/${userID}/${deleteimgID}`,
-//       {
-//         validateStatus: function (status) {
-//           return status >= 200 && status < 300; // Only resolve if the status code is in the range 2xx
-//         },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     return error.message;
-//   }
-// };
+
 export const deletePhoto = async (payload) => {
   try {
     const { deleteimgID, userID } = payload;

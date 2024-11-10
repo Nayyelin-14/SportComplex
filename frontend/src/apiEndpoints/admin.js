@@ -5,7 +5,7 @@ export const getAllUsers = async () => {
     const response = await instance.get("/admin/allusers", {
       validateStatus: () => true,
     });
-    // console.log(response);
+
     return response.data;
   } catch (error) {
     return error.message;
@@ -17,7 +17,7 @@ export const getallBookings = async () => {
     const response = await instance.get("/admin/allbookings", {
       validateStatus: () => true,
     });
-    // console.log(response);
+
     return response.data;
   } catch (error) {
     return error.message;
@@ -26,10 +26,8 @@ export const getallBookings = async () => {
 
 export const restrict_user = async (userID) => {
   try {
-    // /admin/restrict-user/:userID
-    console.log(userID);
     const response = await instance.post(`/admin/restrict-user/${userID}`);
-    console.log(response);
+
     return response.data;
   } catch (error) {
     return error.message;
@@ -72,9 +70,6 @@ export const addNews = async (newsData) => {
     const response = await instance.post("/admin/addnew", newsData);
     return response.data;
   } catch (error) {
-    //  debugging
-    console.error("API Error:", error);
-    //  full error response
     return {
       isSuccess: false,
       message: error.response?.data?.message || error.message,

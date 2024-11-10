@@ -16,14 +16,14 @@ import Trainers from "../../pages/Trainers/Trainers";
 const BookingForm = () => {
   const { selectedTime } = useSelector((state) => state.booking);
   const { SportType } = useSelector((state) => state.booking);
-  console.log(SportType);
+
   const { user } = useSelector((state) => state.user);
   const [checked, setChecked] = useState(false);
   const [form] = Form.useForm();
   const [alltrainers, setAlltrainers] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [isbooking, setIsbooking] = useState(false);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,7 +44,6 @@ const BookingForm = () => {
     try {
       const response = await get_alltrainers();
       if (response.isSuccess) {
-        console.log(response);
         setAlltrainers(response.trainers_doc);
       } else {
         throw new Error(response.message);
@@ -55,8 +54,8 @@ const BookingForm = () => {
   };
 
   const onFinishHandler = async (values) => {
-    console.log(values);
     try {
+      setIsbooking(true);
       const response = await create_Booking(values);
       if (response.isSuccess) {
         // bookingDoc,
@@ -70,6 +69,8 @@ const BookingForm = () => {
       message.error(error.message);
       dispatch(resetSelectedTime());
       dispatch(resetSportType());
+    } finally {
+      setIsbooking(false);
     }
   };
 
@@ -209,15 +210,15 @@ const BookingForm = () => {
 
               <Form.Item
                 className="mt-4 py-4"
-                label="Trainer (Optional)"
+                label=<p className="font-bold text-xl">Trainer (Optional)</p>
                 name="trainer"
               >
-                <div className="w-full">
+                <div className="w-full mt-7">
                   <ul className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
-                    {alltrainers.map((trainer) => (
-                      <div>
+                    {alltrainers?.map((trainer) => (
+                      <div key={trainer._id}>
                         {trainer.specailization === SportType && (
-                          <li key={trainer._id} className="flex justify-center">
+                          <li className="flex justify-center">
                             <div
                               className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96 ${
                                 selectedTrainer === trainer._id
@@ -258,7 +259,10 @@ const BookingForm = () => {
                                 </li>
                               </ul>
                               <div className="flex justify-end w-full pr-4 mt-4 text-right">
-                                <Button onClick={handleOpenModal}>
+                                <Button
+                                  className="border-none border-b-2 border-black"
+                                  onClick={handleOpenModal}
+                                >
                                   Check detail info
                                 </Button>
                               </div>
@@ -280,9 +284,10 @@ const BookingForm = () => {
               <Form.Item className="mt-6 pt-6">
                 <Button
                   className="w-full bg-red-800 text-white rounded-lg"
+                  disabled={isbooking}
                   htmlType="submit"
                 >
-                  Submit
+                  Submit booking
                 </Button>
               </Form.Item>
             </Form>

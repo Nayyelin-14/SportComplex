@@ -5,7 +5,6 @@ const trainerAvailabilitySchema = new Schema(
     trainer: {
       type: Schema.Types.ObjectId,
       ref: "trainers",
-      required: true,
     },
     booking_sportType: [
       {

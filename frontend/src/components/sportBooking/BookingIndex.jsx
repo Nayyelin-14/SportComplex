@@ -4,7 +4,7 @@ import Session from "./Session";
 import BookingFrom from "./BookingForm";
 import { getdiff_Bookings } from "../../apiEndpoints/booking";
 
-const BookingIndex = ({ bookings }) => {
+const BookingIndex = () => {
   const session_time = [
     "8:00 - 10:00",
     "10:00 - 12:00",
@@ -60,7 +60,7 @@ const BookingIndex = ({ bookings }) => {
   const items = [
     {
       key: "1",
-      label: <p className="text-[14px] md:text-[20px]">Tennis</p>,
+      label: "Tennis",
       children: (
         <Session
           session_time={session_time}
@@ -72,7 +72,7 @@ const BookingIndex = ({ bookings }) => {
     },
     {
       key: "2",
-      label: <p className="text-[14px] md:text-[20px]">Swimming pool</p>,
+      label: "Swimming Pool",
       children: (
         <Session
           session_time={session_time}
@@ -84,7 +84,7 @@ const BookingIndex = ({ bookings }) => {
     },
     {
       key: "3",
-      label: <p className="text-[14px] md:text-[20px]">Football</p>,
+      label: "Football",
       children: (
         <Session
           session_time={session_time}
@@ -96,7 +96,7 @@ const BookingIndex = ({ bookings }) => {
     },
     {
       key: "4",
-      label: <p className="text-[14px] md:text-[20px]">Badminton</p>,
+      label: "Badminton",
       children: (
         <Session
           session_time={session_time}
@@ -108,7 +108,7 @@ const BookingIndex = ({ bookings }) => {
     },
     {
       key: "5",
-      label: <p className="text-[14px] md:text-[20px]">Fitness</p>,
+      label: "Fitness",
       children: (
         <Session
           session_time={session_time}
@@ -140,7 +140,10 @@ const BookingIndex = ({ bookings }) => {
   }, []);
   return (
     <Tabs
-      items={items}
+      items={items.map((item) => ({
+        ...item,
+        label: <p className="text-[14px] md:text-[20px]">{item.label}</p>,
+      }))}
       tabPosition={tabPosition}
       size="large"
       activeKey={activetabKey}

@@ -42,7 +42,7 @@ const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
   const { userImages } = useSelector((state) => state.user);
-  console.log(userImages);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();

@@ -86,13 +86,13 @@ const Userimages = ({ setActiveTabKey }) => {
     <div className="h-[450px] lg:h-[550px] flex flex-col lg:gap-32 justify-between">
       <div>
         <p className="mb-8">Uploaded images</p>
-        <div className="flex flex-row gap-8 sm:gap-4 md:gap-6 lg:gap-6 flex-wrap p-2">
+        <div className="flex flex-row  gap-10  sm:gap-4 md:gap-2 lg:gap-10 flex-wrap p-2">
           {currentImages.length > 0 ? (
             currentImages.map((image, index) => (
               <div
                 key={index}
                 className="relative flex flex-row group 
-            w-[90px] h-[100px] sm:w-[114px] sm:h-[110px] md:w-[144px] md:h-[145px] "
+            w-[100px] h-[100px] sm:w-[114px] sm:h-[110px] md:w-[134px] md:h-[135px] "
               >
                 {/* Image */}
                 <img

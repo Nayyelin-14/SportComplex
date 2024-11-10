@@ -9,7 +9,7 @@ const Resetpassword = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
-
+  const [ischanging, setIschanging] = useState(false);
   const useResponsiveGap = () => {
     const [gap, setGap] = useState("gap-2");
 
@@ -36,6 +36,7 @@ const Resetpassword = () => {
   const gapClass = useResponsiveGap();
   const onFinishHandler = async (values) => {
     try {
+      setIschanging(true);
       const response = await PasswordChange(values);
       if (response.isSuccess) {
         message.success(response.message);
@@ -46,6 +47,8 @@ const Resetpassword = () => {
       }
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setIschanging(false);
     }
   };
   return (
@@ -142,6 +145,7 @@ const Resetpassword = () => {
           <Button
             className="font-bold sm:text-[18px] bg-red-900 text-white sm:h-10 h-[37px]"
             htmlType="submit"
+            disabled={ischanging}
           >
             Change password
           </Button>
