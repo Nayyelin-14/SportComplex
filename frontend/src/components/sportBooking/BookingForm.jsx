@@ -67,6 +67,7 @@ const BookingForm = () => {
       }
     } catch (error) {
       message.error(error.message);
+      navigate("/booking");
       dispatch(resetSelectedTime());
       dispatch(resetSportType());
     } finally {
