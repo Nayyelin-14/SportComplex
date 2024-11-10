@@ -121,7 +121,7 @@ const BookingIndex = () => {
   ];
 
   const updateTabPosition = () => {
-    if (window.innerWidth < 510) {
+    if (window.innerWidth < 700) {
       setTabPosition("top"); // Use top position for smaller screens
     } else {
       setTabPosition("left"); // Use left position for larger screens
@@ -142,7 +142,11 @@ const BookingIndex = () => {
     <Tabs
       items={items.map((item) => ({
         ...item,
-        label: <p className="text-[14px] md:text-[20px]">{item.label}</p>,
+        label: (
+          <p className="text-[14px] md:text-[20px] font-semibold ">
+            {item.label}
+          </p>
+        ),
       }))}
       tabPosition={tabPosition}
       size="large"
