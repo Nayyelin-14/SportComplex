@@ -5,7 +5,7 @@ export const create_Booking = async (payload) => {
     const response = await instance.post("/createBooking", payload, {
       validateStatus: () => true,
     });
-    console.log(response.data);
+
     return response.data;
   } catch (error) {
     return error.message;
@@ -15,7 +15,7 @@ export const create_Booking = async (payload) => {
 export const getAll_Bookings = async () => {
   try {
     const response = await instance.get("/getAllbookings");
-    console.log(response.data);
+    console.log(response);
     return response.data;
   } catch (error) {
     return error.message;
@@ -26,6 +26,16 @@ export const getdiff_Bookings = async (sportType) => {
   try {
     const response = await instance.get(`/booking/${sportType}`);
 
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
+// alltrainers
+
+export const get_alltrainers = async () => {
+  try {
+    const response = await instance.get(`/alltrainers`);
     return response.data;
   } catch (error) {
     return error.message;

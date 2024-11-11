@@ -7,38 +7,29 @@ import { loginaccount, registerNewUser } from "../../apiEndpoints/auth";
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import animationData5 from "../../assets/Animation - 5.json";
-import { jwtDecode } from "jwt-decode";
+// import jwtDecode from "jwt-decode"; // Remove curly braces since it's not a named import
 
 const AuthForm = ({ isLoginPage }) => {
-  const { submitting, setSubmitting } = useState();
+  const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
-  console.log(user);
 
   const onFinishHandler = async (values) => {
     try {
+      setSubmitting(true);
       let response;
       if (isLoginPage) {
         response = await loginaccount(values);
         if (response.isSuccess) {
           message.success(response.message);
           localStorage.setItem("token", response.token);
-
-          console.log(response);
-
-          // const decodedUser = jwtDecode(response.token);
           dispatch(setUser(response.LogIn_Account));
-          // dispatch(setUser(response.token));
           window.location.replace("/");
         } else {
           throw new Error(response.message);
         }
       } else {
         response = await registerNewUser(values);
-        console.log(values);
-        console.log(response);
-
         if (response.isSuccess) {
           message.success(response.message);
           navigate("/login");
@@ -48,162 +39,167 @@ const AuthForm = ({ isLoginPage }) => {
       }
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setSubmitting(false);
     }
-    // console.log(values);
   };
 
   return (
-    <section className="container">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center py-20">
-        {/* left sidee */}
-        <div className="hidden sm:block md:flex">
+    <section className="container mx-auto p-6">
+      <div
+        className={`grid grid-cols-1 md:grid-cols-2 gap-8 items-center lg:h-[575px] ${
+          isLoginPage && `lg:h-[500px]`
+        }`}
+      >
+        {/* Left Side Animation */}
+        <div className="hidden md:flex justify-center">
           <Lottie
             animationData={animationData5}
-            style={{ width: 400, height: 400 }}
+            style={{ width: 350, height: 350 }}
           />
         </div>
-        {/* right side */}
+
+        {/* Right Side Form */}
         <div>
           <Form
             layout="vertical"
             initialValues={{ email: "", password: "" }}
             onFinish={onFinishHandler}
+            className="max-w-lg mx-auto"
           >
-            <div className="text-3xl pb-5 sm:pb-10 font-semibold">{isLoginPage ? <h1>Login</h1> : <h1>Sign Up</h1>}</div>
+            <div className="text-3xl pb-6 font-semibold text-center">
+              {isLoginPage ? (
+                <h1 className="text-red-900">Login to Your Account</h1>
+              ) : (
+                <h1 className="text-red-900">Sign Up New Account</h1>
+              )}
+            </div>
+
+            {/* Extra Fields for Registration */}
             {!isLoginPage && (
               <>
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-10">
+                <div className="lg:flex lg:items-center lg:gap-20">
                   <Form.Item
-                    layout="horizontal"
-                    className="font-semibold w-full"
                     label="Role"
                     name="role"
                     rules={[
-                      {
-                        required: true,
-                        message: "Select role",
-                      },
+                      { required: true, message: "Please select a role" },
                     ]}
                     hasFeedback
+                    className="lg:w-2/5"
                   >
-                    <Select placeholder="Select a role" className="w-full sm:w-auto">
+                    <Select placeholder="Select a role">
                       <Select.Option value="Admin">Admin</Select.Option>
                       <Select.Option value="Student">Student</Select.Option>
                       <Select.Option value="Lecturer">Lecturer</Select.Option>
                       <Select.Option value="Outsider">Outsider</Select.Option>
                     </Select>
                   </Form.Item>
+
                   <Form.Item
-                    layout="horizontal"
-                    className="font-semibold w-full"
-                    label="ID"
+                    label="Member ID"
                     name="memberid"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Enter valid phone number",
-                      },
-                    ]}
+                    rules={[{ required: true, message: "Enter your ID" }]}
                     hasFeedback
                   >
                     <Input
-                      placeholder="enter id..."
+                      className="border-black lg:w-full"
+                      placeholder="Enter your ID..."
                       type="number"
-                      className="w-full sm:w-auto"
-                    ></Input>
+                    />
                   </Form.Item>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Form.Item
-                    className="font-semibold"
-                    label="Username"
-                    name="username"
-                    layout="horizontal"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Enter username",
-                      },
-                    ]}
-                    hasFeedback
-                  >
-                    <Input placeholder="username..." className="w-52"></Input>
-                  </Form.Item>
-                  <Form.Item
-                    layout="horizontal"
-                    className="font-semibold"
-                    label="Phone"
-                    name="phnumber"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Enter valid phone number",
-                      },
-                    ]}
-                    hasFeedback
-                  >
-                    <Input placeholder="phnumber..." type="number"></Input>
-                  </Form.Item>
-                </div>
+                <Form.Item
+                  label="Username"
+                  name="username"
+                  rules={[
+                    { required: true, message: "Please enter a username" },
+                  ]}
+                  hasFeedback
+                >
+                  <Input
+                    className="border-black"
+                    placeholder="Enter your username..."
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Phone Number"
+                  name="phnumber"
+                  rules={[
+                    { required: true, message: "Enter a valid phone number" },
+                  ]}
+                  hasFeedback
+                >
+                  <Input
+                    className="border-black"
+                    placeholder="Enter your phone number..."
+                    type="number"
+                  />
+                </Form.Item>
               </>
             )}
+
+            {/* Email and Password Fields */}
             <Form.Item
-              className="font-semibold"
               label="Email"
               name="email"
               rules={[
                 {
                   required: true,
                   type: "email",
-                  message: "Enter valid email",
+                  message: "Enter a valid email",
                 },
               ]}
               hasFeedback
             >
-              <Input placeholder="email..."></Input>
+              <Input
+                placeholder="Enter your email..."
+                className="border-black"
+              />
             </Form.Item>
+
             <Form.Item
-              className="my-1  font-semibold"
               label="Password"
               name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Enter password",
-                },
-              ]}
+              rules={[{ required: true, message: "Enter your password" }]}
               hasFeedback
             >
-              <Input.Password placeholder="password..." />
+              <Input.Password
+                placeholder="Enter your password..."
+                className="border-black"
+              />
             </Form.Item>
-            <div className="my-3">
+
+            {/* Redirect Links */}
+            <div className="text-center my-4">
               {isLoginPage ? (
-                <div>
-                  <p className="inline-block font-medium ">
-                    Dont' have an account?
-                  </p>
-                  <Link to={"/register"} className="text-blue-600 ml-2">
+                <p>
+                  Don't have an account?{" "}
+                  <Link to="/register" className="text-blue-600">
                     Register here
                   </Link>
-                </div>
+                </p>
               ) : (
-                <div>
-                  <p className="inline-block font-medium ">
-                    Already have an account?
-                  </p>
-                  <Link to={"/login"} className="text-blue-600 ml-2">
+                <p>
+                  Already have an account?{" "}
+                  <Link to="/login" className="text-blue-600">
                     Login here
                   </Link>
-                </div>
+                </p>
               )}
             </div>
+
+            {/* Submit Button */}
             <Form.Item>
               <Button
-                className="py-5 bg-red-800 rounded-lg w-full sm:w-1/5 font-medium text-white"
+                type="primary"
                 htmlType="submit"
+                className="w-full bg-red-800 text-white py-3 rounded-lg"
+                loading={submitting}
               >
-                {isLoginPage ? "Login" : "Sing up"}
+                {isLoginPage ? "Login" : "Sign Up"}
               </Button>
             </Form.Item>
           </Form>

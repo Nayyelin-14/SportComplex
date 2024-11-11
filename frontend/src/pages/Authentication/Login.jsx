@@ -3,7 +3,7 @@ import AuthForm from "../../components/auth/AuthForm";
 
 const Login = () => {
   return (
-    <div>
+    <div className="max-w-7xl  mx-auto">
       <AuthForm isLoginPage={true} />
     </div>
   );

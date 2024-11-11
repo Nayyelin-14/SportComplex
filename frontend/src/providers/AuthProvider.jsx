@@ -3,7 +3,7 @@ import { getCurrentUser } from "../apiEndpoints/auth";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../store/userSlice";
+import { setImages, setUser } from "../store/userSlice";
 import { setLoader } from "../store/loaderSlice";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -21,10 +21,13 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       const response = await getCurrentUser();
 
       if (response.isSuccess) {
-        // console.log("provider", response);
         message.success(response.message);
         // Store user data in Redux store
         dispatch(setUser(response.currentUser));
+        dispatch(setImages(response.currentUser?.profileImage));
+      } else {
+        dispatch(setLoader(false));
+        return; // Stop execution here
       }
       // if(user.role)
       if (!allowedRoles.includes(response.currentUser.role)) {
@@ -34,14 +37,12 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       }
 
       if (user === null || !token) {
-        {
-          // Invalid token or user not found
-          localStorage.removeItem("token");
-          dispatch(setUser(null));
-          navigate("/login");
+        // Invalid token or user not found
+        localStorage.removeItem("token");
+        dispatch(setUser(null));
+        navigate("/login");
 
-          throw new Error("Unauthorized");
-        }
+        throw new Error("Unauthorized");
       }
       dispatch(setLoader(false));
     } catch (err) {
@@ -62,7 +63,7 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
       currentUser();
       expireLoginToken();
     } else {
-      navigate("/");
+      navigate("/login");
       dispatch(setLoader(false)); // Make sure to stop the loader
     }
   }, [token]);

@@ -42,4 +42,6 @@ router.get(
   bookingController.getBookings
 );
 
+router.get("/alltrainers", authMiddleware, bookingController.getAlltrainers);
+
 module.exports = router;

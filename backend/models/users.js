@@ -34,7 +34,11 @@ const usersSchema = new Schema(
     },
     lastEditTime: {
       type: Date,
-      default: null,
+      // default: Date.now,
+    },
+    profileImage: {
+      type: [String],
+      default: [],
     },
   },
   {

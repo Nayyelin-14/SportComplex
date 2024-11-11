@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "../assets/mfulogo.png";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -39,9 +39,9 @@ const Menu = [
 ];
 
 const Navbar = () => {
-
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
+  const { userImages } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -66,8 +66,8 @@ const Navbar = () => {
     setProfileMenu(!profileMenu);
   };
 
-  const profilepage = () => {
-    navigate("/user-profile");
+  const profilepage = (userID) => {
+    navigate(`/user-profile/${userID}`);
     setProfileMenu(!profileMenu);
   };
   const bookingpage = () => {
@@ -90,7 +90,7 @@ const Navbar = () => {
                 className="justify-center items-center flex gap-2"
               >
                 <img src={Logo} alt="Logo" className="w-12" />
-                <div >
+                <div>
                   <h1 className="text-base sm:text-xl">MFU</h1>
                   <p className="text-sm sm:text-base text-yellow-500 font-bold">
                     Sports Complex
@@ -130,34 +130,47 @@ const Navbar = () => {
 
             {/* /// */}
             <div className="hidden lg:flex">
-              {user === null && (
+              {user === null && location.pathname === "/register" && (
                 <Link to={"/login"}>
                   <button
-                    className={`inline-block p-2 order-1 text-md font-semibold rounded-md px-4 cursor-pointer ${
-                      location.pathname === "/login"
-                        ? "bg-black text-white"
-                        : "text-red-900 bg-white hover:text-red-700"
-                    }`}
+                    className={`rounded-md px-3.5 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-red-900 bg-white text-red-900 `}
                   >
-                    Sign in
+                    <span class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-red-900 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+                    <span class="relative text-red-900 transition duration-300 group-hover:text-white ease">
+                      Log In
+                    </span>
                   </button>
                 </Link>
               )}
-              {/* {user && (
-                <button
-                  className="inline-block py-4 px-4 hover:text-yellow-500"
-                  onClick={LogoutHandler}
-                >
-                  Logout
-                </button>
-              )} */}
+              {user === null && location.pathname === "/login" && (
+                <Link to={"register"}>
+                  {" "}
+                  <button
+                    className={`rounded-md px-3.5 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-red-900 bg-white text-red-900 `}
+                  >
+                    <span class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-red-900 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+                    <span class="relative text-red-900 transition duration-300 group-hover:text-white ease">
+                      Sing up
+                    </span>
+                  </button>
+                </Link>
+              )}
+
               {user && (
-                <div className="flex items-center gap-2 ">
-                  <UserIcon
-                    className="w-8 h-8 cursor-pointer hover:text-gray-500"
-                    onClick={openprofileMenu}
-                  />
-                  {/* <p>{user.username}</p> */}
+                <div>
+                  {userImages && userImages.length > 0 ? (
+                    <img
+                      src={userImages[userImages.length - 1]}
+                      alt="Profile"
+                      className="w-14 h-14 p-1 border-2 border-gray-600 rounded-full object-cover cursor-pointer"
+                      onClick={openprofileMenu}
+                    />
+                  ) : (
+                    <UserIcon
+                      className="w-8 h-8 cursor-pointer hover:text-gray-500"
+                      onClick={openprofileMenu}
+                    />
+                  )}
                 </div>
               )}
             </div>
@@ -180,7 +193,7 @@ const Navbar = () => {
 
       {/* /tags for profile/ */}
       {user && profileMenu && (
-        <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999] hidden sm:block">
+        <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999] hidden lg:block">
           {/* / */}
 
           {user && user.role === "Admin" && (
@@ -201,7 +214,7 @@ const Navbar = () => {
               <>
                 <div
                   className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-                  onClick={profilepage}
+                  onClick={() => profilepage(user._id)}
                 >
                   <UserCircleIcon className="w-7 text-white" />
                   <p className="text-white font-semibold cursor-pointer">
@@ -233,63 +246,17 @@ const Navbar = () => {
       {/* sidebar */}
       {openmenu && (
         <ResponsiveMenu
-        openmenu={openmenu}
-        setOpenmenu={setOpenmenu}
-        Menu={Menu}
-        user={user}
-        profilepage={profilepage}
-        Adminprofilepage={Adminprofilepage}
-        LogoutHandler={LogoutHandler}/>
+          openmenu={openmenu}
+          setOpenmenu={setOpenmenu}
+          Menu={Menu}
+          user={user}
+          profilepage={profilepage}
+          Adminprofilepage={Adminprofilepage}
+          LogoutHandler={LogoutHandler}
+        />
       )}
     </>
   );
 };
 
 export default Navbar;
-
-
-{/* <div className="absolute bg-red-600 h-screen w-fit right-0 z-100">
-<div className="flex justify-between items-center gap-4">
-  <ul className=" lg:flex items-center text-sm gap-4">
-    {Menu.map((menu) => (
-      <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
-        <Link
-          to={menu.link}
-          className={`inline-block py-1 px-4 ${
-            navmenu === menu.name && location.pathname === menu.link
-              ? "text-yellow-500"
-              : "hover:text-yellow-500"
-          }`}
-        >
-          {menu.name}
-        </Link>
-        {navmenu === menu.name && location.pathname === menu.link && (
-          <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-        )}
-      </li>
-    ))}
-    <li>
-      {user === null && (
-        <div className="flex items-center justify-center">
-          <Link to={"/login"}>
-            <button className="inline-block py-1 px-1 hover:text-yellow-500 ">
-              Sign in
-            </button>
-            {location.pathname === "/login" && (
-              <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-            )}
-          </Link>
-        </div>
-      )}
-      {user && (
-        <button
-          className="inline-block py-4 px-4 hover:text-yellow-500"
-          onClick={LogoutHandler}
-        >
-          Logout
-        </button>
-      )}
-    </li>
-  </ul>
-</div>
-</div> */}

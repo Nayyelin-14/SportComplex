@@ -20,13 +20,11 @@ const Adminpage = () => {
   const [allusers, setAllusers] = useState([]);
   const [allbookings, setAllbookings] = useState([]);
   const dispatch = useDispatch();
+
   const fetchAllusers = async () => {
     try {
-      // dispatch(setLoader(true));
       const response = await getAllUsers();
-
       if (response.isSuccess) {
-        // message.success(response.message);
         setAllusers(response.allusers_DOC);
       } else {
         navigate("/");
@@ -35,15 +33,12 @@ const Adminpage = () => {
     } catch (error) {
       message.error(error.message);
     }
-    // dispatch(setLoader(false));
   };
+
   const fetchallbookings = async () => {
     try {
-      // dispatch(setLoader(true));
       const response = await getallBookings();
-
       if (response.isSuccess) {
-        // message.success(response.message);
         setAllbookings(response.allBookings_doc);
       } else {
         navigate("/");
@@ -52,12 +47,29 @@ const Adminpage = () => {
     } catch (error) {
       message.error(error.message);
     }
-    // dispatch(setLoader(false));
   };
 
   useEffect(() => {
     fetchAllusers();
     fetchallbookings();
+  }, []);
+
+  // Determine the screen size and adjust tab position
+  const [tabPosition, setTabPosition] = useState("left");
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 868) {
+        setTabPosition("top");
+      } else {
+        setTabPosition("left");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const items = [
@@ -66,7 +78,10 @@ const Adminpage = () => {
       label: (
         <div className="p-4 flex items-center gap-2">
           <ClipboardDocumentListIcon className="w-6 h-6" />
-          <p className="">Booking dashboard</p>
+          <p className="">Booking dashboard </p>
+          <span className="bg-blue-600 text-white px-2 py-1 rounded-full">
+            {allbookings.length}
+          </span>
         </div>
       ),
       children: <Bookingdashboard allbookings={allbookings} />,
@@ -74,31 +89,32 @@ const Adminpage = () => {
     {
       key: "2",
       label: (
-        <div className=" p-4 flex items-center gap-2">
+        <div className="p-4 flex items-center gap-6">
           <UsersIcon className="w-6 h-6" />
           <p>Manage Users</p>
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full">
+            {allusers.length}
+          </span>
         </div>
       ),
       children: (
         <UsersDashboard allusers={allusers} fetchAllusers={fetchAllusers} />
       ),
     },
-
     {
       key: "3",
       label: (
-        <div className=" p-4 flex items-center gap-2">
+        <div className="p-4 flex items-center gap-2">
           <InformationCircleIcon className="w-6 h-6" />
           <p>Add News</p>
         </div>
       ),
       children: <CreateNews />,
     },
-
     {
       key: "4",
       label: (
-        <div className=" p-4 flex items-center gap-2">
+        <div className="p-4 flex items-center gap-2">
           <InformationCircleIcon className="w-6 h-6" />
           <p>Manage News</p>
         </div>
@@ -109,10 +125,9 @@ const Adminpage = () => {
 
   return (
     <section className="max-w-7xl mx-auto">
-      <h1 className=" my-10 font-semibold text-3xl">Admin dashboard</h1>
-      <div className="mb-20">
-        {" "}
-        <Tabs items={items} className="font-medium" tabPosition="left"></Tabs>
+      <h1 className="my-10 font-semibold text-3xl">Admin dashboard</h1>
+      <div className="mb-20 ">
+        <Tabs items={items} className="font-medium" tabPosition={tabPosition} />
       </div>
     </section>
   );

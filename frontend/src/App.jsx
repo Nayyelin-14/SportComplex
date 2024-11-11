@@ -12,9 +12,10 @@ import Login from "./pages/Authentication/Login";
 import Register from "./pages/Authentication/Register";
 import AuthProvider from "./providers/AuthProvider";
 import Profile from "./pages/Users/Profile";
-import BookingFrom from "./components/sportBooking/BookingFrom";
+import BookingFrom from "./components/sportBooking/BookingForm";
 import NotFound from "./components/NotFound";
 import Adminpage from "./pages/Admin/Adminpage";
+import Trainers from "./pages/Trainers/Trainers";
 
 const App = () => {
   React.useEffect(() => {
@@ -47,13 +48,13 @@ const App = () => {
                 </AuthProvider>
               }
             />
-            <Route path="/news" element={<News />}/>
+            <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/about" element={<About />} />
             {/* <Route path="/events" element={<Booking />} /> */}
 
             <Route
-              path="/user-profile"
+              path="/user-profile/:userID"
               element={
                 <AuthProvider
                   allowedRoles={["Student", "Staff", "Lecturer", "Outsider"]}
@@ -83,7 +84,22 @@ const App = () => {
                 </AuthProvider>
               }
             />
-
+            <Route
+              path="/trainer-details/:trainer_ID"
+              element={
+                <AuthProvider
+                  allowedRoles={[
+                    "Student",
+                    "Staff",
+                    "Lecturer",
+                    "Outsider",
+                    "Admin",
+                  ]}
+                >
+                  <Trainers />
+                </AuthProvider>
+              }
+            />
             <Route
               path="/admin"
               element={

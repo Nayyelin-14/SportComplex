@@ -2,7 +2,12 @@ const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/users");
-
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 //create new user when register success
 exports.registerNewUser = async (req, res) => {
   const errors = validationResult(req);
@@ -118,7 +123,7 @@ exports.checkCurrentUser = async (req, res) => {
   // console.log(USER_ID);
   try {
     const CurrentLoginUser = await Users.findById(USER_ID).select(
-      "email role status username memberID phnumber lastEditTime"
+      "email role status username memberID phnumber lastEditTime profileImage"
     );
     if (!CurrentLoginUser) {
       throw new Error("Unauthorized user found");
@@ -132,40 +137,63 @@ exports.checkCurrentUser = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       isSuccess: false,
-      message: error.messsage,
+      message: error.message,
     });
   }
 };
 
 exports.updateUser = async (req, res) => {
-  const errors = validationResult(req);
-  // console.log(errors.array()[0]);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      isSuccess: false,
-      message: errors.array()[0].msg,
-    });
-  }
-  const { USER_ID } = req;
-  const { username, email, role, phnumber, memberid } = req.body;
+  const { USER_ID } = req; // Assuming USER_ID is passed correctly from middleware
+  const { username, email, role, phnumber, memberid, lastEditTime } = req.body;
+  let secureUrlArray = [];
+  const profileImages = req.files || []; // Array of files from multer
+
   try {
+    const userDoc = await Users.findById(USER_ID);
+
+    // Ensure profileImage is an array
+    if (!Array.isArray(userDoc.profileImage)) {
+      userDoc.profileImage = [];
+    }
+
+    // Upload images to Cloudinary
+    const uploadPromises = profileImages.map(
+      (img) =>
+        new Promise((resolve, reject) => {
+          cloudinary.uploader.upload(img.path, (err, result) => {
+            if (err) {
+              reject(new Error("Cloudinary upload failed."));
+            } else {
+              secureUrlArray.push(result.secure_url);
+              resolve();
+            }
+          });
+        })
+    );
+
+    // Wait for all images to upload
+    await Promise.all(uploadPromises);
+
+    // Update the user document with the secure URLs of uploaded images
     const update_userDoc = await Users.findByIdAndUpdate(
       USER_ID,
       {
-        // Data to update
-        lastEditTime: new Date(),
         username,
         email,
         role,
         phnumber,
-        memberID: memberid, // Ensure field name matches your database schema
+        memberID: memberid,
+        lastEditTime: new Date(),
+        // $push: { profileImage: { $each: secureUrlArray } }, // Using $each for array
+        $push: { profileImage: secureUrlArray },
       },
       { new: true }
     );
-    console.log(update_userDoc);
+    // console.log(update_userDoc);
     if (!update_userDoc) {
-      throw new Error("Something went wrong");
+      throw new Error("User update failed.");
     }
+
     return res.status(200).json({
       isSuccess: true,
       message: "Updated successfully",
@@ -174,7 +202,7 @@ exports.updateUser = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       isSuccess: false,
-      message: error.messsage,
+      message: error.message,
     });
   }
 };
