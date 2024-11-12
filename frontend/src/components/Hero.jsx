@@ -34,7 +34,7 @@ const Hero = () => {
                 complex has everything you need to elevate your game.
               </p>
               <Link to={"/booking"}>
-                <button className="relative inline-flex items-center px-12 py-3 overflow-hidden text-lg font-medium text-red-900 border-2 border-red-900 rounded-md hover:text-white group hover:bg-gray-50">
+                <button className="relative inline-flex items-center px-12 py-3 overflow-hidden text-md font-medium text-red-900 border-2 border-red-900 rounded-md hover:text-white group hover:bg-gray-50">
                   <span className="absolute left-0 block w-full h-0 transition-all bg-red-900 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
                   <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
                     <svg

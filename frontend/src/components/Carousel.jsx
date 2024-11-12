@@ -12,7 +12,7 @@ const Carousel = () => {
   return (
     <>
       <span id="services"></span>
-      <div className="py-20">
+      <div className="pt-20">
         <div className="container">
           <div className="text-center mb-20 max-w-[400px] mx-auto">
             <h1 className="text-3xl font-bold">Featured News</h1>

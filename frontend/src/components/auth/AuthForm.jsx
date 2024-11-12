@@ -67,11 +67,11 @@ const AuthForm = ({ isLoginPage }) => {
             onFinish={onFinishHandler}
             className="max-w-lg mx-auto"
           >
-            <div className="text-3xl pb-6 font-semibold text-center">
+            <div className="text-xl pb-6 text-center">
               {isLoginPage ? (
-                <h1 className="text-red-900">Login to Your Account</h1>
+                <h1 className="text-primary">Login To Your Account</h1>
               ) : (
-                <h1 className="text-red-900">Sign Up New Account</h1>
+                <h1 className="text-red-900">Create New Account</h1>
               )}
             </div>
 
