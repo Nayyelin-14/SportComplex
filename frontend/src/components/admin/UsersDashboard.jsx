@@ -7,10 +7,21 @@ import {
   restrict_user,
   unrestrict_user,
 } from "../../apiEndpoints/admin";
-import { message } from "antd";
+import { message, Pagination } from "antd";
 import { TrashIcon } from "@heroicons/react/24/outline";
 const UsersDashboard = ({ allusers, fetchAllusers }) => {
   ///
+
+  // State to manage the current page and the number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of bookings per page
+
+  // Calculate the index of the first and last booking for the current page
+  const indexOfLastUser = currentPage * itemsPerPage;
+  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
+
+  // Slice the data to show only the current page's bookings
+  const currentUsers = allusers.slice(indexOfFirstUser, indexOfLastUser);
 
   const [userEmail, setUserEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -137,10 +148,12 @@ const UsersDashboard = ({ allusers, fetchAllusers }) => {
       message.error(error.message); // Show an error message if something goes wrong
     }
   };
-
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <div>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg h-[648px]">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -164,92 +177,107 @@ const UsersDashboard = ({ allusers, fetchAllusers }) => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {allusers && (
-              <>
-                {allusers.map((user) => (
-                  <tr
-                    className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b "
-                    key={user._id}
+
+          {currentUsers && currentUsers.length > 0 ? (
+            <tbody>
+              {currentUsers.map((user) => (
+                <tr
+                  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b "
+                  key={user._id}
+                >
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center"
                   >
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center"
-                    >
-                      {user.username}
-                    </th>
-                    <td className="px-6 py-4 text-center">{user.email}</td>
-                    {user.role === "Admin" && (
-                      <td className="px-6 py-4 text-center">
-                        <span className="text-blue-600 font-bold p-2 rounded-lg">
-                          {user.role}
-                        </span>
-                      </td>
+                    {user.username}
+                  </th>
+                  <td className="px-6 py-4 text-center">{user.email}</td>
+                  {user.role === "Admin" && (
+                    <td className="px-6 py-4 text-center">
+                      <span className="text-blue-600 font-bold p-2 rounded-lg">
+                        {user.role}
+                      </span>
+                    </td>
+                  )}
+                  {["Student", "Staff", "Lecturer", "Outsider"].includes(
+                    user.role
+                  ) && (
+                    <td className="px-6 py-4 text-center">
+                      <span className="text-green-600 font-bold p-2 rounded-lg">
+                        {user.role}
+                      </span>
+                    </td>
+                  )}
+                  <td className="px-6 py-4 text-center">{user.status}</td>
+                  <td className="px-6 py-4 text-center">
+                    {moment(user.createdAt).format("L")}
+                  </td>
+                  <td
+                    className={`${
+                      user.role === "Admin" && `float-right`
+                    } px-6 py-4 text-center flex items-center gap-2 justify-between `}
+                  >
+                    {user.status === "active" ? (
+                      <>
+                        {["Student", "Lecturer", "Outsider", "Staff"].includes(
+                          user.role
+                        ) && (
+                          <div className="flex gap-2 items-center">
+                            <button
+                              type="button"
+                              className="font-sm  text-sm text-white bg-orange-600 p-1 px-4  hover:bg-orange-400 hover:text-black rounded-md "
+                              onClick={() => restrictHandler(user._id)}
+                            >
+                              Restrict
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <button
+                        type="button"
+                        className="font-sm rounded-md text-sm text-white bg-green-600 p-1 px-2 hover:bg-green-400 hover:text-black"
+                        onClick={() => unrestrictHandler(user._id)}
+                      >
+                        Unrestrict
+                      </button>
                     )}
-                    {["Student", "Staff", "Lecturer", "Outsider"].includes(
+                    {["Student", "Lecturer", "Outsider", "Staff"].includes(
                       user.role
                     ) && (
-                      <td className="px-6 py-4 text-center">
-                        <span className="text-green-600 font-bold p-2 rounded-lg">
-                          {user.role}
-                        </span>
-                      </td>
+                      <button
+                        className=" text-red-800 p-1 hover:text-black"
+                        onClick={() => deleteHandler(user._id)}
+                      >
+                        <TrashIcon width={20} height={20} />
+                      </button>
                     )}
-                    <td className="px-6 py-4 text-center">{user.status}</td>
-                    <td className="px-6 py-4 text-center">
-                      {moment(user.createdAt).format("L")}
-                    </td>
-                    <td
-                      className={`${
-                        user.role === "Admin" && `float-right`
-                      } px-6 py-4 text-center flex items-center gap-2 justify-between `}
-                    >
-                      {user.status === "active" ? (
-                        <>
-                          {[
-                            "Student",
-                            "Lecturer",
-                            "Outsider",
-                            "Staff",
-                          ].includes(user.role) && (
-                            <div className="flex gap-2 items-center">
-                              <button
-                                type="button"
-                                className="font-sm  text-sm text-white bg-orange-600 p-1 px-4  hover:bg-orange-400 hover:text-black rounded-md "
-                                onClick={() => restrictHandler(user._id)}
-                              >
-                                Restrict
-                              </button>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <button
-                          type="button"
-                          className="font-sm rounded-md text-sm text-white bg-green-600 p-1 px-2 hover:bg-green-400 hover:text-black"
-                          onClick={() => unrestrictHandler(user._id)}
-                        >
-                          Unrestrict
-                        </button>
-                      )}
-                      {["Student", "Lecturer", "Outsider", "Staff"].includes(
-                        user.role
-                      ) && (
-                        <button
-                          className=" text-red-800 p-1 hover:text-black"
-                          onClick={() => deleteHandler(user._id)}
-                        >
-                          <TrashIcon width={20} height={20} />
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </>
-            )}
-          </tbody>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          ) : (
+            <tbody>
+              <tr>
+                <td
+                  colSpan="7"
+                  className="text-center py-4 text-lg  font-bold text-red-500"
+                >
+                  No users found!!!
+                </td>
+              </tr>
+            </tbody>
+          )}
         </table>
       </div>
+      <Pagination
+        defaultCurrent={1}
+        current={currentPage} // Set current page
+        total={allusers.length} // Total number of items
+        pageSize={itemsPerPage} // Items per page
+        onChange={handlePageChange} // Handle page change
+        className="float-right mt-10"
+      />
     </div>
   );
 };

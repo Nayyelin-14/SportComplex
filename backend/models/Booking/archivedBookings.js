@@ -46,5 +46,10 @@ const archivedBookingSchema = new Schema(
   }
 );
 
+// bookingSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
+// const bookingModel = model("Booking", bookingSchema);
+// module.exports = bookingModel;
+
+archivedBookingSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
 const archivedBookingModel = model("ArchivedBooking", archivedBookingSchema);
 module.exports = archivedBookingModel;

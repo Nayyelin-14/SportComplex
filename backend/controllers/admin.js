@@ -118,7 +118,27 @@ exports.UnrestrictUser = async (req, res) => {
     });
   }
 };
+//delete booking
+exports.deleteBooking = async (req, res) => {
+  const { booking_id } = req.params;
+  console.log(booking_id);
+  try {
+    const removeBooking = await Booking.findByIdAndDelete(booking_id);
+    if (!removeBooking) {
+      throw new Error("Booking not found!!!");
+    }
 
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Deleted successfully!",
+    });
+  } catch (error) {
+    return res.status(404).json({
+      isSuccess: false,
+      message: error.message,
+    });
+  }
+};
 // Add New
 exports.addNew = async (req, res) => {
   try {
@@ -169,7 +189,6 @@ exports.removeNew = async (req, res) => {
     const imageName = path.basename(imageUrl);
 
     const imagePath = path.join(__dirname, "../upload/images", imageName);
-    console.log("Image Path:", imagePath);
 
     // Delete the associated image file if it exists
     if (fs.existsSync(imagePath)) {

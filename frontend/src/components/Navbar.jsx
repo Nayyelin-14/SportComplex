@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Logo from "../assets/mfulogo.png";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -16,79 +16,76 @@ import {
 import ResponsiveMenu from "./ResponsiveMenu";
 
 const Menu = [
-  {
-    id: 1,
-    name: "Home",
-    link: "/",
-  },
-  {
-    id: 2,
-    name: "News",
-    link: `/news`,
-  },
-  {
-    id: 3,
-    name: "Booking",
-    link: "/booking",
-  },
-  {
-    id: 4,
-    name: "About",
-    link: "/about",
-  },
+  { id: 1, name: "Home", link: "/" },
+  { id: 2, name: "News", link: "/news" },
+
+  { id: 3, name: "About", link: "/about" },
 ];
 
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
-  const { userImages } = useSelector((state) => state.user);
 
+  const userImages = user?.profileImage || [];
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
+  const profileMenuRef = useRef(null);
   const [openmenu, setOpenmenu] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
 
   const LogoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(setUser(null));
-    navigate(" ");
+    navigate("/");
     message.success("Your account has logged out");
     setProfileMenu(false);
   };
 
   const menuhandler = () => {
     setOpenmenu(!openmenu);
-    // console.log(openmenu);
   };
+
   const openprofileMenu = () => {
     setProfileMenu(!profileMenu);
   };
 
   const profilepage = (userID) => {
     navigate(`/user-profile/${userID}`);
-    setProfileMenu(!profileMenu);
+    setProfileMenu(false);
   };
+
   const bookingpage = () => {
     navigate("/booking");
-    setProfileMenu(!profileMenu);
+    setProfileMenu(false);
   };
+
   const Adminprofilepage = () => {
     navigate("/admin");
-    setProfileMenu(!profileMenu);
+    setProfileMenu(false);
   };
-  // console.log(user);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target)
+      ) {
+        setProfileMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <>
       <div className="shadow-md bg-primary text-white duration-200 py-2 relative z-50">
         <div className="py-1 sm:py-2 lg:px-10 px-4">
-          <div className="flex justify-between items-center z-50">
+          <div className="flex justify-between items-center">
             <div onClick={() => setnavmenu("Home")}>
-              <Link
-                to={Menu[0].link}
-                className="justify-center items-center flex gap-2"
-              >
+              <Link to="/" className="justify-center items-center flex gap-2">
                 <img src={Logo} alt="Logo" className="w-12" />
                 <div>
                   <h1 className="text-base sm:text-xl">MFU</h1>
@@ -99,65 +96,55 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {user &&
-              ["Student", "Lecturer", "Staff", "Outsider"].includes(
-                user.role
-              ) && (
-                <div className="flex justify-between items-center gap-4">
-                  <ul className="hidden lg:flex items-center text-lg gap-4">
-                    {Menu.map((menu) => (
-                      <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
-                        <Link
-                          to={menu.link}
-                          className={`inline-block py-4 px-4 ${
-                            navmenu === menu.name &&
-                            location.pathname === menu.link
-                              ? "text-yellow-500"
-                              : "hover:text-yellow-500"
-                          }`}
-                        >
-                          {menu.name}
-                        </Link>
-                        {navmenu === menu.name &&
-                          location.pathname === menu.link && (
-                            <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
-                          )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            {user && (
+              <div className="flex items-center gap-4">
+                <ul className="hidden lg:flex items-center text-lg gap-4">
+                  {Menu.map((menu) => (
+                    <li key={menu.id} onClick={() => setnavmenu(menu.name)}>
+                      <Link
+                        to={menu.link}
+                        className={`inline-block py-4 px-4 ${
+                          navmenu === menu.name &&
+                          location.pathname === menu.link
+                            ? "text-yellow-500"
+                            : "hover:text-yellow-500"
+                        }`}
+                      >
+                        {menu.name}
+                      </Link>
+                      {navmenu === menu.name &&
+                        location.pathname === menu.link && (
+                          <hr className="border-none w-full h-[3px] rounded-lg bg-yellow-500" />
+                        )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            {/* /// */}
+            {/* User Profile / Login / Register */}
             <div className="hidden lg:flex">
-              {user === null && location.pathname === "/register" && (
-                <Link to={"/login"}>
-                  <button
-                    className={`rounded-md px-3.5 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-red-900 bg-white text-red-900 `}
-                  >
-                    <span class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-red-900 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
-                    <span class="relative text-red-900 transition duration-300 group-hover:text-white ease">
-                      Log In
-                    </span>
-                  </button>
-                </Link>
-              )}
-              {user === null && location.pathname === "/login" && (
-                <Link to={"register"}>
-                  {" "}
-                  <button
-                    className={`rounded-md px-3.5 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-red-900 bg-white text-red-900 `}
-                  >
-                    <span class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-red-900 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
-                    <span class="relative text-red-900 transition duration-300 group-hover:text-white ease">
-                      Sing up
-                    </span>
-                  </button>
-                </Link>
+              {!user && (
+                <>
+                  {location.pathname === "/register" && (
+                    <Link to="/login">
+                      <button className="rounded-md px-3.5 py-2 m-1 border-2 font-medium border-red-900 bg-white text-red-900">
+                        Log In
+                      </button>
+                    </Link>
+                  )}
+                  {location.pathname === "/login" && (
+                    <Link to="/register">
+                      <button className="rounded-md px-3.5 py-2 m-1 border-2 font-medium border-red-900 bg-white text-red-900">
+                        Sign Up
+                      </button>
+                    </Link>
+                  )}
+                </>
               )}
 
               {user && (
-                <div>
+                <div ref={profileMenuRef}>
                   {userImages && userImages.length > 0 ? (
                     <img
                       src={userImages[userImages.length - 1]}
@@ -177,7 +164,7 @@ const Navbar = () => {
 
             {openmenu ? (
               <XMarkIcon
-                className="h-6 w-6 text-white cursor-pointer z-50"
+                className="h-6 w-6 text-white cursor-pointer"
                 onClick={menuhandler}
               />
             ) : (
@@ -186,64 +173,53 @@ const Navbar = () => {
                 onClick={menuhandler}
               />
             )}
-            {/* /// */}
           </div>
         </div>
       </div>
 
-      {/* /tags for profile/ */}
+      {/* Profile Menu */}
       {user && profileMenu && (
-        <div className="absolute right-4 bg-primary w-80 rounded-lg z-[9999] hidden lg:block">
-          {/* / */}
-
-          {user && user.role === "Admin" && (
+        <div
+          className="absolute right-4 bg-primary w-80 rounded-lg z-[9999] hidden lg:block"
+          ref={profileMenuRef}
+        >
+          {user.role === "Admin" && (
             <div
-              className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
+              className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900"
               onClick={Adminprofilepage}
             >
               <UserCircleIcon className="w-7 text-white" />
-              <p className="text-white font-semibold cursor-pointer">
-                Dashboard
-              </p>
+              <p className="text-white font-semibold">Dashboard</p>
             </div>
           )}
-          {user &&
-            ["Student", "Staff", "Lecturer", "Outsider"].includes(
-              user.role
-            ) && (
-              <>
-                <div
-                  className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900 "
-                  onClick={() => profilepage(user._id)}
-                >
-                  <UserCircleIcon className="w-7 text-white" />
-                  <p className="text-white font-semibold cursor-pointer">
-                    Profile
-                  </p>
-                </div>
-              </>
-            )}
+          {["Student", "Staff", "Lecturer", "Outsider"].includes(user.role) && (
+            <div
+              className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900"
+              onClick={() => profilepage(user._id)}
+            >
+              <UserCircleIcon className="w-7 text-white" />
+              <p className="text-white font-semibold">Profile</p>
+            </div>
+          )}
           <div
             className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
             onClick={bookingpage}
           >
-            <ArrowPathIcon className="w-7 text-white " />
-            <p className="text-white font-semibold cursor-pointer">Booking</p>
+            <ArrowPathIcon className="w-7 text-white" />
+            <p className="text-white font-semibold">Booking</p>
           </div>
-          {/* //// */}
-          {/*  */}
           <hr className="w-[90%] mx-auto" />
           <div
             className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
             onClick={LogoutHandler}
           >
             <ArrowRightStartOnRectangleIcon className="w-7 text-white" />
-            <button className="font-semibold  text-white">Log out</button>
+            <button className="font-semibold text-white">Log out</button>
           </div>
         </div>
       )}
-      {/* //// */}
-      {/* sidebar */}
+
+      {/* Responsive Sidebar */}
       {openmenu && (
         <ResponsiveMenu
           openmenu={openmenu}

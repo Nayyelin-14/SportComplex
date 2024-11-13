@@ -13,14 +13,13 @@ import {
 import { getallBookings, getAllUsers } from "../../apiEndpoints/admin";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLoader } from "../../store/loaderSlice";
 
 const Adminpage = () => {
   const navigate = useNavigate();
   const [allusers, setAllusers] = useState([]);
   const [allbookings, setAllbookings] = useState([]);
   const dispatch = useDispatch();
-
+  const [isDataLoading, setIsDataLoading] = useState(true); // New state for initial data loading
   const fetchAllusers = async () => {
     try {
       const response = await getAllUsers();
@@ -37,6 +36,7 @@ const Adminpage = () => {
 
   const fetchallbookings = async () => {
     try {
+      setIsDataLoading(true);
       const response = await getallBookings();
       if (response.isSuccess) {
         setAllbookings(response.allBookings_doc);
@@ -46,6 +46,8 @@ const Adminpage = () => {
       }
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setIsDataLoading(false);
     }
   };
 
@@ -79,20 +81,25 @@ const Adminpage = () => {
         <div className="p-4 flex items-center gap-2">
           <ClipboardDocumentListIcon className="w-6 h-6" />
           <p className="">Booking dashboard </p>
-          <span className="bg-blue-600 text-white px-2 py-1 rounded-full">
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full ">
             {allbookings.length}
           </span>
         </div>
       ),
-      children: <Bookingdashboard allbookings={allbookings} />,
+      children: (
+        <Bookingdashboard
+          allbookings={allbookings}
+          isDataLoading={isDataLoading}
+        />
+      ),
     },
     {
       key: "2",
       label: (
-        <div className="p-4 flex items-center gap-6">
+        <div className="p-4 flex items-center gap-2">
           <UsersIcon className="w-6 h-6" />
           <p>Manage Users</p>
-          <span className="bg-blue-600 text-white px-3 py-1 rounded-full">
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full ml-8">
             {allusers.length}
           </span>
         </div>

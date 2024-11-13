@@ -116,6 +116,7 @@ const BookingForm = () => {
                 session: selectedTime || "8:00 - 10:00",
                 role: user ? user.role : "Student",
                 useLoginInfo: false,
+                trainer: selectedTrainer || null,
               }}
             >
               <div className="flex flex-col md:flex-row md:gap-6">
@@ -211,7 +212,7 @@ const BookingForm = () => {
 
               <Form.Item
                 className="mt-4 py-4"
-                label=<p className="font-bold text-xl">Trainer (Optional)</p>
+                label={<p className="font-bold text-xl">Trainer (Optional)</p>}
                 name="trainer"
               >
                 <div className="w-full mt-7">
