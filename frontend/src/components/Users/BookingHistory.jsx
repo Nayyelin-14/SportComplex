@@ -4,6 +4,7 @@ import football from "./images/football.jpg";
 import basketball from "./images/basketball.jpg";
 import swimming from "./images/swimming.jpg";
 import badminton from "./images/badminton.jpg";
+import fitness from "./images/fitness.jpg";
 import tennis from "./images/tennis.webp";
 import moment from "moment";
 
@@ -64,6 +65,8 @@ const BookingHistory = ({ bookingshistory }) => {
         return swimming;
       case "basketball":
         return basketball;
+      case "fitness":
+        return fitness;
       default:
         return complex; // Default image if no match is found
     }

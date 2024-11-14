@@ -27,6 +27,7 @@ exports.createBooking = async (req, res) => {
       trainer,
     } = req.body;
 
+    // Check if the user's status or role is restricted
     if (status === "restricted") {
       throw new Error("Your account has been restricted!!!");
     }
@@ -34,21 +35,25 @@ exports.createBooking = async (req, res) => {
       throw new Error("Something went wrong!!!");
     }
 
-    // Check if the trainer is already booked for the same sport and session
-    const existingBooking = await trainerAvailability.findOne({
-      trainer: trainer, // Use the trainer ID from req.body
-      booking_sportType: sporttype,
-      avaliable_session: session,
-    });
-
-    if (existingBooking) {
-      return res.status(400).json({
-        isSuccess: false,
-        message: `The coach is already booked for ${sporttype} at ${session}. Please choose another session or proceed without a coach.`,
+    // Check if a trainer is selected
+    if (trainer) {
+      // Verify if the trainer is already booked for the same sport and session
+      const existingBooking = await trainerAvailability.findOne({
+        trainer, // Use the trainer ID from req.body
+        booking_sportType: sporttype,
+        avaliable_session: session,
       });
+
+      // If a booking exists for the trainer, return an error
+      if (existingBooking) {
+        return res.status(400).json({
+          isSuccess: false,
+          message: `The coach is already booked for ${sporttype} at ${session}. Please choose another session or proceed without a coach.`,
+        });
+      }
     }
 
-    // Create the booking after validation
+    // Create the booking regardless of whether a trainer was selected or not
     const bookingDoc = await Booking.create({
       sporttype,
       session,
@@ -58,24 +63,27 @@ exports.createBooking = async (req, res) => {
       phone,
       role,
       bookingUser_id: req.USER_ID,
-      trainer,
+      trainer: trainer || null, // Store trainer if selected, otherwise null
     });
 
     if (!bookingDoc) {
       throw new Error("Failed to create booking");
     }
 
-    // Create an entry in the trainerAvailability collection
-    const avaliable_Doc = await trainerAvailability.create({
-      trainer: trainer, // Use trainer ID directly
-      booking_sportType: sporttype,
-      bookingUser_id: bookingDoc._id,
-      booking_ID: bookingDoc._id,
-      avaliable_session: session,
-    });
+    // If a trainer is selected, create an entry in the trainerAvailability collection
+    let avaliable_Doc = null;
+    if (trainer) {
+      avaliable_Doc = await trainerAvailability.create({
+        trainer,
+        booking_sportType: sporttype,
+        bookingUser_id: bookingDoc._id,
+        booking_ID: bookingDoc._id,
+        avaliable_session: session,
+      });
 
-    if (!avaliable_Doc) {
-      throw new Error("Failed to record trainer availability");
+      if (!avaliable_Doc) {
+        throw new Error("Failed to record trainer availability");
+      }
     }
 
     // Archive the booking in the ArchivedBooking model

@@ -1,10 +1,9 @@
 import { message } from "antd";
 import { getCurrentUser } from "../apiEndpoints/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setImages, setUser } from "../store/userSlice";
-import { setLoader } from "../store/loaderSlice";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const AuthProvider = ({ children, allowedRoles = [] }) => {
@@ -12,70 +11,66 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const { user } = useSelector((state) => state.user);
-  const { isProcessing } = useSelector((state) => state.loader);
-  // console.log(user);
+  const [loading, setLoading] = useState(true); // Set loading to true initially
+
   const currentUser = async () => {
     try {
-      dispatch(setLoader(true));
-      // console.log("current token", token);
       const response = await getCurrentUser();
-
       if (response.isSuccess) {
-        message.success(response.message);
         // Store user data in Redux store
         dispatch(setUser(response.currentUser));
         dispatch(setImages(response.currentUser?.profileImage));
+
+        // Immediately check if the role is allowed
+        if (!allowedRoles.includes(response.currentUser.role)) {
+          setLoading(false); // Ensure loading stops before navigating
+          navigate("/"); // Redirect to home if role is not allowed
+          return;
+        }
       } else {
-        dispatch(setLoader(false));
-        return; // Stop execution here
-      }
-      // if(user.role)
-      if (!allowedRoles.includes(response.currentUser.role)) {
-        // message.error("Admin can't place booking");
-        navigate("/");
-        return;
-      }
-
-      if (user === null || !token) {
-        // Invalid token or user not found
-        localStorage.removeItem("token");
-        dispatch(setUser(null));
         navigate("/login");
-
-        throw new Error("Unauthorized");
       }
-      dispatch(setLoader(false));
     } catch (err) {
-      message.error(err.message);
-    }
-  };
-  const expireLoginToken = () => {
-    setTimeout(() => {
-      localStorage.removeItem("token");
-      dispatch(setUser(null));
+      message.error("Authentication failed, please log in again.");
       navigate("/login");
-      message.info("Session expired. You have been logged out.");
-    }, 3600000); // 1 hour in milliseconds
+    } finally {
+      setLoading(false); // Stop loading when finished
+    }
   };
 
   useEffect(() => {
+    // Run this effect only if there is a token
     if (token) {
-      currentUser();
-      expireLoginToken();
+      if (!user) {
+        currentUser();
+      } else if (!allowedRoles.includes(user.role)) {
+        setLoading(false); // Stop loading if user role isn't allowed
+        navigate("/");
+      } else {
+        setLoading(false); // Stop loading if user is already allowed
+      }
     } else {
       navigate("/login");
-      dispatch(setLoader(false)); // Make sure to stop the loader
+      setLoading(false); // Stop loading if no token is found
     }
-  }, [token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, user]);
 
-  // Render nothing (or a spinner) while the authentication is processing
-  if (isProcessing) {
+  // Show a spinner while loading
+  if (loading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="flex justify-center items-center h-screen">
         <ClipLoader size={100} />
       </div>
     );
   }
+
+  // If no user is found after loading, prevent unauthorized access
+  if (!user) {
+    return null;
+  }
+
+  // Render the children if authentication and role check passed
   return <section>{children}</section>;
 };
 
