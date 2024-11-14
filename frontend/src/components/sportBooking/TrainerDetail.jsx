@@ -39,13 +39,6 @@ const TrainerDetail = ({ trainer }) => {
           <strong>Phone:</strong> {trainer.phone}
         </p>
       </div>
-
-      {/* Trainer ID */}
-      <div className="text-gray-500 text-sm mt-4">
-        <p>
-          <strong>Trainer ID:</strong> {trainer._id}
-        </p>
-      </div>
     </div>
   );
 };

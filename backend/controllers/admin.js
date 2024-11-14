@@ -121,7 +121,7 @@ exports.UnrestrictUser = async (req, res) => {
 //delete booking
 exports.deleteBooking = async (req, res) => {
   const { booking_id } = req.params;
-  console.log(booking_id);
+
   try {
     const removeBooking = await Booking.findByIdAndDelete(booking_id);
     if (!removeBooking) {

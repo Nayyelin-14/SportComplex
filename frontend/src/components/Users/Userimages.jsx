@@ -120,41 +120,46 @@ const Userimages = ({ setActiveTabKey }) => {
         </div>
       </div>
       {/* Pagination Controls */}
+      {/* Pagination Controls */}
       <div className="flex justify-center mt-4">
-        {/* Previous Button */}
-        <button
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`px-3 py-1 mx-1 border rounded-lg ${
-            currentPage === 1 ? "bg-gray-300" : "bg-red-900 text-white"
-          }`}
-        >
-          Previous
-        </button>
-
-        {/* Page Numbers */}
-        {Array.from({ length: totalPages }, (_, index) => (
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-full overflow-hidden">
+          {/* Previous Button */}
           <button
-            key={index + 1}
-            onClick={() => paginate(index + 1)}
-            className={`px-3 py-1 mx-1 border rounded-lg ${
-              currentPage === index + 1 ? "bg-red-900 text-white" : "bg-white"
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 border rounded-lg ${
+              currentPage === 1 ? "bg-gray-300" : "bg-red-900 text-white"
             }`}
           >
-            {index + 1}
+            Previous
           </button>
-        ))}
 
-        {/* Next Button */}
-        <button
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`px-3 py-1 mx-1 border rounded-lg ${
-            currentPage === totalPages ? "bg-gray-300" : "bg-red-900 text-white"
-          }`}
-        >
-          Next
-        </button>
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => paginate(index + 1)}
+              className={`px-3 py-1 border rounded-lg ${
+                currentPage === index + 1 ? "bg-red-900 text-white" : "bg-white"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          {/* Next Button */}
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 border rounded-lg ${
+              currentPage === totalPages
+                ? "bg-gray-300"
+                : "bg-red-900 text-white"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -70,11 +70,7 @@ const archivedBookingSchema = new Schema(
   { timestamps: true }
 );
 
-// TTL Index
-archivedBookingSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
-
 // Ensure indexes are up-to-date
 const archivedBookingModel = model("ArchivedBooking", archivedBookingSchema);
-archivedBookingModel.syncIndexes(); // Sync indexes to ensure TTL is applied
 
 module.exports = archivedBookingModel;
