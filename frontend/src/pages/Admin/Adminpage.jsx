@@ -78,10 +78,10 @@ const Adminpage = () => {
     {
       key: "1",
       label: (
-        <div className="p-4 flex items-center gap-2">
-          <ClipboardDocumentListIcon className="w-6 h-6" />
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px] md:text-[16px] ">
+          <ClipboardDocumentListIcon className="w-6 h-6  hidden md:block" />
           <p className="">Booking dashboard </p>
-          <span className="bg-blue-600 text-white px-3 py-1 rounded-full ">
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full hidden md:block">
             {allbookings.length}
           </span>
         </div>
@@ -96,10 +96,10 @@ const Adminpage = () => {
     {
       key: "2",
       label: (
-        <div className="p-4 flex items-center gap-2">
-          <UsersIcon className="w-6 h-6" />
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px] md:text-[16px] ">
+          <UsersIcon className="w-6 h-6 hidden md:block" />
           <p>Manage Users</p>
-          <span className="bg-blue-600 text-white px-3 py-1 rounded-full ml-8">
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full ml-8 hidden md:block">
             {allusers.length}
           </span>
         </div>
@@ -111,8 +111,8 @@ const Adminpage = () => {
     {
       key: "3",
       label: (
-        <div className="p-4 flex items-center gap-2">
-          <InformationCircleIcon className="w-6 h-6" />
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px] md:text-[16px] ">
+          <InformationCircleIcon className="w-6 h-6 hidden md:block" />
           <p>Add News</p>
         </div>
       ),
@@ -121,8 +121,8 @@ const Adminpage = () => {
     {
       key: "4",
       label: (
-        <div className="p-4 flex items-center gap-2">
-          <InformationCircleIcon className="w-6 h-6" />
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px] md:text-[16px] ">
+          <InformationCircleIcon className="w-6 h-6 hidden md:block" />
           <p>Manage News</p>
         </div>
       ),
@@ -131,9 +131,11 @@ const Adminpage = () => {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto">
-      <h1 className="my-10 font-semibold text-3xl">Admin dashboard</h1>
-      <div className="mb-20 ">
+    <section className="max-w-7xl mx-auto p-10 sm:p-0">
+      <h1 className="my-3 sm:my-10 font-semibold text-xl sm:text-3xl">
+        Admin dashboard
+      </h1>
+      <div className="mb-100 sm:mb-20 ">
         <Tabs items={items} className="font-medium" tabPosition={tabPosition} />
       </div>
     </section>
