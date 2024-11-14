@@ -215,71 +215,65 @@ const BookingForm = () => {
                 label={<p className="font-bold text-xl">Trainer (Optional)</p>}
                 name="trainer"
               >
-                <div className="w-full mt-7">
-                  <ul className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
+                <div className="w-full mt-7 ">
+                  <div className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
                     {alltrainers?.map((trainer) => (
                       <div key={trainer._id}>
                         {trainer.specailization === SportType && (
-                          <li className="flex justify-center">
-                            <div
-                              className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96 ${
-                                selectedTrainer === trainer._id
-                                  ? "border-red-700 border-2 shadow-lg"
-                                  : "border-gray-300"
-                              }`}
-                              onClick={() => {
-                                setSelectedTrainer(trainer._id);
-                                form.setFieldsValue({
-                                  trainer: trainer._id, // Set the selected trainer ID in the form
-                                });
-                              }}
-                            >
-                              <img
-                                src={trainer.image || photo} // Placeholder image if no URL
-                                alt={trainer.name}
-                                className="w-24 h-24 rounded-full mb-4 object-cover"
-                              />
-                              <h1 className="text-lg font-semibold text-center">
-                                {trainer.name}
-                              </h1>
-                              <span className="text-sm text-gray-500 text-center mb-3">
-                                {trainer.sporttype || "Trainer"}
-                              </span>
+                          <div
+                            className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96 ${
+                              selectedTrainer === trainer._id
+                                ? "border-red-700 border-2 shadow-lg"
+                                : "border-gray-300"
+                            }`}
+                            onClick={() => {
+                              setSelectedTrainer(trainer._id);
+                              form.setFieldsValue({
+                                trainer: trainer._id, // Set the selected trainer ID in the form
+                              });
+                            }}
+                          >
+                            <img
+                              src={trainer.image || photo} // Placeholder image if no URL
+                              alt={trainer.name}
+                              className="w-24 h-24 rounded-full mb-4 object-cover"
+                            />
+                            <h1 className="text-lg font-semibold text-center">
+                              {trainer.name}
+                            </h1>
+                            <span className="text-sm text-gray-500 text-center mb-3">
+                              {trainer.sporttype || "Trainer"}
+                            </span>
 
-                              <ul className="divide-y rounded bg-gray-100 py-3 px-4 w-full text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
-                                <li className="flex items-center py-3 text-sm">
-                                  <span>Email</span>
-                                  <span className="ml-auto">
-                                    {trainer.email}
-                                  </span>
-                                </li>
-                                <li className="flex items-center py-3 text-sm">
-                                  <span>Phone</span>
-                                  <span className="ml-auto">
-                                    {trainer.phone}
-                                  </span>
-                                </li>
-                              </ul>
-                              <div className="flex justify-end w-full pr-4 mt-4 text-right">
-                                <Button
-                                  className="border-none border-b-2 border-black"
-                                  onClick={handleOpenModal}
-                                >
-                                  Check detail info
-                                </Button>
-                              </div>
-                              <Popupdetail
-                                isOpen={isModalOpen}
-                                onClose={handleCloseModal}
+                            <ul className="divide-y rounded bg-gray-100 py-3 px-4 w-full text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+                              <li className="flex items-center py-3 text-sm">
+                                <span>Email</span>
+                                <span className="ml-auto">{trainer.email}</span>
+                              </li>
+                              <li className="flex items-center py-3 text-sm">
+                                <span>Phone</span>
+                                <span className="ml-auto">{trainer.phone}</span>
+                              </li>
+                            </ul>
+                            <div className="flex justify-end w-full pr-4 mt-4 text-right">
+                              <Button
+                                className="border-none border-b-2 border-black"
+                                onClick={handleOpenModal}
                               >
-                                <Trainers trainerdetail={trainer} />
-                              </Popupdetail>
+                                Check detail info
+                              </Button>
                             </div>
-                          </li>
+                            <Popupdetail
+                              isOpen={isModalOpen}
+                              onClose={handleCloseModal}
+                            >
+                              <Trainers trainerdetail={trainer} />
+                            </Popupdetail>
+                          </div>
                         )}
                       </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </Form.Item>
 
