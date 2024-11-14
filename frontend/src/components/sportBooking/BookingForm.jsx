@@ -25,6 +25,7 @@ const BookingForm = () => {
   const navigate = useNavigate();
   const [isbooking, setIsbooking] = useState(false);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
+  const [trainerDetail, setTrainerDetail] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -212,41 +213,6 @@ const BookingForm = () => {
 
               <Form.Item
                 className="mt-4 py-4"
-<<<<<<< HEAD
-                label=<p className="font-semibold text-lg">Trainer (Optional)</p>
-                name="trainer"
-              >
-                <div className="w-full mt-7">
-                  <ul className="flex flex-col md:flex-row justify-center items-center gap-2">
-                    {alltrainers?.map((trainer) => (
-                      <div key={trainer._id}>
-                        {trainer.specailization === SportType && (
-                          <li >
-                            <div
-                              className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-90 md:w-96 ${
-                                selectedTrainer === trainer._id
-                                  ? "border-red-700 border-2 shadow-lg"
-                                  : "border-gray-300"
-                              }`}
-                              onClick={() => {
-                                setSelectedTrainer(trainer._id);
-                                form.setFieldsValue({
-                                  trainer: trainer._id, // Set the selected trainer ID in the form
-                                });
-                              }}
-                            >
-                              <img
-                                src={trainer.image || photo} // Placeholder image if no URL
-                                alt={trainer.name}
-                                className="w-24 h-24 rounded-full mb-4 object-cover"
-                              />
-                              <h1 className="text-lg font-semibold text-center">
-                                {trainer.name}
-                              </h1>
-                              <span className="text-sm text-gray-500 text-center mb-3">
-                                {trainer.sporttype || "Trainer"}
-                              </span>
-=======
                 label={<p className="font-bold text-xl">Trainer (Optional)</p>}
                 name="trainer"
               >
@@ -279,7 +245,6 @@ const BookingForm = () => {
                             <span className="text-sm text-gray-500 text-center mb-3">
                               {trainer.sporttype || "Trainer"}
                             </span>
->>>>>>> 85a63956289ee2832964e452f8cc52eb1049d717
 
                             <ul className="divide-y rounded bg-gray-100 py-3 px-4 w-full text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
                               <li className="flex items-center py-3 text-sm">
@@ -294,7 +259,10 @@ const BookingForm = () => {
                             <div className="flex justify-end w-full pr-4 mt-4 text-right">
                               <Button
                                 className="border-none border-b-2 border-black"
-                                onClick={handleOpenModal}
+                                onClick={() => {
+                                  setTrainerDetail(trainer);  
+                                  handleOpenModal();          
+                                }}
                               >
                                 Check detail info
                               </Button>
@@ -303,7 +271,8 @@ const BookingForm = () => {
                               isOpen={isModalOpen}
                               onClose={handleCloseModal}
                             >
-                              <Trainers trainerdetail={trainer} />
+                              <Trainers trainerdetail={trainerDetail} />
+                              {console.log(trainerDetail)}
                             </Popupdetail>
                           </div>
                         )}
