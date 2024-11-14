@@ -211,17 +211,17 @@ const BookingForm = () => {
 
               <Form.Item
                 className="mt-4 py-4"
-                label=<p className="font-bold text-xl">Trainer (Optional)</p>
+                label=<p className="font-semibold text-lg">Trainer (Optional)</p>
                 name="trainer"
               >
                 <div className="w-full mt-7">
-                  <ul className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
+                  <ul className="flex flex-col md:flex-row justify-center items-center gap-2">
                     {alltrainers?.map((trainer) => (
                       <div key={trainer._id}>
                         {trainer.specailization === SportType && (
-                          <li className="flex justify-center">
+                          <li >
                             <div
-                              className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96 ${
+                              className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-90 md:w-96 ${
                                 selectedTrainer === trainer._id
                                   ? "border-red-700 border-2 shadow-lg"
                                   : "border-gray-300"
