@@ -10,11 +10,10 @@ import {
   ArrowRightStartOnRectangleIcon,
   Bars3Icon,
   UserCircleIcon,
-  UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import ResponsiveMenu from "./ResponsiveMenu";
-
+import usericon from "./Users/images/usericon.jpg";
 const Menu = [
   { id: 1, name: "Home", link: "/" },
   { id: 2, name: "News", link: "/news" },
@@ -153,8 +152,10 @@ const Navbar = () => {
                       onClick={openprofileMenu}
                     />
                   ) : (
-                    <UserIcon
-                      className="w-8 h-8 cursor-pointer hover:text-gray-500"
+                    <img
+                      src={usericon}
+                      alt="Profile"
+                      className="w-14 h-14 p-1 border-2 border-gray-600 rounded-full object-cover cursor-pointer"
                       onClick={openprofileMenu}
                     />
                   )}
