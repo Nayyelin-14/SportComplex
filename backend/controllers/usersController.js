@@ -2,6 +2,8 @@ const archivedBookings = require("../models/Booking/archivedBookings");
 const bcrypt = require("bcryptjs");
 const cloudinary = require("cloudinary").v2;
 const Users = require("../models/users");
+const TrainerAvailability = require("../models/traineravailability");
+const Bookings = require("../models/Booking/bookingInfo");
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -35,6 +37,34 @@ exports.getUserHistory = async (req, res) => {
       message: "Booking history are fetched",
       booking_history,
       currentUser_doc,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      isSuccess: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.deleteUserBooking = async (req, res) => {
+  const { bookingID } = req.params;
+  const { userid } = req.params;
+  console.log(bookingID, userid);
+  try {
+    const bookingDOC = await archivedBookings.findByIdAndDelete(bookingID);
+
+    const remove_booking1 = await Bookings.findByIdAndDelete(bookingID);
+    // Delete from TrainerAvailability using booking_ID field
+    const remove_booking2 = await TrainerAvailability.findOneAndDelete({
+      booking_ID: bookingID,
+    });
+    if (!bookingDOC) {
+      throw new Error("Booking not found!!!");
+    }
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Booking deleted successfully!!!",
     });
   } catch (error) {
     return res.status(404).json({

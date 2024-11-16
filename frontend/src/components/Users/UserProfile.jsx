@@ -85,7 +85,10 @@ const UserProfile = () => {
         Account Setting
       </h1>
       <div className="">
-        <UserSettingIndex bookingshistory={bookingshistory} />
+        <UserSettingIndex
+          bookingshistory={bookingshistory}
+          fetchHistory={fetchHistory}
+        />
       </div>
     </div>
   );

@@ -95,3 +95,15 @@ export const PasswordChange = async (payload) => {
     return { isSuccess: false, message: error.message };
   }
 };
+
+export const deleteuser_Booking = async (bookingID, userid) => {
+  try {
+    const response = await instance.delete(
+      `/user-profile/${userid}/${bookingID}`
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return { isSuccess: false, message: error.message };
+  }
+};

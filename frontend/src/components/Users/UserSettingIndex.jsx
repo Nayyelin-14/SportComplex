@@ -6,7 +6,7 @@ import BookingHistory from "./BookingHistory";
 import Userimages from "./userimages";
 import Resetpassword from "./Resetpassword";
 
-const UserSettingIndex = ({ bookingshistory }) => {
+const UserSettingIndex = ({ bookingshistory, fetchHistory }) => {
   const [activeTabKey, setActiveTabKey] = useState("1");
   const [tabPosition, setTabPosition] = useState("left"); // Default tab position
   const [isEditing, setIsEditing] = useState(false);
@@ -46,7 +46,11 @@ const UserSettingIndex = ({ bookingshistory }) => {
       ),
       children: (
         <div>
-          <BookingHistory bookingshistory={bookingshistory} />
+          <BookingHistory
+            bookingshistory={bookingshistory}
+            setActiveTabKey={setActiveTabKey}
+            fetchHistory={fetchHistory}
+          />
         </div>
       ),
     },

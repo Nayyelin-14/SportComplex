@@ -1,6 +1,9 @@
 const Users = require("../models/users");
 const Booking = require("../models/Booking/bookingInfo");
 const News = require("../models/newsModel");
+const archivedBookings = require("../models/Booking/archivedBookings");
+
+const TrainerAvailability = require("../models/traineravailability");
 const path = require("path");
 const fs = require("fs");
 
@@ -124,10 +127,18 @@ exports.deleteBooking = async (req, res) => {
 
   try {
     const removeBooking = await Booking.findByIdAndDelete(booking_id);
+
+    const removebookingDOC = await archivedBookings.findByIdAndDelete(
+      booking_id
+    );
+
+    // Delete from TrainerAvailability using booking_ID field
+    const remove_booking2 = await TrainerAvailability.findOneAndDelete({
+      booking_ID: booking_id,
+    });
     if (!removeBooking) {
       throw new Error("Booking not found!!!");
     }
-
     return res.status(200).json({
       isSuccess: true,
       message: "Deleted successfully!",
