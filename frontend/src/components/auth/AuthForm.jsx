@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message, Select } from "antd";
-import { setUser } from "../../store/userSlice";
+import { setActiveTime, setUser } from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginaccount, registerNewUser } from "../../apiEndpoints/auth";
@@ -23,6 +23,8 @@ const AuthForm = ({ isLoginPage }) => {
         if (response.isSuccess) {
           message.success(response.message);
           localStorage.setItem("token", response.token);
+          localStorage.setItem("activeTime", Date.now());
+          dispatch(setActiveTime(Date.now()));
           dispatch(setUser(response.LogIn_Account));
           window.location.replace("/");
         } else {
