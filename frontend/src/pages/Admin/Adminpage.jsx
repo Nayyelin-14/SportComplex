@@ -90,6 +90,7 @@ const Adminpage = () => {
         <Bookingdashboard
           allbookings={allbookings}
           isDataLoading={isDataLoading}
+          fetchallbookings={fetchallbookings}
         />
       ),
     },

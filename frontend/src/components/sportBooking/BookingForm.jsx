@@ -212,17 +212,18 @@ const BookingForm = () => {
               </Form.Item>
 
               <Form.Item
-                className="mt-4 py-4"
+                className="mt-4 md:py-4"
                 label={<p className="font-bold text-xl">Trainer (Optional)</p>}
                 name="trainer"
               >
-                <div className="w-full mt-7 ">
-                  <div className="flex flex-col md:flex-row px-3 justify-center items-center gap-6 md:gap-8">
+                <div className="w-full mt-7">
+                  <div className="flex flex-col gap-3 lg:flex-row justify-between items-center lg:gap-5">
                     {alltrainers?.map((trainer) => (
-                      <div key={trainer._id}>
+                      <div>
                         {trainer.specailization === SportType && (
                           <div
-                            className={`border p-6 md:p-8 rounded-lg cursor-pointer flex flex-col items-center transition-shadow w-80 md:w-96 ${
+                            key={trainer._id}
+                            className={`border p-3 w-[300px] rounded-lg cursor-pointer flex flex-col items-center transition-shadow ${
                               selectedTrainer === trainer._id
                                 ? "border-red-700 border-2 shadow-lg"
                                 : "border-gray-300"
@@ -235,9 +236,9 @@ const BookingForm = () => {
                             }}
                           >
                             <img
-                              src={trainer.image || photo} // Placeholder image if no URL
+                              src={trainer.image || photo}
                               alt={trainer.name}
-                              className="w-24 h-24 rounded-full mb-4 object-cover"
+                              className="w-20 h-20 md:w-24 md:h-24 rounded-full mb-4 object-cover"
                             />
                             <h1 className="text-lg font-semibold text-center">
                               {trainer.name}
@@ -258,10 +259,10 @@ const BookingForm = () => {
                             </ul>
                             <div className="flex justify-end w-full pr-4 mt-4 text-right">
                               <Button
-                                className="border-none border-b-2 border-black"
+                                className="border-none underline text-red-900 font-medium"
                                 onClick={() => {
-                                  setTrainerDetail(trainer);  
-                                  handleOpenModal();          
+                                  setTrainerDetail(trainer);
+                                  handleOpenModal();
                                 }}
                               >
                                 Check detail info
@@ -272,7 +273,6 @@ const BookingForm = () => {
                               onClose={handleCloseModal}
                             >
                               <Trainers trainerdetail={trainerDetail} />
-                              {console.log(trainerDetail)}
                             </Popupdetail>
                           </div>
                         )}
@@ -282,7 +282,7 @@ const BookingForm = () => {
                 </div>
               </Form.Item>
 
-              <Form.Item className="mt-6 pt-6">
+              <Form.Item className="md:mt-6 pt-6 lg:ml-6">
                 <Button
                   className="w-full bg-red-800 text-white rounded-lg"
                   disabled={isbooking}

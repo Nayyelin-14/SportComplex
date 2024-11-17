@@ -7,12 +7,16 @@ import badminton from "./images/badminton.jpg";
 import fitness from "./images/fitness.jpg";
 import tennis from "./images/tennis.webp";
 import moment from "moment";
-
-const BookingHistory = ({ bookingshistory }) => {
+import { useNavigate } from "react-router-dom";
+import { deleteuser_Booking } from "../../apiEndpoints/auth";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { message } from "antd";
+const BookingHistory = ({ bookingshistory, fetchHistory }) => {
   const [bookingsPerPage, setBookingsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const [isAnimating, setIsAnimating] = useState(false); // Animation state
 
+  const navigate = useNavigate();
   // Function to update bookings per page based on screen size
   const updateBookingsPerPage = () => {
     if (window.innerWidth <= 576) {
@@ -53,6 +57,23 @@ const BookingHistory = ({ bookingshistory }) => {
     }, 300); // Match the animation duration
   };
 
+  //deletebooking
+  const deleteBooking = async (bookingID, userid) => {
+    const confirmation = window.confirm("are u sure");
+    if (confirmation) {
+      try {
+        const response = await deleteuser_Booking(bookingID, userid);
+        if (response.isSuccess) {
+          message.success(response.message);
+        }
+      } catch (error) {
+        message.error(error.message);
+      } finally {
+        await fetchHistory(userid);
+      }
+    }
+  };
+
   const checkImage = (sporttype) => {
     switch (sporttype.toLowerCase()) {
       case "football":
@@ -76,13 +97,18 @@ const BookingHistory = ({ bookingshistory }) => {
     <div>
       {/* Bookings List */}
       <div
-        className={`grid gap-4 h-[500px] lg:h-[400px] mb-20 sm:mb-18 md:mb-20   ${
-          bookingsPerPage === 3 ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-2"
-        }`}
+        className={`grid gap-4 h-[500px] lg:h-[400px] mb-20 sm:mb-18 md:mb-20 
+    ${
+      bookingshistory.length === 0
+        ? "grid-cols-1"
+        : bookingsPerPage === 3
+        ? "grid-cols-1"
+        : "grid-cols-1 lg:grid-cols-2"
+    }`}
       >
         {currentBookings.map((booking) => (
           <div
-            className={`sm:w-[90%]  md:w-[75%] lg:w-[100%] h-[160px] bg-gray-200 flex items-center px-4 mb-4 gap-4 transform transition-opacity duration-300 rounded-xl ${
+            className={`relative sm:w-[90%]  md:w-[75%] lg:w-[100%] h-[160px] bg-gray-200 flex items-center px-4 mb-4 gap-4 transform transition-opacity duration-300 rounded-xl ${
               isAnimating ? "opacity-0" : "opacity-100"
             }`}
             key={booking._id}
@@ -112,50 +138,91 @@ const BookingHistory = ({ bookingshistory }) => {
                   No trainer booked
                 </p>
               )}
+              {/* Trash Icon Button */}
+              <button
+                onClick={() =>
+                  deleteBooking(booking._id, booking.bookingUser_id)
+                }
+                className="text-red-700 hover:text-red-900 transition-colors duration-300 absolute bottom-3 right-5"
+                title="Delete Booking"
+              >
+                <TrashIcon width={22} height={22} />
+              </button>
             </div>
           </div>
         ))}
+        {currentBookings.length === 0 && (
+          <div className="flex flex-col items-center justify-between h-[200px]">
+            <p className="text-center font-bold text-lg text-red-900 mt-10 sm:text-2xl">
+              No booking history found!!!
+            </p>
+
+            <a
+              onClick={() => navigate("/booking")}
+              className="flex items-center font-bold text-red-700 border-2 border-red-900 py-2 px-6 gap-2 rounded hover:bg-red-900 hover:text-black  transition duration-300 ease-in-out"
+            >
+              <span> place booking</span>
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                className="w-6 h-6 ml-2"
+              >
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </a>
+          </div>
+        )}
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center mt-4">
-        {/* Previous Button */}
-        <button
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`px-3 py-1 mx-1 border rounded-lg ${
-            currentPage === 1 ? "bg-gray-300" : "bg-red-900 text-white"
-          }`}
-        >
-          Previous
-        </button>
+      {currentBookings.length !== 0 && (
+        <div className="flex justify-center mt-4">
+          <div className="flex flex-wrap items-center justify-center max-w-full overflow-hidden gap-2  p-2 rounded-lg">
+            {/* Previous Button */}
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`px-2 py-1 border rounded-lg ${
+                currentPage === 1 ? "bg-gray-300" : "bg-red-900 text-white"
+              }`}
+            >
+              Previous
+            </button>
 
-        {/* Page Numbers */}
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => paginate(index + 1)}
-            className={`px-3 py-1 mx-1 border rounded-lg ${
-              currentPage === index + 1 ? "bg-red-900 text-white" : "bg-white"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
+            {/* Page Numbers */}
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => paginate(index + 1)}
+                className={`px-2 py-1 border rounded-lg ${
+                  currentPage === index + 1
+                    ? "bg-red-900 text-white"
+                    : "bg-white"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
 
-        {/* Next Button */}
-        <button
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`px-3 py-1 mx-1 border rounded-lg ${
-            currentPage === totalPages
-              ? "bg-gray-300"
-              : "bg-red-900 text-white "
-          }`}
-        >
-          Next
-        </button>
-      </div>
+            {/* Next Button */}
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`px-2 py-1 border rounded-lg ${
+                currentPage === totalPages
+                  ? "bg-gray-300"
+                  : "bg-red-900 text-white"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

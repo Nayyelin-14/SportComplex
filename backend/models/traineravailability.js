@@ -32,8 +32,14 @@ const trainerAvailabilitySchema = new Schema(
     ],
   },
   {
-    timestamps: true,
+    timestamps: true, // This adds createdAt and updatedAt fields automatically
   }
+);
+
+// Add TTL index on the createdAt field to expire documents after 1 day (86400 seconds)
+trainerAvailabilitySchema.index(
+  { createdAt: 1 },
+  { expireAfterSeconds: 86400 }
 );
 
 const TrainerAvailability = model(

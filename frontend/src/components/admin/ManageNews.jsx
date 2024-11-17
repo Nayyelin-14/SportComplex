@@ -21,18 +21,21 @@ const ManageNews = () => {
   }, []);
 
   const removeHandler = async (newsid) => {
-    try {
-      const response = await removeNews(newsid);
+    const confirmation = window.confirm("Are you sure to delete this booking?");
+    if (confirmation) {
+      try {
+        const response = await removeNews(newsid);
 
-      if (response.isSuccess) {
-        message.success("News successfully removed!");
-      } else {
-        message.error(response.message || "Failed to remove news");
+        if (response.isSuccess) {
+          message.success("News successfully removed!");
+        } else {
+          message.error(response.message || "Failed to remove news");
+        }
+      } catch (error) {
+        message.error("An error occurred: " + error.message);
       }
-    } catch (error) {
-      message.error("An error occurred: " + error.message);
+      await fetchAllNews();
     }
-    await fetchAllNews();
   };
 
   return (

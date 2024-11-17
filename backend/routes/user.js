@@ -108,4 +108,10 @@ router.post(
   UserController.changePassword
 );
 
+router.delete(
+  "/user-profile/:userid/:bookingID",
+  authMiddleware,
+  UserController.deleteUserBooking
+);
+
 module.exports = router;

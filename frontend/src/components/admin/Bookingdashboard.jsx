@@ -6,7 +6,7 @@ import { redirect } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const Bookingdashboard = ({ allbookings, isDataLoading }) => {
+const Bookingdashboard = ({ allbookings, isDataLoading, fetchallbookings }) => {
   // State to manage loading and page
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,19 +21,21 @@ const Bookingdashboard = ({ allbookings, isDataLoading }) => {
   );
 
   const removeBooking = async (booking_id) => {
-    try {
-      setIsLoading(true);
-      const response = await delete_booking(booking_id);
+    const confirmation = window.confirm("Are you sure to delete this booking?");
+    if (confirmation) {
+      try {
+        setIsLoading(true);
+        const response = await delete_booking(booking_id);
 
-      if (response.isSuccess) {
-        message.success(response.message);
-        window.location.reload();
-        // redirect("/admin");
+        if (response.isSuccess) {
+          message.success(response.message);
+        }
+      } catch (error) {
+        message.error(error.message);
+      } finally {
+        setIsLoading(false);
+        await fetchallbookings();
       }
-    } catch (error) {
-      message.error(error.message);
-    } finally {
-      setIsLoading(false);
     }
   };
 
