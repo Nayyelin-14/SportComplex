@@ -133,7 +133,7 @@ const Adminpage = () => {
 
   return (
     <section className="max-w-7xl mx-auto p-10 sm:p-0">
-      <h1 className="my-3 sm:my-10 font-semibold text-xl sm:text-3xl">
+      <h1 className="mx-3 my-3 sm:my-10 font-semibold text-md sm:text-lg">
         Admin dashboard
       </h1>
       <div className="mb-100 sm:mb-20 ">

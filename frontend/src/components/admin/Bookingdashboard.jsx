@@ -138,9 +138,9 @@ const Bookingdashboard = ({ allbookings, isDataLoading, fetchallbookings }) => {
                     <tr>
                       <td
                         colSpan="7"
-                        className="text-center py-4 text-lg font-bold text-red-500"
+                        className="text-center py-4 text-md text-red-500"
                       >
-                        No bookings found!!!
+                        No bookings found!
                       </td>
                     </tr>
                   </tbody>
