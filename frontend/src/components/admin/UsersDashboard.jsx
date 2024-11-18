@@ -21,7 +21,7 @@ const UsersDashboard = ({ allusers, fetchAllusers }) => {
   const indexOfFirstUser = indexOfLastUser - itemsPerPage;
 
   // Slice the data to show only the current page's bookings
-  const currentUsers = allusers.slice(indexOfFirstUser, indexOfLastUser);
+  const currentUsers = allusers?.slice(indexOfFirstUser, indexOfLastUser);
 
   const [userEmail, setUserEmail] = useState("");
   const [username, setUsername] = useState("");

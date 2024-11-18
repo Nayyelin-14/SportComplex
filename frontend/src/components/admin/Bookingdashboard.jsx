@@ -15,7 +15,7 @@ const Bookingdashboard = ({ allbookings, isDataLoading, fetchallbookings }) => {
 
   const indexOfLastBooking = currentPage * itemsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
-  const currentBookings = allbookings.slice(
+  const currentBookings = allbookings?.slice(
     indexOfFirstBooking,
     indexOfLastBooking
   );
