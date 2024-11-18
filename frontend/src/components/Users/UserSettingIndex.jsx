@@ -14,7 +14,7 @@ const UserSettingIndex = ({ bookingshistory, fetchHistory }) => {
     {
       key: "1",
       label: (
-        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
+        <p className="text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Edit Profile
         </p>
       ),
@@ -27,7 +27,7 @@ const UserSettingIndex = ({ bookingshistory, fetchHistory }) => {
     {
       key: "2",
       label: (
-        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
+        <p className="text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Reset Password
         </p>
       ),
@@ -40,7 +40,7 @@ const UserSettingIndex = ({ bookingshistory, fetchHistory }) => {
     {
       key: "3",
       label: (
-        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
+        <p className="text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Booking history
         </p>
       ),
@@ -57,7 +57,7 @@ const UserSettingIndex = ({ bookingshistory, fetchHistory }) => {
     {
       key: "4",
       label: (
-        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
+        <p className="text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Photos
         </p>
       ),

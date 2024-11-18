@@ -85,7 +85,7 @@ const Userimages = ({ setActiveTabKey }) => {
   return (
     <div className="h-[450px] lg:h-[550px] flex flex-col lg:gap-32 justify-between">
       <div>
-        <p className="mb-8 font-bold text-lg">Uploaded images</p>
+        <p className="mb-4 text-base font-semibold">Uploaded images</p>
         <div className="flex flex-row  gap-10  sm:gap-4 md:gap-2 lg:gap-10 flex-wrap p-2">
           {currentImages.length > 0 ? (
             currentImages.map((image, index) => (
@@ -112,7 +112,7 @@ const Userimages = ({ setActiveTabKey }) => {
             ))
           ) : (
             <div className="flex justify-center w-full">
-              <p className="text-center font-bold text-red-900 text-2xl">
+              <p className="text-center text-red-900 text-base font-semibold">
                 You haven't uploaded any photos.
               </p>
             </div>

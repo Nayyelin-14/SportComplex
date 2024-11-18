@@ -108,7 +108,7 @@ const BookingHistory = ({ bookingshistory, fetchHistory }) => {
       >
         {currentBookings.map((booking) => (
           <div
-            className={`relative sm:w-[90%]  md:w-[75%] lg:w-[100%] h-[160px] bg-gray-200 flex items-center px-4 mb-4 gap-4 transform transition-opacity duration-300 rounded-xl ${
+            className={`relative sm:w-[90%]  md:w-[75%] lg:w-[100%] h-[160px] bg-white shadow-xl flex items-center px-4 mb-4 gap-4 transform transition-opacity duration-300 rounded-xl ${
               isAnimating ? "opacity-0" : "opacity-100"
             }`}
             key={booking._id}
@@ -120,13 +120,13 @@ const BookingHistory = ({ bookingshistory, fetchHistory }) => {
             />
 
             <div className="flex flex-col h-full gap-3 md:gap-2">
-              <h1 className="font-bold text-[13px] md:text-[15px] mt-2 text-red-900">
+              <h1 className="font-bold text-[13px] md:text-[15px] pt-4 text-primary">
                 {booking.sporttype}
               </h1>
-              <p className="text-[13px] md:text-[15px] font-bold text-red-900">
+              <p className="text-[13px] md:text-[15px] text-primary">
                 {booking.session}
               </p>
-              <p className="text-[13px] md:text-[15px] font-bold text-red-900">
+              <p className="text-[13px] md:text-[15px] text-primary">
                 {moment(booking.createdAt).format("MMM Do YY")}
               </p>
               {booking.trainer ? (
@@ -153,15 +153,15 @@ const BookingHistory = ({ bookingshistory, fetchHistory }) => {
         ))}
         {currentBookings.length === 0 && (
           <div className="flex flex-col items-center justify-between h-[200px]">
-            <p className="text-center font-bold text-lg text-red-900 mt-10 sm:text-2xl">
-              No booking history found!!!
+            <p className="text-center font-semibold text-sm text-red-900 mt-10 sm:text-base">
+              No booking history found!
             </p>
 
             <a
               onClick={() => navigate("/booking")}
-              className="flex items-center font-bold text-red-700 border-2 border-red-900 py-2 px-6 gap-2 rounded hover:bg-red-900 hover:text-black  transition duration-300 ease-in-out"
+              className="flex items-center text-black border border-red-900 py-2 px-6 gap-2 rounded-xl hover:bg-red-900 hover:text-white  transition duration-300 ease-in-out"
             >
-              <span> place booking</span>
+              <span> Place booking</span>
               <svg
                 fill="none"
                 stroke="currentColor"
