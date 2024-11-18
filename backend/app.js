@@ -17,7 +17,13 @@ const archivedbookings = require("./models/Booking/archivedBookings");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "*" }));
+// app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: "https://sportcomplex.vercel.app", // Allow only your Vercel frontend
+    credentials: true, // if you're using cookies or sessions
+  })
+);
 app.use(bodyParser.json());
 
 //for image file
