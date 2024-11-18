@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Carousel = () => {
   const { allNews, loading } = useContext(NewsContext);
 
-  const featuredNews = allNews.slice(-3);
+  const featuredNews = allNews?.slice(-3);
   console.log(featuredNews);
 
   return (
@@ -22,7 +22,7 @@ const Carousel = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-14 md:gap-5 place-items-center">
-            {featuredNews.map((news, index) => (
+            {featuredNews?.map((news, index) => (
               <Link to={`/news/${news.id}`} key={index}>
                 <div
                   key={news.id}

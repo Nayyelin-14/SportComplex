@@ -60,7 +60,7 @@ const News = () => {
         <div>Loading News...</div>
       ) : (
         <div className="container py-8 sm:py-14 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-14">
-          {allNews.map((news) => (
+          {allNews?.map((news) => (
             <Link to={`/news/${news.id}`}>
               <NewsItem
                 key={news.id}
