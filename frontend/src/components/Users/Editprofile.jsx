@@ -120,7 +120,7 @@ const EditProfile = () => {
       >
         <Form.Item
           label={
-            <p className="font-medium sm:text-[15px] md:text-[16px] lg:text-[17px] flex items-center gap-2">
+            <p className="text-sm md:text-base flex items-center gap-2">
               <PhotoIcon width={20} height={20} /> Upload Image
             </p>
           }
@@ -159,7 +159,7 @@ const EditProfile = () => {
 
         <Form.Item
           label={
-            <p className="font-medium sm:text-[15px] md:text-[16px] lg:text-[17px]">
+            <p className="text-sm md:text-base">
               ID
             </p>
           }
@@ -169,7 +169,7 @@ const EditProfile = () => {
           <Input
             placeholder="enter id..."
             type="number"
-            className="border-black sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium"
+            className="border-black text-sm md:text-base font-medium"
           />
         </Form.Item>
 
@@ -181,7 +181,7 @@ const EditProfile = () => {
             },
           ]}
           label={
-            <p className="font-medium sm:text-[15px] md:text-[16px] lg:text-[17px] flex items-center gap-2">
+            <p className="text-sm md:text-base flex items-center gap-2">
               <UserIcon height={20} width={20} /> Username
             </p>
           }
@@ -189,13 +189,13 @@ const EditProfile = () => {
         >
           <Input
             placeholder="username..."
-            className="border-black sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium"
+            className="border-black text-sm md:text-base font-medium"
           />
         </Form.Item>
 
         <Form.Item
           label={
-            <p className="font-medium sm:text-[15px] md:text-[16px] lg:text-[17px] flex items-center gap-2">
+            <p className="text-sm md:text-base flex items-center gap-2">
               <PhoneIcon width={19} height={19} /> Phone Number
             </p>
           }
@@ -205,13 +205,13 @@ const EditProfile = () => {
           <Input
             placeholder="phnumber..."
             type="number"
-            className="border-black sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium"
+            className="border-black text-sm md:text-base font-medium"
           />
         </Form.Item>
 
         <Form.Item
           label={
-            <p className="font-medium sm:text-[15px] md:text-[16px] lg:text-[17px] flex items-center gap-2">
+            <p className="text-sm md:text-base flex items-center gap-2">
               <AtSymbolIcon width={20} height={20} /> Email
             </p>
           }
@@ -222,13 +222,13 @@ const EditProfile = () => {
         >
           <Input
             placeholder="email..."
-            className="border-black sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium"
+            className="border-black text-sm md:text-base font-medium"
           />
         </Form.Item>
 
         <Form.Item className="text-center">
           <Button
-            className="bg-red-900 p-5 text-white text-[17px] font-semibold w-full"
+            className="bg-red-900 p-5 text-white text-[17px] w-full"
             htmlType="submit"
             disabled={isWarning || issaving}
           >

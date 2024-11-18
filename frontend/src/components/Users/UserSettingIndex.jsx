@@ -6,7 +6,7 @@ import BookingHistory from "./BookingHistory";
 import Userimages from "./userimages";
 import Resetpassword from "./Resetpassword";
 
-const UserSettingIndex = ({ bookingshistory }) => {
+const UserSettingIndex = ({ bookingshistory, fetchHistory }) => {
   const [activeTabKey, setActiveTabKey] = useState("1");
   const [tabPosition, setTabPosition] = useState("left"); // Default tab position
   const [isEditing, setIsEditing] = useState(false);
@@ -14,7 +14,7 @@ const UserSettingIndex = ({ bookingshistory }) => {
     {
       key: "1",
       label: (
-        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
+        <p className="text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Edit Profile
         </p>
       ),
@@ -27,7 +27,7 @@ const UserSettingIndex = ({ bookingshistory }) => {
     {
       key: "2",
       label: (
-        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
+        <p className="text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Reset Password
         </p>
       ),
@@ -40,20 +40,24 @@ const UserSettingIndex = ({ bookingshistory }) => {
     {
       key: "3",
       label: (
-        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
+        <p className="text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Booking history
         </p>
       ),
       children: (
         <div>
-          <BookingHistory bookingshistory={bookingshistory} />
+          <BookingHistory
+            bookingshistory={bookingshistory}
+            setActiveTabKey={setActiveTabKey}
+            fetchHistory={fetchHistory}
+          />
         </div>
       ),
     },
     {
       key: "4",
       label: (
-        <p className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
+        <p className="text-[13px] sm:text-[15px] md:text-[18px] h-[50px] flex items-center">
           Photos
         </p>
       ),

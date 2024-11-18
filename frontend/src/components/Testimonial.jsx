@@ -37,7 +37,7 @@ const TestimonialCard = ({ image, name, title, quote }) => (
 
 const Testimonials = () => {
   return (
-    <div className="bg-white my-10 py-20">
+    <div className="bg-white py-20">
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-3">What Our Clients Say</h2>
         <p className="text-xs text-gray-400 text-center mb-8">

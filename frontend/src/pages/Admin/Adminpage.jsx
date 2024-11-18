@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Bookingdashboard from "../../components/admin/Bookingdashboard";
 import UsersDashboard from "../../components/admin/UsersDashboard";
+import "./Customized.css";
 import CreateNews from "../../components/admin/CreateNews";
 import ManageNews from "../../components/admin/ManageNews";
 import { message, Tabs } from "antd";
@@ -13,14 +14,13 @@ import {
 import { getallBookings, getAllUsers } from "../../apiEndpoints/admin";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLoader } from "../../store/loaderSlice";
 
 const Adminpage = () => {
   const navigate = useNavigate();
   const [allusers, setAllusers] = useState([]);
   const [allbookings, setAllbookings] = useState([]);
   const dispatch = useDispatch();
-
+  const [isDataLoading, setIsDataLoading] = useState(true); // New state for initial data loading
   const fetchAllusers = async () => {
     try {
       const response = await getAllUsers();
@@ -37,6 +37,7 @@ const Adminpage = () => {
 
   const fetchallbookings = async () => {
     try {
+      setIsDataLoading(true);
       const response = await getallBookings();
       if (response.isSuccess) {
         setAllbookings(response.allBookings_doc);
@@ -46,6 +47,8 @@ const Adminpage = () => {
       }
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setIsDataLoading(false);
     }
   };
 
@@ -76,23 +79,29 @@ const Adminpage = () => {
     {
       key: "1",
       label: (
-        <div className="p-4 flex items-center gap-2">
-          <ClipboardDocumentListIcon className="w-6 h-6" />
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px]  ">
+          <ClipboardDocumentListIcon className="w-6 h-6  hidden md:block" />
           <p className="">Booking dashboard </p>
-          <span className="bg-blue-600 text-white px-2 py-1 rounded-full">
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full hidden md:block">
             {allbookings.length}
           </span>
         </div>
       ),
-      children: <Bookingdashboard allbookings={allbookings} />,
+      children: (
+        <Bookingdashboard
+          allbookings={allbookings}
+          isDataLoading={isDataLoading}
+          fetchallbookings={fetchallbookings}
+        />
+      ),
     },
     {
       key: "2",
       label: (
-        <div className="p-4 flex items-center gap-6">
-          <UsersIcon className="w-6 h-6" />
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px]  ">
+          <UsersIcon className="w-6 h-6 hidden md:block" />
           <p>Manage Users</p>
-          <span className="bg-blue-600 text-white px-3 py-1 rounded-full">
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full ml-10 hidden md:block">
             {allusers.length}
           </span>
         </div>
@@ -104,8 +113,8 @@ const Adminpage = () => {
     {
       key: "3",
       label: (
-        <div className="p-4 flex items-center gap-2">
-          <InformationCircleIcon className="w-6 h-6" />
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px]  ">
+          <InformationCircleIcon className="w-6 h-6 hidden md:block" />
           <p>Add News</p>
         </div>
       ),
@@ -114,8 +123,8 @@ const Adminpage = () => {
     {
       key: "4",
       label: (
-        <div className="p-4 flex items-center gap-2">
-          <InformationCircleIcon className="w-6 h-6" />
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px]  ">
+          <InformationCircleIcon className="w-6 h-6 hidden md:block" />
           <p>Manage News</p>
         </div>
       ),
@@ -124,9 +133,11 @@ const Adminpage = () => {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto">
-      <h1 className="my-10 font-semibold text-3xl">Admin dashboard</h1>
-      <div className="mb-20 ">
+    <section className="max-w-7xl mx-auto p-10 sm:p-5">
+      <h1 className="mx-3 my-3 sm:my-10 font-semibold text-md sm:text-lg">
+        Admin dashboard
+      </h1>
+      <div className="mb-100 sm:mb-20 ">
         <Tabs items={items} className="font-medium" tabPosition={tabPosition} />
       </div>
     </section>

@@ -94,3 +94,12 @@ export const upload_img = async (formData) => {
     return error.message;
   }
 };
+
+export const delete_booking = async (booking_id) => {
+  try {
+    const response = await instance.post(`/admin/deletebooking/${booking_id}`);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};

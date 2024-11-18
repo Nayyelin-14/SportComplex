@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message, Select } from "antd";
-import { setUser } from "../../store/userSlice";
+import { setActiveTime, setUser } from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginaccount, registerNewUser } from "../../apiEndpoints/auth";
@@ -23,10 +23,12 @@ const AuthForm = ({ isLoginPage }) => {
         if (response.isSuccess) {
           message.success(response.message);
           localStorage.setItem("token", response.token);
+          localStorage.setItem("activeTime", Date.now());
+          dispatch(setActiveTime(Date.now()));
           dispatch(setUser(response.LogIn_Account));
           window.location.replace("/");
         } else {
-          throw new Error(response.message);
+          message.error(response.message);
         }
       } else {
         response = await registerNewUser(values);
@@ -34,7 +36,7 @@ const AuthForm = ({ isLoginPage }) => {
           message.success(response.message);
           navigate("/login");
         } else {
-          throw new Error(response.message);
+          message.error(response.message);
         }
       }
     } catch (error) {
@@ -67,11 +69,11 @@ const AuthForm = ({ isLoginPage }) => {
             onFinish={onFinishHandler}
             className="max-w-lg mx-auto"
           >
-            <div className="text-3xl pb-6 font-semibold text-center">
+            <div className="text-xl pb-6 text-center">
               {isLoginPage ? (
-                <h1 className="text-red-900">Login to Your Account</h1>
+                <h1 className="text-primary">Login To Your Account</h1>
               ) : (
-                <h1 className="text-red-900">Sign Up New Account</h1>
+                <h1 className="text-red-900">Create New Account</h1>
               )}
             </div>
 

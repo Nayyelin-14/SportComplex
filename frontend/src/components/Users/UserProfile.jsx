@@ -54,11 +54,11 @@ const UserProfile = () => {
               className="w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full border-4 border-red-900 p-1"
             />
           )}
-          <div className="lg:mt-4 flex flex-col items-center lg:items-start">
-            <h4 className="text-md md:text-[20px] font-bold sm:mb-3">
+          <div className="py-4 flex flex-col items-center lg:items-start">
+            <h4 className="text-md md:text-[20px] font-bold sm:mb-0">
               {user.username}
             </h4>
-            <p className="flex items-center text-sm md:text-lg text-gray-400 font-bold">
+            <p className="flex items-center text-sm md:text-base text-gray-400">
               <EnvelopeIcon className="h-5 w-5 md:h-7 md:w-7 font-bold mr-2" />
               {user.email}
             </p>
@@ -70,22 +70,25 @@ const UserProfile = () => {
           className="bg-red-900 text-white w-[100%] h-[54px] 
         sm:w-[60%] md:w-[60%] lg:w-[10%] lg:h-[110px] flex items-center justify-center mt-4 sm:mt-0 sm:ml-4 lg:ml-10 rounded-xl"
         >
-          <div className="flex flex-col items-center justify-center font-bold">
+          <div className="flex flex-col items-center justify-center font-bold p-4">
             <p className=" mb-1 sm:text-lg md:text-2xl text-white">
               {bookingshistory.length}
             </p>
-            <p className="text-center  text-[11px] md:text-[14px] text-white">
+            <p className="text-center text-[11px] md:text-[14px] text-white">
               Recent bookings
             </p>
           </div>
         </div>
       </div>
 
-      <h1 className="mt-6 text-[25px] sm:my-10 md:text-[20px] font-bold md:p-2 lg:text-xl  text-black rounded-md">
+      <h1 className="flex justify-center mt-6 text-lg  md:text-[20px] font-semibold md:p-2 lg:text-lg text-black rounded-md">
         Account Setting
       </h1>
-      <div className="">
-        <UserSettingIndex bookingshistory={bookingshistory} />
+      <div className="md:shadow-xl md:p-12 mb-12 rounded-xl">
+        <UserSettingIndex
+          bookingshistory={bookingshistory}
+          fetchHistory={fetchHistory}
+        />
       </div>
     </div>
   );

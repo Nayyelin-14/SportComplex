@@ -16,6 +16,7 @@ import BookingFrom from "./components/sportBooking/BookingForm";
 import NotFound from "./components/NotFound";
 import Adminpage from "./pages/Admin/Adminpage";
 import Trainers from "./pages/Trainers/Trainers";
+import CheckRoute from "./providers/CheckRoute";
 
 const App = () => {
   React.useEffect(() => {
@@ -110,8 +111,22 @@ const App = () => {
             />
 
             {/* auth routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route
+              path="/login"
+              element={
+                <CheckRoute>
+                  <Login />
+                </CheckRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <CheckRoute>
+                  <Register />
+                </CheckRoute>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

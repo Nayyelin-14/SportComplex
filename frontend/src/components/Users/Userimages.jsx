@@ -85,7 +85,7 @@ const Userimages = ({ setActiveTabKey }) => {
   return (
     <div className="h-[450px] lg:h-[550px] flex flex-col lg:gap-32 justify-between">
       <div>
-        <p className="mb-8">Uploaded images</p>
+        <p className="mb-4 text-base font-semibold">Uploaded images</p>
         <div className="flex flex-row  gap-10  sm:gap-4 md:gap-2 lg:gap-10 flex-wrap p-2">
           {currentImages.length > 0 ? (
             currentImages.map((image, index) => (
@@ -112,7 +112,7 @@ const Userimages = ({ setActiveTabKey }) => {
             ))
           ) : (
             <div className="flex justify-center w-full">
-              <p className="text-center font-bold text-red-900 text-2xl">
+              <p className="text-center text-red-900 text-base font-semibold">
                 You haven't uploaded any photos.
               </p>
             </div>
@@ -120,41 +120,46 @@ const Userimages = ({ setActiveTabKey }) => {
         </div>
       </div>
       {/* Pagination Controls */}
+      {/* Pagination Controls */}
       <div className="flex justify-center mt-4">
-        {/* Previous Button */}
-        <button
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`px-3 py-1 mx-1 border rounded-lg ${
-            currentPage === 1 ? "bg-gray-300" : "bg-red-900 text-white"
-          }`}
-        >
-          Previous
-        </button>
-
-        {/* Page Numbers */}
-        {Array.from({ length: totalPages }, (_, index) => (
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-full overflow-hidden">
+          {/* Previous Button */}
           <button
-            key={index + 1}
-            onClick={() => paginate(index + 1)}
-            className={`px-3 py-1 mx-1 border rounded-lg ${
-              currentPage === index + 1 ? "bg-red-900 text-white" : "bg-white"
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 border rounded-lg ${
+              currentPage === 1 ? "bg-gray-300" : "bg-red-900 text-white"
             }`}
           >
-            {index + 1}
+            Previous
           </button>
-        ))}
 
-        {/* Next Button */}
-        <button
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`px-3 py-1 mx-1 border rounded-lg ${
-            currentPage === totalPages ? "bg-gray-300" : "bg-red-900 text-white"
-          }`}
-        >
-          Next
-        </button>
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => paginate(index + 1)}
+              className={`px-3 py-1 border rounded-lg ${
+                currentPage === index + 1 ? "bg-red-900 text-white" : "bg-white"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          {/* Next Button */}
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 border rounded-lg ${
+              currentPage === totalPages
+                ? "bg-gray-300"
+                : "bg-red-900 text-white"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -143,7 +143,7 @@ const BookingIndex = () => {
       items={items.map((item) => ({
         ...item,
         label: (
-          <p className="text-[14px] md:text-[20px] font-semibold ">
+          <p className="text-md md:text-lg">
             {item.label}
           </p>
         ),
