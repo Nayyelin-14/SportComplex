@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(cors({ origin: "*" }));
 app.use(
   cors({
-    origin: "https://sportcomplex.vercel.app/login", // Allow only your Vercel frontend
+    origin: "https://sportcomplex.vercel.app", // Allow only your Vercel frontend
     credentials: true, // if you're using cookies or sessions
   })
 );
