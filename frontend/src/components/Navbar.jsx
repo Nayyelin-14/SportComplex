@@ -3,7 +3,7 @@ import Logo from "../assets/mfulogo.png";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../store/userSlice";
+import { setActiveTime, setUser } from "../store/userSlice";
 import { message } from "antd";
 import {
   ArrowPathIcon,
@@ -35,6 +35,8 @@ const Navbar = () => {
 
   const LogoutHandler = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("activeTime");
+    dispatch(setActiveTime(null));
     dispatch(setUser(null));
     navigate("/");
     message.success("Your account has logged out");

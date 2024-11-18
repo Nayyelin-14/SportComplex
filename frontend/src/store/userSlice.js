@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const userInitialState = {
   user: null,
   userImages: [],
+  lastActiveTime: null,
 };
 
 export const UserSlice = createSlice({
@@ -21,8 +22,13 @@ export const UserSlice = createSlice({
         state.userImages = action.payload;
       }
     },
+    setActiveTime: (state, action) => {
+      if (state.user) {
+        state.lastActiveTime = action.payload;
+      }
+    },
   },
 });
 
-export const { setUser, setImages } = UserSlice.actions;
+export const { setUser, setImages, setActiveTime } = UserSlice.actions;
 export default UserSlice.reducer;

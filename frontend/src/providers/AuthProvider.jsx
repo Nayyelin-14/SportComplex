@@ -3,7 +3,7 @@ import { getCurrentUser } from "../apiEndpoints/auth";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setImages, setUser } from "../store/userSlice";
+import { setActiveTime, setImages, setUser } from "../store/userSlice";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const AuthProvider = ({ children, allowedRoles = [] }) => {
@@ -12,6 +12,10 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
   const token = localStorage.getItem("token");
   const { user } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(true); // Set loading to true initially
+
+  //inactive hours
+  const two_hours = 2 * 60 * 60 * 1000;
+  // const two_hours = 2 * 60 * 60 * 1000;
 
   const currentUser = async () => {
     try {
@@ -38,6 +42,50 @@ const AuthProvider = ({ children, allowedRoles = [] }) => {
     }
   };
 
+  //
+  // Function to log out the user
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("activeTime");
+    dispatch(setUser(null));
+    dispatch(setActiveTime(null));
+    navigate("/login");
+    message.success("You have been logged out due to inactivity.");
+  };
+  // Function to check inactivity
+  const checkInactivity = () => {
+    const lastActiveTime = localStorage.getItem("activeTime");
+    if (lastActiveTime) {
+      const currentTime = Date.now();
+      const timeDifference = currentTime - lastActiveTime;
+      if (timeDifference > two_hours) {
+        handleLogout(); // Log out if more than 2 hours of inactivity
+      }
+    }
+  };
+  const updateLastActiveTime = () => {
+    const currentTime = Date.now();
+    localStorage.setItem("activeTime", currentTime);
+    dispatch(setActiveTime(currentTime));
+  };
+  useEffect(() => {
+    // Listen for user interactions
+    window.addEventListener("mousemove", updateLastActiveTime);
+    window.addEventListener("click", updateLastActiveTime);
+    window.addEventListener("keydown", updateLastActiveTime);
+
+    // Check inactivity every minute
+    const interval = setInterval(checkInactivity, 60 * 1000);
+
+    return () => {
+      // Clean up event listeners and interval on unmount
+      window.removeEventListener("mousemove", updateLastActiveTime);
+      window.removeEventListener("click", updateLastActiveTime);
+      window.removeEventListener("keydown", updateLastActiveTime);
+      clearInterval(interval);
+    };
+  }, []);
+  //
   useEffect(() => {
     // Run this effect only if there is a token
     if (token) {
