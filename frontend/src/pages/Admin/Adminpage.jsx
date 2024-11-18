@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Bookingdashboard from "../../components/admin/Bookingdashboard";
 import UsersDashboard from "../../components/admin/UsersDashboard";
+import "./Customized.css";
 import CreateNews from "../../components/admin/CreateNews";
 import ManageNews from "../../components/admin/ManageNews";
 import { message, Tabs } from "antd";
@@ -78,7 +79,7 @@ const Adminpage = () => {
     {
       key: "1",
       label: (
-        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px] md:text-[16px] ">
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px]  ">
           <ClipboardDocumentListIcon className="w-6 h-6  hidden md:block" />
           <p className="">Booking dashboard </p>
           <span className="bg-blue-600 text-white px-3 py-1 rounded-full hidden md:block">
@@ -97,10 +98,10 @@ const Adminpage = () => {
     {
       key: "2",
       label: (
-        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px] md:text-[16px] ">
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px]  ">
           <UsersIcon className="w-6 h-6 hidden md:block" />
           <p>Manage Users</p>
-          <span className="bg-blue-600 text-white px-3 py-1 rounded-full ml-8 hidden md:block">
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full ml-10 hidden md:block">
             {allusers.length}
           </span>
         </div>
@@ -112,7 +113,7 @@ const Adminpage = () => {
     {
       key: "3",
       label: (
-        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px] md:text-[16px] ">
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px]  ">
           <InformationCircleIcon className="w-6 h-6 hidden md:block" />
           <p>Add News</p>
         </div>
@@ -122,7 +123,7 @@ const Adminpage = () => {
     {
       key: "4",
       label: (
-        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px] md:text-[16px] ">
+        <div className="sm:p-4 flex items-center sm:gap-2 text-[12px] sm:text-[14px]  ">
           <InformationCircleIcon className="w-6 h-6 hidden md:block" />
           <p>Manage News</p>
         </div>
@@ -132,7 +133,7 @@ const Adminpage = () => {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto p-10 sm:p-0">
+    <section className="max-w-7xl mx-auto p-10 sm:p-5">
       <h1 className="mx-3 my-3 sm:my-10 font-semibold text-md sm:text-lg">
         Admin dashboard
       </h1>

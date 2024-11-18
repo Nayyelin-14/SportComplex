@@ -85,7 +85,10 @@ exports.loginAccount = async (req, res) => {
   try {
     const LogIn_Account = await Users.findOne({ email: email });
     if (!LogIn_Account) {
-      throw new Error("Email not found!!!");
+      return res.status(400).json({
+        isSuccess: false,
+        message: "Email not found!!!",
+      });
     }
 
     const isPassword_Match = await bcrypt.compare(
@@ -93,9 +96,18 @@ exports.loginAccount = async (req, res) => {
       LogIn_Account.password
     );
     if (!isPassword_Match) {
-      throw new Error("Incorrect password!!!");
+      return res.status(400).json({
+        isSuccess: false,
+        message: "Incorrect password!!!",
+      });
     }
-    console.log("login", LogIn_Account);
+
+    if (LogIn_Account.status === "restricted") {
+      return res.status(403).json({
+        isSuccess: false,
+        message: "This account has been restricted!!!",
+      });
+    }
     //set token after email and password are ok
     const jwt_token = jwt.sign(
       { userID: LogIn_Account._id, role: LogIn_Account.role },

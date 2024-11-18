@@ -28,7 +28,7 @@ const AuthForm = ({ isLoginPage }) => {
           dispatch(setUser(response.LogIn_Account));
           window.location.replace("/");
         } else {
-          throw new Error(response.message);
+          message.error(response.message);
         }
       } else {
         response = await registerNewUser(values);
@@ -36,7 +36,7 @@ const AuthForm = ({ isLoginPage }) => {
           message.success(response.message);
           navigate("/login");
         } else {
-          throw new Error(response.message);
+          message.error(response.message);
         }
       }
     } catch (error) {

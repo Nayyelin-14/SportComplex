@@ -166,7 +166,7 @@ const BookingHistory = ({ bookingshistory, fetchHistory }) => {
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
-                strokLinejoin="round"
+                stroklinejoin="round"
                 strokeWidth="2"
                 viewBox="0 0 24 24"
                 className="w-6 h-6 ml-2"
