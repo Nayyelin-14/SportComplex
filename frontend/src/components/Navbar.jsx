@@ -24,7 +24,7 @@ const Menu = [
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
-
+  console.log(user);
   const userImages = user?.profileImage || [];
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -96,7 +96,6 @@ const Navbar = () => {
                 </div>
               </Link>
             </div>
-
             {user && (
               <div className="flex items-center gap-4">
                 <ul className="hidden lg:flex items-center text-lg gap-4">
@@ -122,24 +121,26 @@ const Navbar = () => {
                 </ul>
               </div>
             )}
-
             {/* User Profile / Login / Register */}
-            <div className="hidden lg:flex">
+
+            <div className="hidden lg:block">
               {!user && (
                 <>
-                  {location.pathname === "/register" && (
+                  {location.pathname === "/" ||
+                  location.pathname === "/register" ? (
                     <Link to="/login">
                       <button className="rounded-md px-3.5 py-2 m-1 border-2 font-medium border-red-900 bg-white text-red-900">
                         Log In
                       </button>
                     </Link>
-                  )}
-                  {location.pathname === "/login" && (
+                  ) : location.pathname === "/login" ? (
                     <Link to="/register">
                       <button className="rounded-md px-3.5 py-2 m-1 border-2 font-medium border-red-900 bg-white text-red-900">
                         Sign Up
                       </button>
                     </Link>
+                  ) : (
+                    ""
                   )}
                 </>
               )}
@@ -164,7 +165,6 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-
             {openmenu ? (
               <XMarkIcon
                 className="h-6 w-6 text-white cursor-pointer"
