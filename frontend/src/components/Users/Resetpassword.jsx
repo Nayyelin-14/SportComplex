@@ -66,7 +66,7 @@ const Resetpassword = () => {
         >
           <Form.Item
             label={
-              <p className="font-bold sm:text-[15px] md:text-[16px] lg:text-[17px] flex items-center gap-2">
+              <p className="text-sm md:text-base flex items-center gap-2">
                 Old Password
               </p>
             }
@@ -81,11 +81,11 @@ const Resetpassword = () => {
             ]}
             hasFeedback
           >
-            <Input.Password className="border-2 border-black sm:text-[16px]" />
+            <Input.Password className="border border-black sm:text-[16px]" />
           </Form.Item>
           <Form.Item
             label={
-              <p className="font-bold sm:text-[15px] md:text-[16px] lg:text-[17px] flex items-center gap-2">
+              <p className="text-sm md:text-base flex items-center gap-2">
                 New Password
               </p>
             }
@@ -100,12 +100,12 @@ const Resetpassword = () => {
             ]}
             hasFeedback
           >
-            <Input.Password className="border-2 border-black sm:text-[16px]" />
+            <Input.Password className="border border-black sm:text-[16px]" />
           </Form.Item>
 
           <Form.Item
             label={
-              <p className="font-bold sm:text-[15px] md:text-[16px] lg:text-[17px] flex items-center gap-2">
+              <p className="text-sm md:text-base flex items-center gap-2">
                 Confirm new Password
               </p>
             }
@@ -120,12 +120,12 @@ const Resetpassword = () => {
             ]}
             hasFeedback
           >
-            <Input.Password className="border-2 border-black sm:text-[16px]" />
+            <Input.Password className="border border-black sm:text-[16px]" />
           </Form.Item>
           <Form.Item
             hidden
             label={
-              <p className="font-bold sm:text-[15px] md:text-[16px] lg:text-[17px] flex items-center gap-2">
+              <p className="text-sm md:text-base flex items-center gap-2">
                 User id
               </p>
             }
@@ -140,10 +140,10 @@ const Resetpassword = () => {
             ]}
             hasFeedback
           >
-            <Input className="border-2 border-black text-[16px]" />
+            <Input className="border border-black text-[16px]" />
           </Form.Item>
           <Button
-            className="font-bold sm:text-[18px] bg-red-900 text-white sm:h-10 h-[37px]"
+            className="sm:text-base bg-red-900 text-white sm:h-10 h-[37px]"
             htmlType="submit"
             disabled={ischanging}
           >

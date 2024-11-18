@@ -53,7 +53,7 @@ const Session = ({ session_time, sportType, infos, fetchBookings }) => {
       {session_time.map((time, index) => (
         <div
           key={index}
-          className="container p-3 w-11/12 rounded-lg bg-stone-200"
+          className="container p-3 w-11/12 rounded-lg bg-neutral"
         >
           <div className="flex items-center justify-between">
             <span className="text-black text-[14px] sm:text-base py-2 px-5 font-semibold">
@@ -74,7 +74,7 @@ const Session = ({ session_time, sportType, infos, fetchBookings }) => {
               View Bookings
             </button>
           </div>
-          <hr className="my-3 border-gray-500" />
+          <hr className="my-3 border-stone" />
 
           {/* Display the bookings only for the session whose index matches viewIndex */}
           {viewIndex === index && (
