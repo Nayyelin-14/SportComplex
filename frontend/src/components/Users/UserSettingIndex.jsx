@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import Editprofile from "./Editprofile";
 import BookingHistory from "./BookingHistory";
-import Userimages from "./userimages";
+import Userimages from "./Userimages";
 import Resetpassword from "./Resetpassword";
 
 const UserSettingIndex = ({ bookingshistory, fetchHistory }) => {
