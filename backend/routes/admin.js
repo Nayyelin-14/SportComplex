@@ -69,19 +69,6 @@ router.get(
   adminController.getAllNews
 );
 
-router.use("/images", express.static(path.join(__dirname, "../upload/images")));
-
-router.post("/admin/upload", upload.single("news"), (req, res) => {
-  console.log(`File uploaded to: ${req.file.path}`);
-  return res.json({
-    success: 1,
-    image_url: `http://localhost:${req.app.get("port")}/images/${
-      req.file.filename
-    }`,
-    // filename: req.file.filename,
-  });
-});
-
 router.post(
   "/admin/deletebooking/:booking_id",
   authMiddleware,

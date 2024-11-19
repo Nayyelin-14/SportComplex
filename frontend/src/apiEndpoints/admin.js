@@ -65,9 +65,12 @@ export const getAllNews = async () => {
   }
 };
 
-export const addNews = async (newsData) => {
+export const addNews = async (formData) => {
   try {
-    const response = await instance.post("/admin/addnew", newsData);
+    const response = await instance.post("/admin/addnew", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      validateStatus: () => true,
+    });
     return response.data;
   } catch (error) {
     return {

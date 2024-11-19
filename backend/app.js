@@ -44,7 +44,10 @@ app.use(
     "profileImage"
   )
 );
-app.use("/uploads", express.static("uploads"));
+// app.use(
+//   multer({ storage: storageConfig, fileFilter: filterConfig }).array("image")
+// );
+// app.use("/uploads", express.static("uploads"));
 //
 
 app.use(authRoute);
