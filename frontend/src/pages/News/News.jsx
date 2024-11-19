@@ -65,7 +65,7 @@ const News = () => {
               <NewsItem
                 key={news._id}
                 title={news.title}
-                image={news.profileimage?.[0]}
+                profileImage={news.profileImage?.[0]}
                 featuredline={news.featuredline}
               />
             </Link>
