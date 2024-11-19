@@ -59,7 +59,9 @@ const BookingHistory = ({ bookingshistory, fetchHistory }) => {
 
   //deletebooking
   const deleteBooking = async (bookingID, userid) => {
-    const confirmation = window.confirm("are u sure");
+    const confirmation = window.confirm(
+      "Are u sure to remove this booking history"
+    );
     if (confirmation) {
       try {
         const response = await deleteuser_Booking(bookingID, userid);

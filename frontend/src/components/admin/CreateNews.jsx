@@ -1,149 +1,174 @@
 import React, { useState, useEffect } from "react";
-import { addNews, getAllNews, upload_img } from "../../apiEndpoints/admin";
-import { message } from "antd";
+import { addNews, getAllNews } from "../../apiEndpoints/admin";
+import { Button, Form, Input, message, Upload } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import { PhotoIcon } from "@heroicons/react/24/outline";
+import { PlusOutlined } from "@ant-design/icons";
 
 const CreateNews = () => {
-  const [allNews, setAllNews] = useState([]); // State to store the news
-  const [error, setError] = useState(null); // State to store error
-  const [image, setimage] = useState(false);
-  const [newsData, setNewsData] = useState({
-    title: "",
-    image: "",
-    detail: "",
-    featuredline: "",
-  });
+  const [form] = Form.useForm();
+  const [fileList, setFileList] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [allNews, setAllNews] = useState([]);
 
-  const fetchAllNews = async () => {
-    try {
-      const newsData = await getAllNews(); // Call the API function
-      setAllNews(newsData.news); // Set the news data in state
-    } catch (err) {
-      setError(err); // Set error if the request fails
-    }
-  };
-
-  // useEffect to fetch data when component mounts
+  // Fetch all news on component mount
   useEffect(() => {
-    fetchAllNews();
+    const fetchNews = async () => {
+      try {
+        const response = await getAllNews();
+        if (response.isSuccess) {
+          setAllNews(response.news);
+        } else {
+          message.error("Failed to fetch news");
+        }
+      } catch (error) {
+        message.error("Error fetching news");
+      }
+    };
+    fetchNews();
   }, []);
 
-  const imageHandler = (e) => {
-    setimage(e.target.files[0]);
+  // Handle preview of the uploaded image
+  const handlePreview = async (file) => {
+    setPreviewImage(file.thumbUrl || file.preview);
   };
 
-  // Handles text input fields
-  const changeHandler = (e) => {
-    const { name, value } = e.target; // Destructure name and value from the event target
-    setNewsData({ ...newsData, [name]: value });
+  // Restrict the file list to one image
+  const handleChange = ({ fileList }) => {
+    setFileList(fileList.slice(-1));
   };
 
-  // Submit the form and add the news
-  const addNewsHandler = async (e) => {
-    e.preventDefault(); // Prevent form's default submission behavior
-
-    let formData = new FormData(); //uploading image using FormData
-    formData.append("news", image);
-
+  // Handle form submission
+  const onFinishHandler = async (values) => {
     try {
-      const response = await upload_img(formData);
-      message.success("Upload Successfully");
-      console.log(response);
-      newsData.image = response.image_url;
-      console.log(newsData);
-    } catch (error) {
-      message.error("An error occurred: " + error.message);
-    }
+      if (fileList.length === 0) {
+        message.error("Please upload an image.");
+        return;
+      }
 
-    try {
-      // Directly send the newsData as JSON to the API
-      const response = await addNews(newsData);
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("detail", values.detail);
+      formData.append("featuredline", values.featuredline);
+      formData.append("profileImage", fileList[0].originFileObj); // Ensure you are passing the file here
+
+      setIsUploading(true);
+
+      const response = await addNews(formData);
 
       if (response.isSuccess) {
-        message.success("News successfully added!");
-        // Reset form after successful submission
-        setNewsData({
-          title: "",
-          image: "",
-          detail: "",
-          featuredline: "",
-        });
+        message.success("News added successfully!");
+        form.resetFields();
+        setFileList([]);
+        setPreviewImage(null);
+        setAllNews((prev) => [response.newsItem, ...prev]);
       } else {
-        message.error(response.message || "Failed to add news");
+        message.error(response.message || "Failed to add news.");
       }
     } catch (error) {
-      message.error("An error occurred: " + error.message);
+      console.error(error);
+      message.error("An error occurred while submitting the news.");
+    } finally {
+      setIsUploading(false);
     }
-    await fetchAllNews();
   };
 
   return (
     <>
-    <div className="flex justify-center items-center font-semibold text-lg">
-      <h1>Add News</h1>
-    </div>
-    <form onSubmit={addNewsHandler} className="space-y-6 max-w-lg mx-auto p-4">
-      <div className="flex flex-col">
-        <label className="mb-2 text-sm font-semibold text-gray-700">
-          Title
-        </label>
-        <input
-          type="text"
-          name="title"
-          value={newsData.title}
-          onChange={changeHandler}
-          required
-          className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="mb-2 text-sm font-semibold text-gray-700">
-          Detail
-        </label>
-        <textarea
-          name="detail"
-          value={newsData.detail}
-          onChange={changeHandler}
-          required
-          className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 h-32"
-        ></textarea>
-      </div>
-
-      <div className="flex flex-col">
-        <label className="mb-2 text-sm font-semibold text-gray-700">
-          Featured Line
-        </label>
-        <input
-          type="text"
-          name="featuredline"
-          value={newsData.featuredline}
-          onChange={changeHandler}
-          required
-          className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="mb-2 text-sm font-semibold text-gray-700">
-          Upload Image
-        </label>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={imageHandler}
-          className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        <span className="text-xs text-gray-500 mt-1">Max file size: 2MB</span>
-      </div>
-
-      <button
-        type="submit"
-        className="w-full py-2 px-4 bg-secondary text-white rounded-md shadow-sm hover:bg-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinishHandler}
+        encType="multipart/form-data"
       >
-        Add News
-      </button>
-    </form>
+        <Form.Item
+          label={
+            <p className="text-sm md:text-base flex items-center gap-2">
+              <PhotoIcon width={20} height={20} /> Upload Image
+            </p>
+          }
+        >
+          <Upload
+            className="border-2 w-fit border-black"
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            beforeUpload={() => false} // Prevent automatic upload
+            maxCount={1} // Allow only one file
+            name="profileImage"
+          >
+            {fileList.length < 1 && (
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            )}
+          </Upload>
+        </Form.Item>
+
+        {previewImage && (
+          <div style={{ marginTop: 20 }}>
+            <img
+              src={previewImage}
+              alt="Preview"
+              style={{
+                width: "100%",
+                maxHeight: "300px",
+                objectFit: "contain",
+              }}
+            />
+          </div>
+        )}
+
+        <Form.Item
+          label={<p className="text-sm md:text-base">Title</p>}
+          name="title"
+          rules={[{ required: true, message: "Please enter the title." }]}
+        >
+          <Input
+            placeholder="Enter news title..."
+            className="border-black text-sm md:text-base font-medium"
+          />
+        </Form.Item>
+
+        <Form.Item
+          label={<p className="text-sm md:text-base">Featured Line</p>}
+          name="featuredline"
+          rules={[
+            { required: true, message: "Please enter the featured line." },
+          ]}
+        >
+          <Input
+            placeholder="Enter featured line..."
+            className="border-black text-sm md:text-base font-medium"
+          />
+        </Form.Item>
+
+        <Form.Item
+          label={<p className="text-sm md:text-base">Details</p>}
+          name="detail"
+          rules={[{ required: true, message: "Please enter the details." }]}
+        >
+          <TextArea
+            rows={4}
+            placeholder="Enter news details..."
+            className="border-black text-sm md:text-base font-medium"
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="bg-blue-500 w-full text-white"
+            loading={isUploading}
+          >
+            {isUploading ? "Uploading..." : "Add News"}
+          </Button>
+        </Form.Item>
+      </Form>
     </>
   );
 };
