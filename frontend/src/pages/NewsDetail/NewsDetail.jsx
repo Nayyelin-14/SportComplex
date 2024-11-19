@@ -2,19 +2,21 @@ import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { NewsContext } from "../../components/newsContext/NewsContext";
 import { Link } from "react-router-dom";
-import NewsItem from "../../components/news/NewsItem";
 import Lottie from "lottie-react";
 import animationData4 from "../../assets/Animation - 4.json";
 
 const NewsDetailPage = () => {
   const { allNews, loading } = useContext(NewsContext);
-  const { id } = useParams();
+  const { _id } = useParams(); // No parseInt needed
+console.log("ID from params:", _id);
+
 
   if (loading) {
     return <div>Loading product details...</div>;
   }
 
-  const news = allNews.find((news) => news.id === parseInt(id));
+  // Match news item by _id
+  const news = allNews.find((news) => news._id === _id);
 
   if (!news) {
     return <div>News not found!</div>;
@@ -39,7 +41,7 @@ const NewsDetailPage = () => {
         <div className="container pb-8 sm:pb-0 grid grid-cols-1 sm:grid-cols-2 gap-x-8 place-items-center">
           <div>
             <img
-              src={news.image}
+              src={news.profileImage?.[0]} // Access the first image in profileImage array
               alt="mfu"
               data-aos="zoom-in"
               data-aos-duration="200"
@@ -61,28 +63,12 @@ const NewsDetailPage = () => {
           </div>
         </div>
       </div>
-
-      {loading ? (
-        <div>Loading News...</div>
-      ) : (
-        <div className="container py-8 sm:py-14 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-14">
-          {allNews.map((news) => (
-            <Link to={`/news/${news.id}`}>
-              <NewsItem
-                key={news.id}
-                title={news.title}
-                image={news.image}
-                featuredline={news.featuredline}
-              />
-            </Link>
-          ))}
-        </div>
-      )}
     </>
   );
 };
 
 export default NewsDetailPage;
+
 
 {
   /* <div className="min-h-[300px] sm:min-h-[250px] bg-background flex flex-col justify-center items-center">

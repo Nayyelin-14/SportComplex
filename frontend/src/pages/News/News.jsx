@@ -7,7 +7,7 @@ import animationData4 from "../../assets/Animation - 4.json";
 
 const News = () => {
   const { allNews, loading } = useContext(NewsContext);
-
+  console.log(allNews);
   return (
     <>
       <div className="container pb-8 sm:pb-0 flex flex-col sm:flex-row items-center sm:items-start justify-between">
@@ -59,13 +59,13 @@ const News = () => {
       {loading ? (
         <div>Loading News...</div>
       ) : (
-        <div className="container py-8 sm:py-14 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-14">
+        <div className="container py-8 sm:py-14 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-14">
           {allNews?.map((news) => (
-            <Link to={`/news/${news.id}`}>
+            <Link to={`/news/${news._id}`}>
               <NewsItem
-                key={news.id}
+                key={news._id}
                 title={news.title}
-                image={news.image}
+                image={news.profileimage?.[0]}
                 featuredline={news.featuredline}
               />
             </Link>
