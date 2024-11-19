@@ -204,13 +204,23 @@ const Navbar = () => {
               <p className="text-white font-semibold">Profile</p>
             </div>
           )}
-          <div
+          {["Student", "Staff", "Lecturer", "Outsider"].includes(user.role) && (
+            <div
+              className="p-4 flex items-center gap-5 cursor-pointer hover:bg-red-900"
+              onClick={bookingpage}
+            >
+              <ArrowPathIcon className="w-7 text-white" />
+              <p className="text-white font-semibold">Booking</p>
+            </div>
+          )}
+
+          {/* <div
             className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"
             onClick={bookingpage}
           >
             <ArrowPathIcon className="w-7 text-white" />
             <p className="text-white font-semibold">Booking</p>
-          </div>
+          </div> */}
           <hr className="w-[90%] mx-auto" />
           <div
             className="p-4 flex items-center gap-5 hover:bg-red-900 cursor-pointer"

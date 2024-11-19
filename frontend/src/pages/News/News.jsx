@@ -4,6 +4,7 @@ import { NewsContext } from "../../components/newsContext/NewsContext";
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import animationData4 from "../../assets/Animation - 4.json";
+import mfu from "../../../mfu.jpg"
 
 const News = () => {
   const { allNews, loading } = useContext(NewsContext);
@@ -28,7 +29,7 @@ const News = () => {
         <div className="container pb-8 sm:pb-0 grid grid-cols-1 sm:grid-cols-2 place-items-center gap-x-8">
           <div>
             <img
-              src="../../mfu.jpg"
+              src={mfu}
               alt="mfu"
               data-aos="zoom-in"
               data-aos-duration="200"
