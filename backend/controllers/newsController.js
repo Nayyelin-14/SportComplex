@@ -1,18 +1,20 @@
-const News = require('../models/newsModel'); // Adjust the path as necessary
+const News = require("../models/newsModel"); // Adjust the path as necessary
 
 exports.getAllNews = async (req, res) => {
   try {
-    const news = await News.find(); // Fetch all news from the database
+    const news = await News.find().select(
+      "title profileImage detail featuredline"
+    ); // Fetch all news from the database
+    console.log(news);
     return res.status(200).json({
       isSuccess: true,
-      message: 'Fetched all news',
+      message: "Fetched all news",
       news: news,
     });
   } catch (error) {
     return res.status(500).json({ isSuccess: false, message: error.message });
   }
 };
-
 
 // Add New
 // exports.addNew = async (req, res) => {
@@ -87,4 +89,3 @@ exports.getAllNews = async (req, res) => {
 //     res.status(500).json({ success: false, message: error.message });
 //   }
 // };
-

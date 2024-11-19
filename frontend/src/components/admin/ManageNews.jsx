@@ -69,7 +69,7 @@ const ManageNews = () => {
                     <button
                       type="button"
                       className=" text-red-800 p-1 hover:text-black"
-                      onClick={() => removeHandler(news.id)}
+                      onClick={() => removeHandler(news._id)}
                     >
                       <TrashIcon width={20} height={20} />
                     </button>
@@ -96,7 +96,7 @@ const ManageNews = () => {
                 <button
                   type="button"
                   className=" text-red-800 p-1 hover:text-black"
-                  onClick={() => removeHandler(news.id)}
+                  onClick={() => removeHandler(news._id)}
                 >
                   <TrashIcon width={20} height={20} />
                 </button>

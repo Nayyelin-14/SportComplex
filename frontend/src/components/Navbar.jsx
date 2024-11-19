@@ -24,7 +24,7 @@ const Menu = [
 const Navbar = () => {
   const [navmenu, setnavmenu] = useState("Home");
   const { user } = useSelector((state) => state.user);
-  console.log(user);
+
   const userImages = user?.profileImage || [];
   const dispatch = useDispatch();
   const navigate = useNavigate();

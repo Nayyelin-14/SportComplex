@@ -132,7 +132,7 @@ const BookingHistory = ({ bookingshistory, fetchHistory }) => {
                 {moment(booking.createdAt).format("MMM Do YY")}
               </p>
               {booking.trainer ? (
-                <p className="text-gray-500 font-bold text-[13px] md:text-[15px]">
+                <p className="text-gray-500 font-semibold text-[13px] md:text-sm">
                   {booking.trainer.name} (Trainer)
                 </p>
               ) : (

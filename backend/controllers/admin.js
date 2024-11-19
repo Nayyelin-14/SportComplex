@@ -6,7 +6,12 @@ const archivedBookings = require("../models/Booking/archivedBookings");
 const TrainerAvailability = require("../models/traineravailability");
 const path = require("path");
 const fs = require("fs");
-
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 exports.getAllUsers = async (req, res) => {
   try {
     const allusers_DOC = await Users.find().select(
@@ -151,76 +156,136 @@ exports.deleteBooking = async (req, res) => {
   }
 };
 // Add New
+// exports.addNew = async (req, res) => {
+//   try {
+//     const { title, detail, featuredline } = req.body;
+
+//     if (!req.file) {
+//       return res.status(400).json({
+//         isSuccess: false,
+//         message: "Image is required.",
+//       });
+//     }
+
+//     const image = req.file.path; // Get the file path of the uploaded image
+
+//     const addnew = new News({
+//       title,
+//       image,
+//       detail,
+//       featuredline,
+//     });
+
+//     await addnew.save();
+
+//     return res.status(200).json({
+//       isSuccess: true,
+//       message: "News added successfully",
+//       data: addnew,
+//     });
+//   } catch (error) {
+//     console.error("Error in addNew:", error.message);
+//     return res.status(500).json({
+//       isSuccess: false,
+//       message: error.message,
+//     });
+//   }
+// };
 exports.addNew = async (req, res) => {
+  const { title, detail, featuredline } = req.body;
+  const profileImage = req.files || []; // Array of files from multer
+  let secureUrlArray = [];
+
+  console.log(title, detail, featuredline);
+  console.log(profileImage);
+
   try {
-    let news = await News.find({});
-    let id;
+    // Upload images to Cloudinary
+    const uploadPromises = profileImage.map(
+      (img) =>
+        new Promise((resolve, reject) => {
+          cloudinary.uploader.upload(img.path, (err, result) => {
+            if (err) {
+              reject(new Error("Cloudinary upload failed."));
+            } else {
+              secureUrlArray.push(result.secure_url); // Add URL to array
+              resolve();
+            }
+          });
+        })
+    );
 
-    const { title, image, detail, featuredline } = req.body;
+    // Wait for all images to upload
+    await Promise.all(uploadPromises);
 
-    if (news.length > 0) {
-      const lastnew = news.slice(-1)[0];
-      id = lastnew.id + 1;
-    } else {
-      id = 1;
-    }
-
-    const addnew = new News({
-      id: id,
+    // Create a new document
+    const createNew_Doc = await News.create({
       title,
-      image,
       detail,
       featuredline,
+      profileImage: secureUrlArray, // Save the entire array
     });
 
-    await addnew.save();
+    if (!createNew_Doc) {
+      throw new Error("Creation failed.");
+    }
+
     return res.status(200).json({
       isSuccess: true,
-      message: "News added successfully",
-      data: addnew,
+      message: "Created successfully",
+      createNew_Doc,
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    return res.status(400).json({
+      isSuccess: false,
+      message: error.message,
+    });
   }
 };
 
 exports.removeNew = async (req, res) => {
-  console.log("newsid received:", req.params.newsid);
   try {
     const { newsid } = req.params;
-    const newToDelete = await News.findOne({ id: newsid });
+    console.log(newsid);
+    if (!newsid) {
+      return res
+        .status(400)
+        .json({ isSuccess: false, message: "News ID is required" });
+    }
+    // Find the news item by its ID
+    const newsToDelete = await News.findByIdAndDelete(newsid);
 
-    if (!newToDelete) {
+    if (!newsToDelete) {
       return res
         .status(404)
-        .json({ success: false, message: "News not found" });
+        .json({ isSuccess: false, message: "News not found" });
     }
+    const imageUrlArray = newsToDelete.profileImage || []; // Handle multiple images
 
-    const imageUrl = newToDelete.image; // Full URL
-    const imageName = path.basename(imageUrl);
+    // Delete images from Cloudinary
+    const cloudinaryDeletionPromises = imageUrlArray.map((imageUrl) => {
+      const publicId = imageUrl.substring(
+        imageUrl.lastIndexOf("/") + 1,
+        imageUrl.lastIndexOf(".")
+      );
+      return cloudinary.uploader.destroy(publicId);
+    });
 
-    const imagePath = path.join(__dirname, "../upload/images", imageName);
+    // Attempt all deletions and catch errors if any
+    await Promise.allSettled(cloudinaryDeletionPromises);
 
-    // Delete the associated image file if it exists
-    if (fs.existsSync(imagePath)) {
-      try {
-        fs.unlinkSync(imagePath);
-        console.log(`Image ${imageName} deleted successfully.`);
-      } catch (err) {
-        console.error("Error deleting image:", err);
-      }
-    } else {
-      console.log(`Image file not found: ${imagePath}`);
-    }
-
-    await News.findOneAndDelete({ id: newsid });
+    // Remove the news document from the database
 
     return res.status(200).json({
       isSuccess: true,
-      message: "Deleted",
+      message: "News and associated images successfully deleted",
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    console.error("Error removing news:", error);
+    return res.status(500).json({
+      isSuccess: false,
+      message: "An error occurred while deleting the news",
+    });
   }
 };
 
