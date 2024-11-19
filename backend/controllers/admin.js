@@ -244,42 +244,48 @@ exports.addNew = async (req, res) => {
 };
 
 exports.removeNew = async (req, res) => {
-  console.log("newsid received:", req.params.newsid);
   try {
     const { newsid } = req.params;
-    const newToDelete = await News.findOne({ id: newsid });
+    console.log(newsid);
+    if (!newsid) {
+      return res
+        .status(400)
+        .json({ isSuccess: false, message: "News ID is required" });
+    }
+    // Find the news item by its ID
+    const newsToDelete = await News.findByIdAndDelete(newsid);
 
-    if (!newToDelete) {
+    if (!newsToDelete) {
       return res
         .status(404)
-        .json({ success: false, message: "News not found" });
+        .json({ isSuccess: false, message: "News not found" });
     }
+    const imageUrlArray = newsToDelete.profileImage || []; // Handle multiple images
 
-    const imageUrl = newToDelete.image; // Full URL
-    const imageName = path.basename(imageUrl);
+    // Delete images from Cloudinary
+    const cloudinaryDeletionPromises = imageUrlArray.map((imageUrl) => {
+      const publicId = imageUrl.substring(
+        imageUrl.lastIndexOf("/") + 1,
+        imageUrl.lastIndexOf(".")
+      );
+      return cloudinary.uploader.destroy(publicId);
+    });
 
-    const imagePath = path.join(__dirname, "../upload/images", imageName);
+    // Attempt all deletions and catch errors if any
+    await Promise.allSettled(cloudinaryDeletionPromises);
 
-    // Delete the associated image file if it exists
-    if (fs.existsSync(imagePath)) {
-      try {
-        fs.unlinkSync(imagePath);
-        console.log(`Image ${imageName} deleted successfully.`);
-      } catch (err) {
-        console.error("Error deleting image:", err);
-      }
-    } else {
-      console.log(`Image file not found: ${imagePath}`);
-    }
-
-    await News.findOneAndDelete({ id: newsid });
+    // Remove the news document from the database
 
     return res.status(200).json({
       isSuccess: true,
-      message: "Deleted",
+      message: "News and associated images successfully deleted",
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    console.error("Error removing news:", error);
+    return res.status(500).json({
+      isSuccess: false,
+      message: "An error occurred while deleting the news",
+    });
   }
 };
 
