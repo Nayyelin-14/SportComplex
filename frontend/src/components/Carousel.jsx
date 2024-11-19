@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Carousel = () => {
   const { allNews, loading } = useContext(NewsContext);
-
+  console.log(allNews);
   const featuredNews = allNews?.slice(-3);
   console.log(featuredNews);
 
@@ -28,7 +28,7 @@ const Carousel = () => {
                   key={news.id}
                   data-aos="zoom-in"
                   data-aos-duration="300"
-                  className="rounded-2xl bg-white hover:bg-primary dark:hover:bg-primary hover:text-white relative shadow-xl duration-high group max-w-[300px]"
+                  className="rounded-2xl bg-white hover:bg-primary dark:hover:bg-primary hover:text-white relative shadow-xl duration-high w-[300px] h-[250px] group max-w-[300px]"
                 >
                   <div className="h-[100px]">
                     <img

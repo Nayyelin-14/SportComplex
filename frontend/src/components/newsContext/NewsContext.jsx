@@ -31,7 +31,9 @@ export const NewsProvider = ({ children }) => {
       <NewsContext.Provider value={{ allNews, loading }}>
         {children}
       </NewsContext.Provider>
-      <NewsItem allNews={allNews} />
     </div>
   );
 };
+{
+  /* <NewsItem allNews={allNews} /> */
+}
