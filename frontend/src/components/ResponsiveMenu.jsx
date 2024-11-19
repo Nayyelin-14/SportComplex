@@ -30,10 +30,12 @@ const ResponsiveMenu = ({
             <nav className="my-10 text-center text-lg ">
               <ul className="space-y-10">
                 {user && user.role === "Admin" && (
-                  <li onClick={()=>{
-                    Adminprofilepage()
-                    setOpenmenu(!openmenu);
-                  }}>
+                  <li
+                    onClick={() => {
+                      Adminprofilepage();
+                      setOpenmenu(!openmenu);
+                    }}
+                  >
                     <button className="inline-block py-4 px-4 hover:text-yellow-500">
                       Dashboard
                     </button>
@@ -44,10 +46,12 @@ const ResponsiveMenu = ({
                     user.role
                   ) && (
                     <>
-                      <li onClick={()=>{
-                        profilepage(user._id)
-                        setOpenmenu(!openmenu)
-                      }} >
+                      <li
+                        onClick={() => {
+                          profilepage(user._id);
+                          setOpenmenu(!openmenu);
+                        }}
+                      >
                         <button className="inline-block px-4 hover:text-yellow-500">
                           Profile
                         </button>
@@ -76,7 +80,10 @@ const ResponsiveMenu = ({
                 <li>
                   {user === null ? (
                     <div className="flex items-center justify-center">
-                      <Link to={"/login"} onClick={() => setOpenmenu(false)}>
+                      <Link
+                        to={"/login"}
+                        onClick={() => setOpenmenu(!openmenu)}
+                      >
                         <button className="inline-block py-1 px-1 hover:text-yellow-500 ">
                           Sign in
                         </button>
@@ -85,7 +92,10 @@ const ResponsiveMenu = ({
                   ) : (
                     <button
                       className="inline-block py-4 px-4 hover:text-yellow-500"
-                      onClick={LogoutHandler}
+                      onClick={() => {
+                        LogoutHandler();
+                        setOpenmenu(!openmenu);
+                      }}
                     >
                       Logout
                     </button>
