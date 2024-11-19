@@ -6,7 +6,7 @@ const About = () => {
     <div
       className="w-full h-[100vh] flex flex-col justify-center items-center"
       style={{
-        backgroundImage: "url('../../../mfu.jpg')",
+        backgroundImage: `url(${bgimage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
