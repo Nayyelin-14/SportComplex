@@ -14,4 +14,4 @@ The **MFU Sport Complex** is an advanced web-based application designed to manag
 - **Authentication**: Secure login and registration system integrated with MFU university email accounts.
 - **JWT-Based Security**: Ensures safe and efficient authentication for all users.
 
-![HomePage](./frontend/src/images/Homepage.png)
+![HomePage](./frontend/src/images/Homepage.jpg)
