@@ -4,7 +4,7 @@ The **MFU Sport Complex** is an advanced web-based application designed to manag
 
 ## Key Features
 - **Admin Dashboard**: A centralized control panel for managing bookings, users, and updating news.
--**Email Notifications** : Admins can send automated emails to users when user accounts are restricted or reactivated. When a user is restricted, they receive an email and can no longer log in. Upon reactivation, users are notified via email and regain access to their accounts.
+- **Email Notifications** : Admins can send automated emails to users when user accounts are restricted or reactivated. When a user is restricted, they receive an email and can no longer log in. Upon reactivation, users are notified via email and regain access to their accounts.
 - **User**: Personalized accounts for students and staff to track bookings, training sessions, and bookings.
 - **Trainer Availability Check**: Users can verify trainer availability for their desired session before booking. This ensures seamless scheduling and avoids double bookings for trainers during the same time slot. User can check trainers profile before booking.
 - **User Profile**: Personalized accounts for students and staff to manage their activities and access essential features. Key functionalities include:
